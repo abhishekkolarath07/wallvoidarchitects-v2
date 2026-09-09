@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>pdf text</title></head>
+<body style="font:12px monospace;white-space:pre-wrap">
+<div id="status">loading…</div>
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs';
+const url = '../uploads/wva-profile.pdf';
+try {
+  const doc = await pdfjs.getDocument(url).promise;
+  window.__pages = [];
+  for (let i = 1; i <= doc.numPages; i++) {
+    const p = await doc.getPage(i);
+    const tc = await p.getTextContent();
+    window.__pages.push(tc.items.map(it => it.str).join(' '));
+  }
+  window.__numPages = doc.numPages;
+  window.__doc = doc;
+  window.__pdfjs = pdfjs;
+  document.getElementById('status').textContent = 'pages: ' + doc.numPages;
+  window.__ready = true;
+} catch (e) {
+  document.getElementById('status').textContent = 'ERR ' + e.message;
+  window.__err = e.message;
+}
+</script>
+</body></html>

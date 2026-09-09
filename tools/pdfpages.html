@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>pdf pages</title>
+<style>body{margin:0;background:#fff}#grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}canvas{width:100%;display:block}</style>
+</head>
+<body>
+<div id="grid"></div>
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs';
+const doc = await pdfjs.getDocument('../uploads/wva-profile.pdf').promise;
+const grid = document.getElementById('grid');
+window.__show = async (from, count) => {
+  grid.innerHTML = '';
+  for (let i = from; i < from + count && i <= doc.numPages; i++) {
+    const p = await doc.getPage(i);
+    const vp = p.getViewport({ scale: 1.1 });
+    const c = document.createElement('canvas');
+    c.width = vp.width; c.height = vp.height;
+    await p.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+    const img = document.createElement('img');
+    img.src = c.toDataURL('image/jpeg', 0.7);
+    img.style.width = '100%';
+    grid.appendChild(img);
+  }
+  return 'ok ' + from;
+};
+window.__n = doc.numPages;
+await window.__show(1, 4);
+window.__ready = true;
+</script>
+</body></html>

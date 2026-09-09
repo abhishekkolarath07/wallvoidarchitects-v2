@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>brx</title>
+<style>html,body{margin:0;background:#111}#log{color:#0f0;font:11px monospace;padding:4px}#one{display:block;width:100%}</style>
+</head>
+<body>
+<div id="log">…</div>
+<img id="one" alt="">
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs';
+const logEl = document.getElementById('log');
+const doc = await pdfjs.getDocument('../docs/blueridge.pdf').promise;
+const found = [];
+window.__found = found;
+window.__scan = async (from, to) => {
+  found.length = 0;
+  for (let i = from; i <= to; i++) {
+    const page = await doc.getPage(i);
+    const ops = await page.getOperatorList();
+    const names = [];
+    for (let k = 0; k < ops.fnArray.length; k++) {
+      const fn = ops.fnArray[k];
+      if (fn === pdfjs.OPS.paintImageXObject || fn === pdfjs.OPS.paintJpegXObject) names.push(ops.argsArray[k][0]);
+    }
+    for (const nm of new Set(names)) {
+      let obj = null;
+      try { obj = page.objs.get(nm); } catch (e) {
+        try { obj = await new Promise(r => page.objs.get(nm, r)); } catch (e2) { continue; }
+      }
+      if (!obj || !obj.width) continue;
+      if (obj.width < 700 || obj.height < 450) continue;
+      found.push({ page: i, name: nm, w: obj.width, h: obj.height, obj });
+    }
+  }
+  logEl.textContent = 'found ' + found.length;
+  return found.map(f => ({ page: f.page, w: f.w, h: f.h }));
+};
+function toCanvas(obj) {
+  const c = document.createElement('canvas');
+  c.width = obj.width; c.height = obj.height;
+  const ctx = c.getContext('2d');
+  if (obj.bitmap) { ctx.drawImage(obj.bitmap, 0, 0); return c; }
+  const src = obj.data, n = obj.width * obj.height;
+  const out = ctx.createImageData(obj.width, obj.height);
+  if (src.length === n * 4) out.data.set(src);
+  else if (src.length === n * 3) { for (let i=0;i<n;i++){ out.data[i*4]=src[i*3]; out.data[i*4+1]=src[i*3+1]; out.data[i*4+2]=src[i*3+2]; out.data[i*4+3]=255; } }
+  else if (src.length === n) { for (let i=0;i<n;i++){ out.data[i*4]=out.data[i*4+1]=out.data[i*4+2]=src[i]; out.data[i*4+3]=255; } }
+  else return null;
+  ctx.putImageData(out, 0, 0);
+  return c;
+}
+window.__show = (idx) => {
+  const f = found[idx];
+  const img = document.getElementById('one');
+  if (!f) { img.removeAttribute('src'); logEl.textContent = 'none'; return 'none'; }
+  const c = toCanvas(f.obj);
+  img.src = c ? c.toDataURL('image/jpeg', 0.9) : '';
+  logEl.textContent = idx + '  p' + f.page + '  ' + f.w + 'x' + f.h;
+  return f.w + 'x' + f.h;
+};
+window.__ready = true;
+logEl.textContent = 'ready';
+</script>
+</body></html>

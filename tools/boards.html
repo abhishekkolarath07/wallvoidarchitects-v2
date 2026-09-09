@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>boards</title>
+<style>html,body{margin:0;background:#000}#wrap{width:2480px}#wrap img{display:block;width:2480px}#log{position:fixed;bottom:0;left:0;color:#0f0;font:11px monospace;z-index:9}</style>
+</head>
+<body>
+<div id="wrap"></div>
+<div id="log">…</div>
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs';
+const logEl = document.getElementById('log'), wrap = document.getElementById('wrap');
+const doc = await pdfjs.getDocument('../uploads/wva-profile.pdf').promise;
+window.__pageImg = async (i) => {
+  const page = await doc.getPage(i);
+  const vp = page.getViewport({ scale: 2480 / page.getViewport({ scale: 1 }).width });
+  const c = document.createElement('canvas');
+  c.width = vp.width; c.height = vp.height;
+  await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+  return c.toDataURL('image/jpeg', 0.9);
+};
+window.__show = async (from, count) => {
+  wrap.innerHTML = '';
+  for (let i = from; i < from + count && i <= doc.numPages; i++) {
+    const img = document.createElement('img');
+    img.src = await window.__pageImg(i);
+    img.dataset.page = i;
+    wrap.appendChild(img);
+    await img.decode().catch(()=>{});
+  }
+  logEl.textContent = 'shown ' + from + '..' + (from + count - 1);
+  window.__shownDone = from;
+};
+window.__n = doc.numPages;
+window.__ready = true;
+logEl.textContent = 'ready ' + doc.numPages;
+</script>
+</body></html>
