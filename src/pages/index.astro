@@ -295,7 +295,7 @@ const schema = [
       </section>
 
       <div style="position:relative;padding:0 var(--gut)">
-        <div style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;padding:10px 0 34px">
+        <div data-r="sheetstrip" style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;padding:10px 0 34px">
           <div style="display:flex;align-items:baseline;gap:16px">
             <span style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.4;white-space:nowrap">
               Sheet continues
@@ -859,6 +859,14 @@ const schema = [
       </span>
     </div>
   </div>
+  {/*
+    Hero and register crossfades swap `src` at runtime, so the optimised URLs are
+    resolved at build time and handed to the client here. These must live INSIDE the
+    layout: placed after </Base> they were emitted after </html>, which is invalid and
+    left the browser to relocate them during parsing.
+  */}
+  <script type="application/json" id="wva-hero-data" is:inline set:html={JSON.stringify(heroData)}></script>
+  <script type="application/json" id="wva-register-data" is:inline set:html={JSON.stringify(registerData)}></script>
 </Base>
 
 <style is:global>
@@ -1031,6 +1039,3 @@ const schema = [
   initHero(read<HeroSlide[]>('wva-hero-data'));
   initRegister(read<RegisterRow[]>('wva-register-data'));
 </script>
-
-<script type="application/json" id="wva-hero-data" is:inline set:html={JSON.stringify(heroData)}></script>
-<script type="application/json" id="wva-register-data" is:inline set:html={JSON.stringify(registerData)}></script>
