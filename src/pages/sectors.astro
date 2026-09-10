@@ -1,0 +1,316 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { imgOrNull } from '../lib/images';
+import { alliances, sectors, steps } from '../data/sectors';
+
+// The ticker duplicates its content so the -50% translate loops seamlessly.
+const tickerLabels = [
+  'Residential',
+  'Commercial',
+  'IT Parks',
+  'Religious Buildings',
+  'Mixed Use',
+  'Interiors',
+];
+---
+
+<Base
+  title="Sectors"
+  description="Residential, commercial, IT park, religious and mixed-use work — five sectors, one method, from first brief through municipal approval."
+  path="/sectors"
+  active="/sectors"
+  footerVariant="compact"
+  spineId="se-spine"
+>
+  <span slot="header-meta">Micro to macro</span>
+  <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
+  <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">05</span>
+
+  <section style="padding:186px var(--gut) 0">
+    <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
+      <div>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:seUp 1s .1s cubic-bezier(.16,1,.3,1) both"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Sectors
+        </div>
+        <h1
+          style="margin:18px 0 0;font-size:clamp(30px,4vw,54px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance;animation:seUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
+        >
+          Whatever scale<br />the city asks for
+        </h1>
+      </div>
+      <p
+        style="margin:0;padding-bottom:8px;font-size:12px;line-height:1.85;opacity:.6;text-wrap:pretty;animation:seUp 1.1s .36s cubic-bezier(.16,1,.3,1) both"
+      >
+        Five sectors, one method. From a single plot in Khar to a master layout at BKC, each brief
+        runs through the same six stages and the same set of alliances.
+      </p>
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+  </section>
+
+  <section style="padding:0 var(--gut)">
+    {
+      sectors.map((s) => {
+        const image = imgOrNull(s.image);
+        return (
+          <a
+            data-r="sector"
+            href={s.href}
+            data-sec
+            style="display:grid;grid-template-columns:52px 1.15fr .85fr;gap:40px;align-items:center;padding:40px 0;border-bottom:1px solid rgba(13,13,13,.12);position:relative"
+            data-rv
+          >
+            <span
+              data-secrule
+              style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:#e2231a;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1)"
+            />
+            <span style="font-size:10px;letter-spacing:.16em;color:#e2231a;opacity:.9;align-self:start;padding-top:6px">
+              {s.no}
+            </span>
+            <span data-secname style="display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)">
+              <span style="display:block;font-size:clamp(20px,2.4vw,30px);line-height:1.12;font-weight:300;letter-spacing:-.02em;text-wrap:balance">
+                {s.name}
+              </span>
+              <span style="display:block;margin-top:12px;max-width:46ch;font-size:12px;line-height:1.85;opacity:.6;text-wrap:pretty">
+                {s.note}
+              </span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
+                {s.tags.map((t) => (
+                  <span style="border:1px solid rgba(13,13,13,.16);padding:6px 11px;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.6">
+                    {t}
+                  </span>
+                ))}
+              </span>
+            </span>
+            <span style="display:block">
+              <span
+                data-secimg
+                data-mask
+                style="display:block;height:22vh;min-height:170px;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)"
+              >
+                {image && (
+                  <Image
+                    src={image}
+                    alt={`${s.name} — ${s.caption}`}
+                    widths={[360, 640, 900]}
+                    sizes="(max-width: 720px) 100vw, (max-width: 980px) 60vw, 30vw"
+                    style="width:100%;height:110%;object-fit:cover;filter:saturate(.84) contrast(1.03);transition:transform 1.7s cubic-bezier(.16,1,.3,1),clip-path 1.4s cubic-bezier(.16,1,.3,1),filter .8s ease"
+                  />
+                )}
+              </span>
+              <span data-seccap style="display:flex;justify-content:space-between;gap:16px;padding-top:11px;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;white-space:nowrap">
+                <span>{s.caption}</span>
+                <span>{s.count}</span>
+              </span>
+            </span>
+          </a>
+        );
+      })
+    }
+  </section>
+
+  <section style="margin-top:112px;background:#0d0d0d;color:#ffffff;padding:96px var(--gut)">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
+      <div
+        style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.55"
+      >
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>How we work
+      </div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.55">
+        Brief to approval
+      </div>
+    </div>
+    <div style="height:1px;background:rgba(255,255,255,.3)"></div>
+
+    <div
+      data-r="g6"
+      style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:56px calc(var(--gut) * -0.42) 0;border-top:1px solid rgba(255,255,255,.2);border-right:1px solid rgba(255,255,255,.14)"
+    >
+      {
+        steps.map((st) => (
+          <div
+            class="wva-step"
+            style="position:relative;padding:30px 26px 38px;border-left:1px solid rgba(255,255,255,.14);transition:background-color .5s ease"
+            data-rv
+          >
+            <div style="display:flex;align-items:center;gap:9px;font-size:9px;letter-spacing:.24em;opacity:.45">
+              <span style="display:block;width:3px;height:3px;border-radius:50%;background:#e2231a" />
+              {st.no}
+            </div>
+            <div style="margin-top:18px;font-size:15px;line-height:1.25;letter-spacing:-.01em;text-wrap:balance">
+              {st.name}
+            </div>
+            <div style="margin-top:11px;font-size:11px;line-height:1.8;opacity:.55;text-wrap:pretty">{st.note}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding-top:64px">
+      <div
+        style="grid-column:1 / span 3;padding-top:9px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        data-rv
+      >
+        Alliances at fixed stages
+      </div>
+      <div
+        data-r="g4"
+        style="grid-column:4 / span 9;display:grid;grid-template-columns:repeat(4,1fr);gap:10px"
+        data-rv
+      >
+        {
+          alliances.map((al) => (
+            <span
+              class="wva-alliance"
+              style="display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.2);padding:11px 12px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;text-align:center;transition:border-color .45s ease,background-color .45s ease,color .45s ease"
+            >
+              {al}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      style="margin-top:84px;padding:16px 0;border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18);overflow:hidden"
+      aria-hidden="true"
+    >
+      <div
+        class="wva-ticker"
+        style="display:flex;width:max-content;animation:seTick 44s linear infinite;font-size:11px;letter-spacing:.34em;text-transform:uppercase;opacity:.45"
+      >
+        {
+          [0, 1].map(() => (
+            <span style="display:flex;gap:54px;padding-right:54px">
+              {tickerLabels.map((label) => (
+                <>
+                  <span>{label}</span>
+                  <span style="color:#e2231a">·</span>
+                </>
+              ))}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:112px var(--gut) 0">
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:end">
+      <div style="grid-column:1 / span 5" data-rv>
+        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45">
+          Not sure which one fits
+        </div>
+        <p style="margin:16px 0 0;max-width:38ch;font-size:13px;line-height:1.85;opacity:.62;text-wrap:pretty">
+          Most briefs sit across two sectors. Send the plot details and we'll tell you what's
+          buildable before you commit.
+        </p>
+      </div>
+      <div style="grid-column:8 / span 5;text-align:right" data-rv>
+        <a
+          class="wva-ghost-cta"
+          href="/contact"
+          style="display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(13,13,13,.26);padding:13px 22px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;transition:background-color .5s ease,color .5s ease,border-color .5s ease"
+          >Start a project <span style="color:#e2231a">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* Page-specific overrides carried across verbatim from WVA Sectors.dc.html. */
+  @keyframes seUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes seTick {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  [data-rv] {
+    transform: translateY(22px);
+    transition:
+      opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-mask] {
+    overflow: hidden;
+  }
+
+  [data-mask] > img {
+    transition:
+      transform 1.7s cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.8s ease;
+  }
+
+  [data-sec]:hover [data-secname] {
+    transform: translateX(10px);
+  }
+
+  [data-sec]:hover [data-secimg] > img {
+    transform: scale(1.04);
+    filter: contrast(1.05);
+  }
+
+  [data-sec]:hover [data-secrule] {
+    transform: scaleX(1);
+  }
+
+  /* `style-hover` attributes in the export — no browser meaning, restated as CSS. */
+  .wva-step:hover {
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .wva-alliance:hover {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #0d0d0d;
+  }
+
+  .wva-ghost-cta:hover {
+    background: #0d0d0d;
+    color: #ffffff;
+    border-color: #0d0d0d;
+  }
+
+  /* The endless ticker is decoration; stop it when motion is not wanted. */
+  @media (prefers-reduced-motion: reduce) {
+    .wva-ticker {
+      animation: none !important;
+    }
+  }
+
+  @media (max-width: 980px) {
+    section[style*='186px'] {
+      padding-top: 150px !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    section[style*='186px'] {
+      padding-top: 172px !important;
+    }
+    figure > div[style*='vh'],
+    span[data-mask] {
+      max-height: 44vh;
+    }
+  }
+</style>

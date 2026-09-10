@@ -1,0 +1,338 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { img } from '../../lib/images';
+import { site } from '../../data/site';
+import { filters, projects } from '../../data/projects';
+import { indexLayout } from '../../data/layout';
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${site.url}/projects#collection`,
+    name: 'Projects',
+    url: `${site.url}/projects`,
+    numberOfItems: projects.length,
+    hasPart: projects.map((p) => ({
+      '@type': 'CreativeWork',
+      name: p.name,
+      url: `${site.url}/projects/${p.slug}`,
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'Projects', item: `${site.url}/projects` },
+    ],
+  },
+];
+---
+
+<Base
+  title="Projects"
+  description="Twelve documented projects across Mumbai, Nagpur, Gondia and Tamil Nadu — towers, redevelopment schemes, bungalows and refurbishments by Wall Voids Architects."
+  path="/projects"
+  active="/projects"
+  footerVariant="compact"
+  spineId="px-spine"
+  schema={schema}
+>
+  <span slot="header-meta">Sheet index</span>
+  <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
+  <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">{projects.length}</span>
+
+  <section style="padding:186px var(--gut) 0">
+    <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
+      <div>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:pxUp 1s .1s cubic-bezier(.16,1,.3,1) both"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Index of works
+        </div>
+        <h1
+          style="margin:18px 0 0;font-size:clamp(30px,4vw,54px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance;animation:pxUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
+        >
+          Every sheet<br />on the board
+        </h1>
+      </div>
+      <p
+        style="margin:0;padding-bottom:8px;font-size:12px;line-height:1.85;opacity:.6;text-wrap:pretty;animation:pxUp 1.1s .36s cubic-bezier(.16,1,.3,1) both"
+      >
+        Twelve projects across Mumbai, Nagpur, Gondia and Tamil Nadu — towers, redevelopment
+        schemes, row houses and refurbishments. Each block opens its full drawing set.
+      </p>
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+  </section>
+
+  <section id="index" style="padding:34px var(--gut) 0">
+    <div
+      style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;flex-wrap:wrap;padding-bottom:26px"
+    >
+      <div id="px-filters" style="display:flex;gap:22px;flex-wrap:wrap" role="group" aria-label="Filter projects by sector">
+        {
+          filters.map((ft) => (
+            <button
+              type="button"
+              data-filter={ft.label}
+              aria-pressed={ft.label === 'All' ? 'true' : 'false'}
+              style={`background:none;border:0;padding:4px 0;cursor:pointer;font-family:inherit;font-size:9px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;color:${
+                ft.label === 'All' ? '#0d0d0d' : 'rgba(13,13,13,.45)'
+              };border-bottom:1px solid ${
+                ft.label === 'All' ? '#e2231a' : 'rgba(13,13,13,0)'
+              };transition:color .4s ease,border-color .4s ease`}
+            >
+              {ft.label} <span style="opacity:.45">{ft.count}</span>
+            </button>
+          ))
+        }
+      </div>
+      <div
+        style="display:flex;align-items:center;gap:16px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;opacity:.45"
+      >
+        <span><span id="px-shown">{projects.length}</span> shown</span>
+        <span style="display:block;width:22px;height:1px;background:rgba(13,13,13,.3)"></span>
+        <span>Click to open</span>
+      </div>
+    </div>
+
+    <div id="px-grid" data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px 28px">
+      {
+        projects.map((p, i) => {
+          const l = indexLayout[i % indexLayout.length];
+          return (
+            <a
+              href={`/projects/${p.slug}`}
+              data-block
+              data-sector={p.sector}
+              style={`grid-column:${l.span};margin-top:${l.offset};display:block;position:relative`}
+              data-rv
+            >
+              <figure
+                data-mask
+                style={`position:relative;margin:0;height:${l.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.12)`}
+              >
+                <Image
+                  src={img(p.cardImage)}
+                  alt={`${p.name}, ${p.location}`}
+                  widths={[480, 768, 1200, 1600]}
+                  sizes="(max-width: 720px) 100vw, (max-width: 980px) 90vw, 58vw"
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  style="width:100%;height:112%;object-fit:cover;filter:saturate(.84) contrast(1.03)"
+                />
+                <span style="position:absolute;left:14px;top:14px;width:11px;height:11px;border-left:1px solid rgba(255,255,255,.75);border-top:1px solid rgba(255,255,255,.75)" />
+                <span style="position:absolute;right:14px;top:14px;width:11px;height:11px;border-right:1px solid rgba(255,255,255,.75);border-top:1px solid rgba(255,255,255,.75)" />
+                <span
+                  data-bopen
+                  style="position:absolute;right:16px;bottom:16px;display:flex;align-items:center;gap:8px;padding:8px 13px;background:rgba(255,255,255,.94);color:#0d0d0d;font-size:8px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateY(8px);transition:opacity .55s ease,transform .65s cubic-bezier(.16,1,.3,1)"
+                >
+                  Open sheet <span style="color:#e2231a">↗</span>
+                </span>
+              </figure>
+              <span
+                data-brule
+                style="display:block;height:1px;background:#e2231a;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1)"
+              />
+              <div style="display:grid;grid-template-columns:1fr auto;align-items:start;gap:16px;padding-top:15px;border-top:1px solid rgba(13,13,13,.14)">
+                <div data-bname style="transition:transform .7s cubic-bezier(.16,1,.3,1)">
+                  <div style="font-size:16px;font-weight:300;letter-spacing:-.01em">{p.name}</div>
+                  <div style="font-size:10px;letter-spacing:.1em;opacity:.5;margin-top:5px">{p.client}</div>
+                  <div style="font-family:Caveat,cursive;font-size:15px;line-height:1.45;color:rgba(13,13,13,.58);margin-top:9px;max-width:38ch">
+                    {p.cardNote}
+                  </div>
+                </div>
+                <div style="text-align:right;white-space:nowrap">
+                  <div
+                    data-bnum
+                    style="font-size:10px;letter-spacing:.16em;opacity:.4;transition:color .5s ease,opacity .5s ease"
+                  >
+                    {p.no}
+                  </div>
+                  <div style="font-size:8px;letter-spacing:.2em;text-transform:uppercase;opacity:.38;margin-top:6px">
+                    {p.sector}
+                  </div>
+                </div>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+    <p id="px-live" class="vh" role="status" aria-live="polite"></p>
+  </section>
+
+  <section style="padding:130px var(--gut) 0">
+    <div data-draw style="height:1px;background:rgba(13,13,13,.24)"></div>
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:40px">
+      <div style="grid-column:1 / span 5" data-rv>
+        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45">Not on the index</div>
+        <p style="margin:16px 0 0;max-width:38ch;font-size:13px;line-height:1.85;opacity:.62;text-wrap:pretty">
+          Sales offices, sanctioned schemes and drawings still in approval sit outside this set. Ask
+          and we'll walk you through them.
+        </p>
+      </div>
+      <div style="grid-column:8 / span 5;align-self:end;text-align:right" data-rv>
+        <a
+          class="wva-ghost-cta"
+          href="/contact"
+          style="display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(13,13,13,.26);padding:13px 22px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;transition:background-color .5s ease,color .5s ease,border-color .5s ease"
+          >Start a project <span style="color:#e2231a">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* Page-specific overrides carried across verbatim from WVA Projects.dc.html. */
+  @keyframes pxUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  [data-rv] {
+    transform: translateY(22px);
+    transition:
+      opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-mask] {
+    overflow: hidden;
+  }
+
+  [data-mask] > img {
+    transform: scale(1.09);
+    transition:
+      transform 1.7s cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.8s ease;
+  }
+
+  [data-block]:hover [data-mask] > img {
+    transform: scale(1.045);
+    filter: contrast(1.05);
+  }
+
+  [data-block]:hover [data-bnum] {
+    color: #e2231a;
+    opacity: 0.9;
+  }
+
+  [data-block]:hover [data-bname] {
+    transform: translateX(7px);
+  }
+
+  [data-block]:hover [data-brule] {
+    transform: scaleX(1);
+  }
+
+  [data-block]:hover [data-bopen] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Keyboard parity for the hover-revealed affordances. [ACCESSIBILITY] */
+  [data-block]:focus-visible [data-bopen] {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-block]:focus-visible [data-brule] {
+    transform: scaleX(1);
+  }
+
+  .wva-ghost-cta:hover {
+    background: #0d0d0d;
+    color: #ffffff;
+    border-color: #0d0d0d;
+  }
+
+  @media (max-width: 980px) {
+    section[style*='186px'] {
+      padding-top: 150px !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    section[style*='186px'] {
+      padding-top: 172px !important;
+    }
+  }
+</style>
+
+<script>
+  import { indexLayout } from '../../data/layout';
+
+  const grid = document.getElementById('px-grid');
+  const filterBar = document.getElementById('px-filters');
+  const shown = document.getElementById('px-shown');
+  const live = document.getElementById('px-live');
+
+  if (grid && filterBar && shown) {
+    const blocks = Array.from(grid.querySelectorAll<HTMLElement>('[data-block]'));
+    const buttons = Array.from(filterBar.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+
+    const apply = (filter: string, pushUrl: boolean) => {
+      let visibleIndex = 0;
+
+      for (const block of blocks) {
+        const match = filter === 'All' || block.dataset.sector === filter;
+        block.hidden = !match;
+        if (!match) continue;
+
+        // The export assigned block rhythm by position in the *filtered* list, so the
+        // grid keeps its wide/narrow cadence whichever filter is active.
+        const l = indexLayout[visibleIndex % indexLayout.length];
+        block.style.gridColumn = l.span;
+        block.style.marginTop = l.offset;
+        const figure = block.querySelector<HTMLElement>('figure');
+        if (figure) figure.style.height = l.height;
+        visibleIndex += 1;
+      }
+
+      for (const button of buttons) {
+        const on = button.dataset.filter === filter;
+        button.setAttribute('aria-pressed', String(on));
+        button.style.color = on ? '#0d0d0d' : 'rgba(13,13,13,.45)';
+        button.style.borderBottomColor = on ? '#e2231a' : 'rgba(13,13,13,0)';
+      }
+
+      shown.textContent = String(visibleIndex);
+      if (live) {
+        live.textContent =
+          filter === 'All'
+            ? `Showing all ${visibleIndex} projects.`
+            : `Showing ${visibleIndex} ${filter} project${visibleIndex === 1 ? '' : 's'}.`;
+      }
+
+      if (pushUrl) {
+        const url = new URL(window.location.href);
+        if (filter === 'All') url.searchParams.delete('sector');
+        else url.searchParams.set('sector', filter);
+        history.replaceState(null, '', url.pathname + url.search + url.hash);
+      }
+    };
+
+    filterBar.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+      if (!button?.dataset.filter) return;
+      apply(button.dataset.filter, true);
+    });
+
+    // Deep link from the sectors page: /projects?sector=Mixed%20Use
+    const requested = new URLSearchParams(window.location.search).get('sector');
+    const known = buttons.some((b) => b.dataset.filter === requested);
+    if (requested && known) {
+      apply(requested, false);
+      document.getElementById('index')?.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }
+</script>
