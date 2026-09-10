@@ -1,0 +1,142 @@
+---
+import { footerSectors, navigation, site } from '../data/site';
+
+export interface Props {
+  /** The export ships three footers: the home one, a compact one, and the project CTA. */
+  variant?: 'full' | 'compact' | 'cta';
+}
+
+const { variant = 'compact' } = Astro.props;
+
+// The export hard-coded "© 2026". Derived so it stays correct without an edit.
+const year = new Date().getFullYear();
+const addressHtml = site.addressLines.join('<br>');
+---
+
+{
+  variant === 'full' && (
+    <footer style="margin-top:112px;background:#0d0d0d;color:#ffffff;padding:64px var(--gut) 26px;position:relative">
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+        <div style="grid-column:1 / span 4">
+          <img
+            src="/img/wva-logo-light.png"
+            alt={site.name}
+            width="380"
+            height="126"
+            data-no-filter
+            style="display:block;height:58px;width:auto;max-width:none;opacity:.95"
+          />
+          <p style="margin:22px 0 0;max-width:30ch;font-size:12px;line-height:1.8;opacity:.55">
+            Architecture, interiors and approvals for residential, commercial and mixed-use work
+            across Mumbai.
+          </p>
+        </div>
+
+        <div style="grid-column:6 / span 2;font-size:11px;line-height:2.1">
+          <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
+            Navigate
+          </div>
+          {navigation.map((item) => (
+            <div>
+              <a href={item.href}>{item.label}</a>
+            </div>
+          ))}
+        </div>
+
+        <div style="grid-column:8 / span 2;font-size:11px;line-height:2.1">
+          <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
+            Sectors
+          </div>
+          {footerSectors.map((label) => (
+            <div style="opacity:.65">{label}</div>
+          ))}
+        </div>
+
+        <div style="grid-column:11 / span 2;font-size:11px;line-height:2.1">
+          <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
+            Reach
+          </div>
+          <div>
+            <a href={`mailto:${site.email}`}>Email</a>
+          </div>
+          <div>
+            <a href={site.mapUrl} target="_blank" rel="noopener noreferrer">
+              Map
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-top:58px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16);font-size:9px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+        <span>© {year} {site.name}</span>
+        <span>Byculla (E), Mumbai · Maharashtra 400027</span>
+        <span>{site.accreditation}</span>
+      </div>
+    </footer>
+  )
+}
+
+{
+  variant === 'compact' && (
+    <footer style="margin-top:112px;background:#0d0d0d;color:#ffffff;padding:64px var(--gut) 26px">
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:start">
+        <div style="grid-column:1 / span 5">
+          <img
+            src="/img/wva-logo-light.png"
+            alt={site.name}
+            width="380"
+            height="126"
+            data-no-filter
+            style="display:block;height:54px;width:auto;max-width:none;opacity:.95"
+          />
+          <a
+            href={`mailto:${site.email}`}
+            style="display:inline-block;margin-top:18px;font-size:15px;border-bottom:1px solid rgba(255,255,255,.32);padding-bottom:5px"
+          >
+            {site.email}
+          </a>
+        </div>
+        <address
+          style="grid-column:8 / span 5;text-align:right;font-size:11px;line-height:1.95;opacity:.65;font-style:normal"
+          set:html={addressHtml}
+        />
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-top:56px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16);font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.5">
+        <span style="white-space:nowrap">© {year} {site.name}</span>
+        <span style="white-space:nowrap">{site.accreditation}</span>
+      </div>
+    </footer>
+  )
+}
+
+{
+  variant === 'cta' && (
+    <footer style="margin-top:80px;background:#0d0d0d;color:#ffffff;padding:80px var(--gut) 26px">
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:start">
+        <div style="grid-column:1 / span 6">
+          <div style="display:flex;align-items:center;gap:10px;font-size:9px;letter-spacing:.3em;text-transform:uppercase;opacity:.5">
+            <span style="width:5px;height:5px;border-radius:50%;background:#e2231a" />
+            Start a project
+          </div>
+          <h2 style="margin:18px 0 0;max-width:20ch;font-size:clamp(24px,3vw,38px);line-height:1.08;font-weight:300;letter-spacing:-.02em;text-wrap:balance">
+            Tell us what you want built.
+          </h2>
+          <a
+            href={`mailto:${site.email}`}
+            style="display:inline-block;margin-top:26px;font-size:15px;border-bottom:1px solid rgba(255,255,255,.32);padding-bottom:5px"
+          >
+            {site.email}
+          </a>
+        </div>
+        <address
+          style="grid-column:9 / span 4;text-align:right;font-size:11px;line-height:1.95;opacity:.65;font-style:normal"
+          set:html={addressHtml}
+        />
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-top:64px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16);font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.5">
+        <span style="white-space:nowrap">© {year} {site.name}</span>
+        <span style="white-space:nowrap">{site.accreditation}</span>
+      </div>
+    </footer>
+  )
+}

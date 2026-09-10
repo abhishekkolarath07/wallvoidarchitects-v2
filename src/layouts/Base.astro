@@ -1,0 +1,102 @@
+---
+import Head from '../components/Head.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  path: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
+  /** Header treatment: transparent-over-hero, or solid. */
+  headerVariant?: 'home' | 'inner';
+  /** Footer treatment. */
+  footerVariant?: 'full' | 'compact' | 'cta';
+  /** Nav item to mark as current. */
+  active?: string | null;
+  /** id of the element the spine progress fill writes to. */
+  spineId?: string | null;
+  /** Rendered inside <main>, so the hero can bleed to the page edges. */
+  bodyStyle?: string;
+}
+
+const {
+  title,
+  description,
+  path,
+  image,
+  imageAlt,
+  type,
+  noindex,
+  schema,
+  headerVariant = 'inner',
+  footerVariant = 'compact',
+  active = null,
+  spineId = null,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <Head
+      title={title}
+      description={description}
+      path={path}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      noindex={noindex}
+      schema={schema}
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <Header variant={headerVariant} active={active}>
+      <slot name="header-meta" slot="meta" />
+    </Header>
+
+    {
+      spineId && (
+        <div
+          data-spine
+          style="position:fixed;top:0;bottom:0;width:1px;background:rgba(140,140,140,.28);z-index:2;pointer-events:none"
+        >
+          <span id={spineId} style="display:block;width:1px;height:0;background:#e2231a;opacity:.85" />
+        </div>
+      )
+    }
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer variant={footerVariant} />
+
+    <script>
+      import { initReveals, initCounters, initScrollChrome, initParallax } from '../scripts/page';
+
+      const header = document.getElementById('wva-header');
+      const variant = (header?.dataset.variant === 'home' ? 'home' : 'inner') as 'home' | 'inner';
+      const spine = document.querySelector<HTMLElement>('[data-spine] > span');
+
+      initReveals();
+      initCounters();
+      initParallax();
+      initScrollChrome({
+        variant,
+        spineId: spine?.id,
+        progressBarId: 'wva-progress-bar',
+        progressNumId: 'wva-progress-num',
+      });
+    </script>
+  </body>
+</html>
