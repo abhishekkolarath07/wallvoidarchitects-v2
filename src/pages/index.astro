@@ -1009,23 +1009,18 @@ const schema = [
   }
 
   /*
-   * [DESIGN CHANGE — approved] The hero was `height:100vh; min-height:960px`, so on any
-   * viewport shorter than ~960px (a 1440×900 laptop, most 13" screens) the section grew
-   * past the fold and clipped the headline. The floor now yields to the viewport when
-   * the viewport is the smaller of the two. At 960px tall and above this is a no-op and
-   * the composition is pixel-identical.
+   * The hero keeps the export's `height:100vh; min-height:960px`.
+   *
+   * An earlier attempt to let that floor yield to the viewport (so the headline would
+   * clear the fold on short screens) was wrong and has been reverted: below ~960px of
+   * viewport height the plate stops shrinking — `clamp()` holds it at its 454px floor —
+   * while the section kept shrinking, so the headline climbed into the artwork. It
+   * overlapped by 38px at 900px tall and 170px at 768px, and cut off the reflection.
+   *
+   * 960px is the composition's real minimum: 236px stage padding + 454px plate + ~100px
+   * reflection + ~102px lede + 46px margin. On a shorter viewport the hero is simply
+   * taller than the screen and the page scrolls, which is the approved behaviour.
    */
-  @media (min-width: 721px) {
-    #top {
-      min-height: min(960px, 100vh) !important;
-    }
-  }
-
-  @media (max-width: 980px) and (min-width: 721px) {
-    #top {
-      min-height: min(760px, 100vh) !important;
-    }
-  }
 </style>
 
 <script>
