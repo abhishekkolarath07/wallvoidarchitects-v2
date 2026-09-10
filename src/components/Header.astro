@@ -113,18 +113,8 @@ const isHome = variant === 'home';
     color: #ffffff;
   }
 
-  /* ---- The export's own responsive header rules, preserved ---- */
-  @media (max-width: 980px) {
-    header[data-r='head'] {
-      grid-template-columns: auto 1fr !important;
-    }
-    header[data-r='head'] > nav {
-      justify-self: end !important;
-    }
-    .wva-head-end {
-      display: none !important;
-    }
-  }
+  /* The export's generic [data-r="head"] responsive rules live in global.css and
+     already cover this header. Only the hamburger overrides live here. */
 
   /* ---- [DESIGN CHANGE — approved] Hamburger below 720px ---- */
   .wva-burger {
@@ -221,11 +211,16 @@ const isHome = variant === 'home';
   }
 
   @media (max-width: 720px) {
-    header[data-r='head'] {
+    /* Specificity has to beat the generic [data-r="head"] rules in global.css. */
+    header#wva-header[data-r='head'] {
       grid-template-columns: 1fr auto !important;
+      justify-items: stretch !important;
       gap: 14px !important;
     }
-    header[data-r='head'] > nav {
+    header#wva-header[data-r='head'] > a#wva-lockup {
+      justify-self: start !important;
+    }
+    header#wva-header[data-r='head'] > nav {
       display: none !important;
     }
     .wva-burger {

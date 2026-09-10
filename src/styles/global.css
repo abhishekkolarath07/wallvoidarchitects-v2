@@ -363,6 +363,16 @@ summary:focus-visible,
     grid-column: 2 !important;
     margin-top: 20px;
   }
+  /* Generic in the export: applies to the site header and the project prev/next nav. */
+  [data-r='head'] {
+    grid-template-columns: auto 1fr !important;
+  }
+  [data-r='head'] > :nth-child(2) {
+    justify-self: end !important;
+  }
+  [data-r='head'] > :last-child {
+    display: none !important;
+  }
   [data-spine] {
     left: 12px;
   }
@@ -415,6 +425,19 @@ summary:focus-visible,
    */
   [data-r='sector'] > :last-child {
     grid-column: 1 !important;
+  }
+  [data-r='head'] {
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    gap: 14px !important;
+  }
+  [data-r='head'] > :first-child {
+    justify-self: center !important;
+  }
+  [data-r='head'] > :nth-child(2) {
+    justify-self: center !important;
+    gap: 20px !important;
+    font-size: 9px !important;
   }
   [data-spine] {
     display: none;

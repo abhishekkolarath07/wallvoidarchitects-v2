@@ -1,0 +1,451 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { img } from '../../lib/images';
+import { site } from '../../data/site';
+import {
+  galleryLayout,
+  isConfirmed,
+  neighbours,
+  projects,
+  UNCONFIRMED,
+  type Project,
+} from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project: p } = Astro.props;
+const around = neighbours(p.slug)!;
+
+// The export dimmed unverified figures rather than hiding them. Preserved exactly.
+const INK = '#0d0d0d';
+const DIM = 'rgba(13,13,13,.34)';
+const cell = (value: string) => ({
+  value: value || UNCONFIRMED,
+  color: isConfirmed(value) ? INK : DIM,
+});
+
+const info = [
+  { label: 'Project name', ...cell(p.name) },
+  { label: 'Location', ...cell(p.location) },
+  { label: 'Project type', ...cell(p.type) },
+  { label: 'Client / Developer', ...cell(p.developer) },
+  { label: 'Plot area', ...cell(p.plot) },
+  { label: 'Built-up area', ...cell(p.bua) },
+  { label: 'Status', ...cell(p.status) },
+  { label: 'Architect', ...cell(site.name) },
+];
+
+const hasWide = Boolean(p.wide && p.wide !== p.hero);
+const hasGallery = p.images.length > 0;
+const plateCount = String(p.images.length + (hasWide ? 1 : 0)).padStart(2, '0');
+
+const gallery = p.images.map((g, i) => {
+  const l = galleryLayout[i % galleryLayout.length];
+  return { ...g, plate: `Plate ${String(i + 2).padStart(2, '0')}`, ...l };
+});
+
+const heroImage = img(p.hero);
+const ogImage = `/og/projects/${p.slug}.jpg`;
+
+const schema = [
+  {
+    '@type': 'CreativeWork',
+    '@id': `${site.url}/projects/${p.slug}#project`,
+    name: p.name,
+    headline: p.name,
+    description: p.tagline || p.overview.slice(0, 200),
+    creator: { '@id': `${site.url}/#organization` },
+    locationCreated: { '@type': 'Place', name: p.location },
+    genre: p.sector,
+    image: new URL(heroImage.src, site.url).href,
+    ...(isConfirmed(p.developer) ? { sponsor: { '@type': 'Organization', name: p.developer } } : {}),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'Projects', item: `${site.url}/projects` },
+      { '@type': 'ListItem', position: 3, name: p.name, item: `${site.url}/projects/${p.slug}` },
+    ],
+  },
+];
+
+const metaDescription = (
+  p.tagline || `${p.name} — ${p.type} in ${p.location} by ${site.name}.`
+).slice(0, 300);
+---
+
+<Base
+  title={p.name}
+  description={metaDescription}
+  path={`/projects/${p.slug}`}
+  active="/projects"
+  type="article"
+  image={ogImage}
+  imageAlt={`${p.name}, ${p.location}`}
+  footerVariant="cta"
+  spineId="pj-spine"
+  schema={schema}
+>
+  <a
+    slot="header-meta"
+    href="/projects"
+    style="display:flex;align-items:center;gap:12px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;opacity:.55"
+  >
+    <span style="display:block;width:22px;height:1px;background:#e2231a"></span>All sheets
+  </a>
+
+  <section
+    data-r="hero"
+    style="position:relative;height:84vh;min-height:600px;padding-top:104px;overflow:hidden;background:#0d0d0d"
+  >
+    <Image
+      src={heroImage}
+      alt={`${p.name} — ${p.location}`}
+      widths={[768, 1280, 1920, 2560]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="pj-hero"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:pjDrift 26s ease-out forwards;filter:saturate(.86) contrast(1.04) brightness(.82)"
+    />
+    <div
+      style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,13,.62) 0%,rgba(13,13,13,.1) 34%,rgba(13,13,13,.76) 100%)"
+    >
+    </div>
+    <div
+      style="position:absolute;left:var(--gut);right:var(--gut);top:130px;display:flex;justify-content:space-between;gap:32px;font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.62);white-space:nowrap"
+    >
+      <span>Sheet {p.no} — {p.sector}</span>
+      <span>Wall Voids Architects · Mumbai</span>
+    </div>
+    <div
+      data-r="split"
+      style="position:absolute;left:var(--gut);right:var(--gut);bottom:44px;display:grid;grid-template-columns:1.4fr .6fr;gap:48px;align-items:end;color:#ffffff"
+    >
+      <div>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:9px;letter-spacing:.3em;text-transform:uppercase;opacity:.6;animation:pjUp 1s .15s cubic-bezier(.16,1,.3,1) both"
+        >
+          <span style="width:5px;height:5px;border-radius:50%;background:#e2231a"></span>{p.location}
+        </div>
+        <h1
+          style="margin:16px 0 0;font-size:clamp(30px,4.4vw,60px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance;animation:pjUp 1.15s .28s cubic-bezier(.16,1,.3,1) both"
+        >
+          {p.name}
+        </h1>
+      </div>
+      <p
+        style="margin:0;padding-bottom:6px;text-align:right;font-size:11px;line-height:1.8;opacity:.72;text-wrap:pretty;animation:pjUp 1.15s .42s cubic-bezier(.16,1,.3,1) both"
+      >
+        {p.tagline}
+      </p>
+    </div>
+  </section>
+
+  <section style="padding:96px var(--gut) 0">
+    <div
+      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
+      data-rv
+    >
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>01 / Project
+      Information
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+    <div data-r="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px 28px;padding-top:8px">
+      {
+        info.map((row) => (
+          <div style="padding:22px 0;border-bottom:1px solid rgba(13,13,13,.1)" data-rv>
+            <div style="font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.42;white-space:nowrap">
+              {row.label}
+            </div>
+            <div style={`margin-top:11px;font-size:14px;font-weight:300;line-height:1.4;color:${row.color}`}>
+              {row.value}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section style="padding:110px var(--gut) 0">
+    <div
+      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
+      data-rv
+    >
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>02 / Overview
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
+      <p
+        style="grid-column:1 / span 7;margin:0;font-size:clamp(17px,1.9vw,23px);line-height:1.55;font-weight:300;letter-spacing:-.01em;text-wrap:pretty"
+        data-rv
+      >
+        {p.overview}
+      </p>
+      <div style="grid-column:9 / span 4;align-self:end;padding-bottom:4px" data-rv>
+        <div style="font-family:Caveat,cursive;font-size:18px;line-height:1.5;color:rgba(13,13,13,.6)">
+          {p.margin}
+        </div>
+      </div>
+    </div>
+    {
+      hasWide && (
+        <figure data-plate style="margin:64px 0 0;position:relative">
+          <div data-mask style="height:76vh;min-height:500px;background:#f7f7f7">
+            <Image
+              src={img(p.wide)}
+              alt={p.wideCaption ? `${p.name} — ${p.wideCaption}` : p.name}
+              widths={[768, 1280, 1920, 2560]}
+              sizes="100vw"
+              style="width:100%;height:114%;object-fit:cover;filter:saturate(.84) contrast(1.03)"
+            />
+          </div>
+          <figcaption
+            style="display:flex;justify-content:space-between;gap:24px;padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45"
+            data-rv
+          >
+            <span>{p.wideCaption}</span>
+            <span style="white-space:nowrap">Plate 01</span>
+          </figcaption>
+        </figure>
+      )
+    }
+  </section>
+
+  <section style="padding:110px var(--gut) 0">
+    <div
+      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
+      data-rv
+    >
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>03 / Building
+      Features
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+    <div data-r="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;padding-top:20px">
+      {
+        p.features.map((ft) => (
+          <div
+            data-feat
+            style="display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:14px;padding:15px 0;border-bottom:1px solid rgba(13,13,13,.1)"
+            data-rv
+          >
+            <span
+              data-featdot
+              style="display:block;width:4px;height:4px;border-radius:50%;background:rgba(13,13,13,.3);transition:background-color .45s ease,transform .45s cubic-bezier(.16,1,.3,1)"
+            />
+            <span style="font-size:12px;line-height:1.7;opacity:.72">{ft}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section style="padding:110px var(--gut) 0">
+    <div
+      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
+      data-rv
+    >
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Design
+      Concept
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+    {
+      p.conceptName && (
+        <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;padding-top:34px" data-rv>
+          <span style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.45">
+            Concept
+          </span>
+          <span style="display:block;width:26px;height:1px;background:#e2231a" />
+          <span style="font-size:clamp(19px,2.2vw,27px);line-height:1.15;font-weight:300;letter-spacing:-.02em">
+            {p.conceptName}
+          </span>
+        </div>
+      )
+    }
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
+      <p
+        style="grid-column:1 / span 6;margin:0;font-size:13px;line-height:1.9;opacity:.68;text-wrap:pretty"
+        data-rv
+      >
+        {p.concept}
+      </p>
+      <div style="grid-column:8 / span 5" data-rv>
+        {
+          p.planning.map((pl) => (
+            <div style="display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:14px;padding:13px 0;border-bottom:1px solid rgba(13,13,13,.1)">
+              <span style="display:block;width:16px;height:1px;background:#e2231a" />
+              <span style="font-size:12px;line-height:1.7;opacity:.72">{pl}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    hasGallery && (
+      <section style="padding:110px var(--gut) 0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
+          <div style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+            <span style="width:4px;height:4px;border-radius:50%;background:#e2231a" />
+            05 / Drawing Set
+          </div>
+          <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+            {plateCount} Plates
+          </div>
+        </div>
+        <div data-draw style="height:1px;background:rgba(13,13,13,.26)" />
+        <div
+          data-r="g12"
+          id="pj-gallery"
+          style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:44px"
+        >
+          {gallery.map((g) => (
+            <figure data-plate style={`grid-column:${g.span};margin:${g.offset} 0 0`}>
+              <div data-mask style={`height:${g.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}>
+                <Image
+                  src={img(g.src)}
+                  alt={`${p.name} — ${g.label}`}
+                  widths={[480, 768, 1200, 1800]}
+                  sizes="(max-width: 720px) 100vw, (max-width: 980px) 90vw, 58vw"
+                  style="width:100%;height:110%;object-fit:cover;filter:saturate(.84) contrast(1.03)"
+                />
+              </div>
+              <figcaption style="display:flex;justify-content:space-between;gap:20px;padding-top:12px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45">
+                <span>{g.label}</span>
+                <span style="white-space:nowrap">{g.plate}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section style="padding:120px var(--gut) 0">
+    <div data-draw style="height:1px;background:rgba(13,13,13,.24)"></div>
+    <nav
+      data-r="head"
+      aria-label="Project"
+      style="display:grid;grid-template-columns:1fr auto 1fr;gap:32px;align-items:center;padding:30px 0"
+    >
+      <a
+        href={`/projects/${around.prev.slug}`}
+        rel="prev"
+        style="justify-self:start;display:flex;align-items:baseline;gap:16px"
+        data-rv
+      >
+        <span style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.45;white-space:nowrap"
+          >← Previous</span
+        >
+        <span style="font-size:17px;font-weight:300;letter-spacing:-.01em">{around.prev.name}</span>
+      </a>
+      <a
+        href="/projects"
+        style="justify-self:center;font-size:9px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;opacity:.45"
+        data-rv>Index</a
+      >
+      <a
+        href={`/projects/${around.next.slug}`}
+        rel="next"
+        style="justify-self:end;display:flex;align-items:baseline;gap:16px;text-align:right"
+        data-rv
+      >
+        <span style="font-size:17px;font-weight:300;letter-spacing:-.01em">{around.next.name}</span>
+        <span style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.45;white-space:nowrap"
+          >Next →</span
+        >
+      </a>
+    </nav>
+  </section>
+</Base>
+
+<style is:global>
+  /* Page-specific overrides carried across verbatim from WVA Project.dc.html. */
+  @keyframes pjUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pjDrift {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: scale(1.12);
+    }
+  }
+
+  [data-rv] {
+    transform: translateY(22px);
+    transition:
+      opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-mask] {
+    overflow: hidden;
+  }
+
+  [data-mask] > img {
+    transition:
+      transform 1.7s cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.8s ease;
+  }
+
+  [data-plate]:hover > [data-mask] > img {
+    transform: scale(1.04);
+    filter: contrast(1.05);
+  }
+
+  [data-feat]:hover [data-featdot] {
+    background: #e2231a;
+    transform: scale(1.5);
+  }
+
+  @media (max-width: 980px) {
+    [data-r='hero'] {
+      padding-top: 130px !important;
+      height: 66vh !important;
+      min-height: 420px !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    [data-r='hero'] {
+      padding-top: 150px !important;
+      height: 58vh !important;
+      min-height: 360px !important;
+    }
+    figure > div[style*='vh'],
+    span[data-mask] {
+      max-height: 44vh;
+    }
+  }
+
+  /* The slow hero push-in is decorative. */
+  @media (prefers-reduced-motion: reduce) {
+    .pj-hero {
+      animation: none !important;
+      transform: scale(1.04);
+    }
+  }
+</style>
