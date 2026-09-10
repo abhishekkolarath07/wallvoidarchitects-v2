@@ -404,6 +404,18 @@ summary:focus-visible,
   [data-r='sector'] > * {
     grid-column: 1 !important;
   }
+  /*
+   * [RESPONSIVE FIX] The rule above was meant to stack the sector card into one
+   * column at phone widths, but the 980px rule `[data-r="sector"] > :last-child`
+   * out-specifies `> *` (a pseudo-class beats a universal selector), so the image
+   * kept being placed in column 2. That created an implicit second column, squeezed
+   * the text to a sliver, and pushed the document to 417px wide at a 375px viewport
+   * — the horizontal scroll on /sectors. Restating it at equal specificity lets the
+   * intended single-column stack happen. Layout above 720px is unchanged.
+   */
+  [data-r='sector'] > :last-child {
+    grid-column: 1 !important;
+  }
   [data-spine] {
     display: none;
   }
