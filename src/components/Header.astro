@@ -93,16 +93,16 @@ const isHome = variant === 'home';
 </header>
 
 {/* [DESIGN CHANGE — approved] Mobile menu panel. Inert and hidden above 720px. */}
-<div id="wva-menu" class="wva-menu" hidden>
-  <nav class="wva-menu-nav" aria-label="Mobile">
+<nav id="wva-menu" class="wva-menu" aria-label="Mobile menu" hidden>
+  <div class="wva-menu-nav">
     {navigation.map((item) => <a href={item.href} aria-current={active === item.href ? 'page' : undefined}>{item.label}</a>)}
-  </nav>
+  </div>
   <div class="wva-menu-foot">
     <a class="wva-menu-cta" href="/contact">Enquire <span aria-hidden="true">↗</span></a>
     <a href={`mailto:${site.email}`}>{site.email}</a>
     <span>{site.city}</span>
   </div>
-</div>
+</nav>
 
 <style>
   /* Hover treatment for the pill CTA — the export expressed this as a

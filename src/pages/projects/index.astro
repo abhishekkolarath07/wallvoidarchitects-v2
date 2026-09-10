@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { img } from '../../lib/images';
 import { site } from '../../data/site';
-import { filters, indexLayout, projects } from '../../data/projects';
+import { filters, projects } from '../../data/projects';
+import { indexLayout } from '../../data/layout';
 
 const schema = [
   {
@@ -268,7 +269,7 @@ const schema = [
 </style>
 
 <script>
-  import { indexLayout } from '../../data/projects';
+  import { indexLayout } from '../../data/layout';
 
   const grid = document.getElementById('px-grid');
   const filterBar = document.getElementById('px-filters');
