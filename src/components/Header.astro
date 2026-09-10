@@ -211,8 +211,8 @@ const isHome = variant === 'home';
   }
 
   /*
-   * The export's generic rule `[data-r="head"] > :last-child { display:none }` hid the
-   * Mumbai/Enquire block at <=980px. The burger is now the header's last child, so that
+   * The export hid the Mumbai/Enquire block at <=980px via
+   * `[data-r="head"] > :last-child`. The burger is now the header's last child, so that
    * rule would hide it too — both are therefore controlled explicitly here, at a
    * specificity that beats it. Visible behaviour above 720px is unchanged.
    */

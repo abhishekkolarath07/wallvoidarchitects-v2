@@ -371,15 +371,31 @@ summary:focus-visible,
     grid-column: 2 !important;
     margin-top: 20px;
   }
-  /* Generic in the export: applies to the site header and the project prev/next nav. */
-  [data-r='head'] {
+  /*
+   * The export wrote these generically as [data-r="head"], so they also caught the
+   * project prev/next nav — whose last child is the "Next project" link. That link
+   * therefore vanished below 980px, leaving no forward navigation on tablet or phone.
+   * Scoped to the site header, which is what they were written for. [BUG FIX]
+   */
+  header[data-r='head'] {
     grid-template-columns: auto 1fr !important;
   }
-  [data-r='head'] > :nth-child(2) {
+  header[data-r='head'] > :nth-child(2) {
     justify-self: end !important;
   }
-  [data-r='head'] > :last-child {
+  header[data-r='head'] > :last-child {
     display: none !important;
+  }
+
+  /* The project prev/next nav stacks instead, keeping all three links. */
+  nav[data-r='head'] {
+    grid-template-columns: 1fr !important;
+    justify-items: start !important;
+    gap: 18px !important;
+  }
+  nav[data-r='head'] > a {
+    justify-self: start !important;
+    text-align: left !important;
   }
   [data-spine] {
     left: 12px;
@@ -434,15 +450,15 @@ summary:focus-visible,
   [data-r='sector'] > :last-child {
     grid-column: 1 !important;
   }
-  [data-r='head'] {
+  header[data-r='head'] {
     grid-template-columns: 1fr !important;
     justify-items: center !important;
     gap: 14px !important;
   }
-  [data-r='head'] > :first-child {
+  header[data-r='head'] > :first-child {
     justify-self: center !important;
   }
-  [data-r='head'] > :nth-child(2) {
+  header[data-r='head'] > :nth-child(2) {
     justify-self: center !important;
     gap: 20px !important;
     font-size: 9px !important;
