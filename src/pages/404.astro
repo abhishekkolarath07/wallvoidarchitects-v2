@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import { navigation } from '../data/site';
+
+// Composed from the export's own vocabulary — the section eyebrow, the drawing-sheet
+// heading scale and the ghost CTA. No new visual language is introduced.
+---
+
+<Base
+  title="Page not found"
+  description="That sheet is not on the board. Return to the index of works, or send us an enquiry."
+  path="/404"
+  noindex
+  footerVariant="compact"
+>
+  <span slot="header-meta">Byculla (E), Mumbai</span>
+  <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
+
+  <section style="padding:186px var(--gut) 0">
+    <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
+      <div>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Error 404
+        </div>
+        <h1
+          style="margin:18px 0 0;font-size:clamp(30px,4vw,54px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance"
+        >
+          This sheet isn't<br />on the board
+        </h1>
+      </div>
+      <p style="margin:0;padding-bottom:8px;font-size:12px;line-height:1.85;opacity:.6;text-wrap:pretty">
+        The page you asked for has moved or never existed. The full index of works is one click
+        away.
+      </p>
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+  </section>
+
+  <section style="padding:56px var(--gut) 0">
+    <nav aria-label="Site" style="display:grid;gap:0">
+      {
+        navigation.map((item, i) => (
+          <a
+            href={item.href}
+            data-line
+            style={`display:grid;grid-template-columns:38px 1fr auto;align-items:baseline;gap:18px;padding:26px 0;border-bottom:1px solid rgba(13,13,13,.12)${i === 0 ? ';border-top:1px solid rgba(13,13,13,.12)' : ''}`}
+            data-rv
+          >
+            <span style="font-size:10px;letter-spacing:.14em;color:#e2231a;opacity:.9">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span style="font-size:clamp(19px,2.2vw,26px);font-weight:300;letter-spacing:-.01em">{item.label}</span>
+            <span style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.45;white-space:nowrap">
+              Open ↗
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+  </section>
+
+  <section style="padding:96px var(--gut) 0">
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:end">
+      <div style="grid-column:1 / span 5" data-rv>
+        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45">Looking for a project</div>
+        <p style="margin:16px 0 0;max-width:38ch;font-size:13px;line-height:1.85;opacity:.62;text-wrap:pretty">
+          Every documented project sits on the index, from single plots in Khar to master layouts at
+          BKC.
+        </p>
+      </div>
+      <div style="grid-column:8 / span 5;text-align:right" data-rv>
+        <a
+          class="wva-ghost-cta"
+          href="/projects"
+          style="display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(13,13,13,.26);padding:13px 22px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;transition:background-color .5s ease,color .5s ease,border-color .5s ease"
+          >See the index <span style="color:#e2231a">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  [data-rv] {
+    transform: translateY(22px);
+    transition:
+      opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .wva-ghost-cta:hover {
+    background: #0d0d0d;
+    color: #ffffff;
+    border-color: #0d0d0d;
+  }
+
+  @media (max-width: 980px) {
+    section[style*='186px'] {
+      padding-top: 150px !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    section[style*='186px'] {
+      padding-top: 172px !important;
+    }
+  }
+</style>

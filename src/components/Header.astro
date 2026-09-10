@@ -210,8 +210,26 @@ const isHome = variant === 'home';
     letter-spacing: 0.22em;
   }
 
+  /*
+   * The export's generic rule `[data-r="head"] > :last-child { display:none }` hid the
+   * Mumbai/Enquire block at <=980px. The burger is now the header's last child, so that
+   * rule would hide it too — both are therefore controlled explicitly here, at a
+   * specificity that beats it. Visible behaviour above 720px is unchanged.
+   */
+  @media (max-width: 980px) {
+    header#wva-header[data-r='head'] > .wva-head-end {
+      display: none !important;
+    }
+    header#wva-header[data-r='head'] > .wva-burger {
+      display: none !important;
+    }
+  }
+
   @media (max-width: 720px) {
     /* Specificity has to beat the generic [data-r="head"] rules in global.css. */
+    header#wva-header[data-r='head'] > .wva-burger {
+      display: flex !important;
+    }
     header#wva-header[data-r='head'] {
       grid-template-columns: 1fr auto !important;
       justify-items: stretch !important;

@@ -1,0 +1,1041 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { img } from '../lib/images';
+import { site } from '../data/site';
+import { filters, heroSlides, projects } from '../data/projects';
+import { alliances, homeSectors, steps } from '../data/sectors';
+
+/** Ink overlay path for a plate: img/p/sion-2.jpg -> img/p/ink-sion-2.jpg */
+const inkPath = (key: string) => key.replace(/([^/]+)$/, 'ink-$1');
+
+const HERO_WIDTHS = [640, 980, 1400, 1960];
+const REG_WIDTHS = [360, 560, 820];
+
+/**
+ * The hero and register crossfade by swapping `src` on stacked <img> pairs, so the
+ * optimised URLs have to be resolved at build time and handed to the client.
+ */
+const optimised = async (key: string, widths: number[]) => {
+  const result = await getImage({ src: img(key), widths, format: 'webp' });
+  return { src: result.src, srcset: result.srcSet.attribute };
+};
+
+const heroData = await Promise.all(
+  heroSlides.map(async (p) => ({
+    no: p.no,
+    name: p.name,
+    client: p.client,
+    sector: p.sector,
+    plate: await optimised(p.homeImage, HERO_WIDTHS),
+    ink: await optimised(inkPath(p.homeImage), HERO_WIDTHS),
+  })),
+);
+
+const registerData = await Promise.all(
+  projects.map(async (p) => ({
+    no: p.no,
+    name: p.name,
+    client: p.client,
+    sector: p.sector,
+    note: p.homeNote,
+    image: await optimised(p.homeImage, REG_WIDTHS),
+  })),
+);
+
+const first = heroSlides[0];
+const firstRow = projects[0];
+const second = heroSlides[1];
+
+const heroPlate = img(first.homeImage);
+const heroPlateB = img(second.homeImage);
+const heroInk = img(inkPath(first.homeImage));
+const heroInkB = img(inkPath(second.homeImage));
+
+const schema = [
+  {
+    '@type': 'ItemList',
+    '@id': `${site.url}/#register`,
+    name: 'Drawing register',
+    numberOfItems: projects.length,
+    itemListElement: projects.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: p.name,
+      url: `${site.url}/projects/${p.slug}`,
+    })),
+  },
+];
+---
+
+<Base
+  title="Wall Voids Architects — Architecture, interiors and approvals in Mumbai"
+  description={site.description}
+  path="/"
+  headerVariant="home"
+  footerVariant="full"
+  spineId="wva-spine-fill"
+  schema={schema}
+>
+  <div style="position:relative;min-height:100vh;background:#ffffff;overflow:clip">
+    <div id="wva-sheet" style="position:relative;background:#ffffff">
+      <div
+        style="position:absolute;inset:0;background:radial-gradient(92% 46% at 50% 2%,#ffffff 0%,#ffffff 54%,#f7f7f7 100%);pointer-events:none"
+      >
+      </div>
+      <div
+        style="position:absolute;inset:0;opacity:.36;background-image:linear-gradient(rgba(13,13,13,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(13,13,13,.05) 1px,transparent 1px);background-size:26px 26px;pointer-events:none"
+      >
+      </div>
+      <div
+        style="position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(13,13,13,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(13,13,13,.08) 1px,transparent 1px);background-size:130px 130px;pointer-events:none"
+      >
+      </div>
+      <div style="position:absolute;inset:104px 22px 22px 44px;border:1px solid rgba(13,13,13,.22);pointer-events:none"></div>
+      <div
+        style="position:absolute;left:44px;right:22px;top:104px;height:118px;border-bottom:1px solid rgba(13,13,13,.22);pointer-events:none"
+      >
+      </div>
+
+      <section
+        id="top"
+        style="position:relative;height:100vh;min-height:960px;overflow:hidden;background:transparent;color:#0d0d0d"
+      >
+        <div
+          data-h="sheetL"
+          style="position:absolute;left:var(--gut);top:130px;font-size:8px;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          Sheet A-01 — Elevation / Study
+        </div>
+        <div
+          data-h="sheetR"
+          style="position:absolute;right:var(--gut);top:130px;font-size:8px;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          Drawing No. WVA-A01
+        </div>
+
+        <div id="wva-stage" style="position:absolute;inset:0;display:grid;justify-items:center;align-items:start;padding:236px 0 0">
+          <div
+            id="wva-depth"
+            style="position:relative;width:min(72vw,980px);height:clamp(454px,calc((100vh - 406px) * 0.82),700px);transition:transform 1.2s cubic-bezier(.16,1,.3,1)"
+          >
+            <div id="wva-plate" style="position:absolute;inset:0">
+              <Image
+                data-fade="plate"
+                src={heroPlate}
+                alt=""
+                widths={HERO_WIDTHS}
+                sizes="min(72vw, 980px)"
+                loading="eager"
+                fetchpriority="high"
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;opacity:1;transition:opacity 1.6s cubic-bezier(.16,1,.3,1);filter:saturate(.72) contrast(1.04)"
+              />
+              <Image
+                data-fade="plate"
+                src={heroPlateB}
+                alt=""
+                widths={HERO_WIDTHS}
+                sizes="min(72vw, 980px)"
+                loading="eager"
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;opacity:0;transition:opacity 1.6s cubic-bezier(.16,1,.3,1);filter:saturate(.72) contrast(1.04)"
+              />
+
+              <div id="wva-ink" style="position:absolute;inset:0;clip-path:inset(0 0 0 46%)">
+                <div style="position:absolute;inset:0;background:#ffffff"></div>
+                <Image
+                  data-fade="ink"
+                  src={heroInk}
+                  alt=""
+                  widths={HERO_WIDTHS}
+                  sizes="min(72vw, 980px)"
+                  loading="eager"
+                  style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;opacity:1;transition:opacity 1.6s cubic-bezier(.16,1,.3,1);mix-blend-mode:multiply"
+                />
+                <Image
+                  data-fade="ink"
+                  src={heroInkB}
+                  alt=""
+                  widths={HERO_WIDTHS}
+                  sizes="min(72vw, 980px)"
+                  loading="eager"
+                  style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;opacity:0;transition:opacity 1.6s cubic-bezier(.16,1,.3,1);mix-blend-mode:multiply"
+                />
+                <div
+                  style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(13,13,13,.055) 0 1px,transparent 1px 7px)"
+                >
+                </div>
+              </div>
+
+              <div id="wva-handle" style="position:absolute;top:-22px;bottom:0;left:46%;width:1px;background:rgba(13,13,13,.55)">
+                <span
+                  id="wva-grip"
+                  role="slider"
+                  tabindex="0"
+                  aria-label="Reveal more drawing or more render"
+                  aria-valuemin="6"
+                  aria-valuemax="94"
+                  aria-valuenow="46"
+                  style="position:absolute;top:0;left:-16px;width:32px;height:100%;cursor:ew-resize;touch-action:none"
+                ></span>
+                <span
+                  style="position:absolute;top:26px;left:-5px;width:11px;height:11px;background:#e2231a;border-radius:50%;box-shadow:0 0 0 5px rgba(226,35,26,.14);pointer-events:none;transition:box-shadow .4s ease"
+                ></span>
+                <span
+                  style="position:absolute;bottom:-20px;left:8px;font-size:8px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.55"
+                  >Move — Drawing / Render</span
+                >
+              </div>
+
+              <svg
+                id="wva-wire"
+                viewBox="0 0 400 300"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+                style="position:absolute;inset:-8% -10%;width:120%;height:116%;overflow:visible"
+                fill="none"
+                stroke="rgba(13,13,13,.5)"
+                stroke-width="0.7"
+                vector-effect="non-scaling-stroke"
+              >
+                <line x1="0" y1="262" x2="400" y2="262" pathLength="1" style="animation-delay:.05s"></line>
+                <line x1="60" y1="24" x2="60" y2="262" pathLength="1" stroke="rgba(13,13,13,.22)" style="animation-delay:.3s"></line>
+                <line x1="340" y1="24" x2="340" y2="262" pathLength="1" stroke="rgba(13,13,13,.22)" style="animation-delay:.38s"></line>
+                <line x1="60" y1="24" x2="340" y2="24" pathLength="1" stroke="rgba(13,13,13,.22)" style="animation-delay:.46s"></line>
+                <line x1="60" y1="96" x2="340" y2="96" pathLength="1" stroke="rgba(13,13,13,.16)" style="animation-delay:.56s"></line>
+                <line x1="60" y1="168" x2="340" y2="168" pathLength="1" stroke="rgba(13,13,13,.16)" style="animation-delay:.64s"></line>
+                <line x1="-30" y1="262" x2="-30" y2="200" pathLength="1" stroke="rgba(13,13,13,.4)" style="animation-delay:.94s"></line>
+                <line x1="-36" y1="200" x2="-24" y2="200" pathLength="1" stroke="rgba(13,13,13,.4)" style="animation-delay:1.02s"></line>
+                <line x1="-36" y1="262" x2="-24" y2="262" pathLength="1" stroke="rgba(13,13,13,.4)" style="animation-delay:1.06s"></line>
+                <line x1="360" y1="262" x2="430" y2="262" pathLength="1" stroke="rgba(13,13,13,.35)" style="animation-delay:1.14s"></line>
+              </svg>
+            </div>
+
+            <div id="wva-reflect" style="position:absolute;left:0;right:0;top:100%;height:22%;overflow:hidden;pointer-events:none">
+              <Image
+                data-fade="refl"
+                src={heroPlate}
+                alt=""
+                widths={HERO_WIDTHS}
+                sizes="min(72vw, 980px)"
+                loading="lazy"
+                style="position:absolute;left:0;right:0;bottom:0;width:100%;height:300%;object-fit:contain;object-position:bottom;transform:scaleY(-1);transition:opacity 1.6s ease;filter:grayscale(.6) blur(2.4px) contrast(.95);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);animation:wvaRipple 7s ease-in-out infinite;opacity:.5"
+              />
+              <Image
+                data-fade="refl"
+                src={heroPlateB}
+                alt=""
+                widths={HERO_WIDTHS}
+                sizes="min(72vw, 980px)"
+                loading="lazy"
+                style="position:absolute;left:0;right:0;bottom:0;width:100%;height:300%;object-fit:contain;object-position:bottom;transform:scaleY(-1);transition:opacity 1.6s ease;filter:grayscale(.6) blur(2.4px) contrast(.95);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);animation:wvaRipple 7s ease-in-out infinite;opacity:0"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="wva-anno-a"
+          style="position:absolute;left:var(--gut);top:172px;max-width:210px;font-family:Caveat,cursive;font-size:17px;line-height:1.5;color:rgba(13,13,13,.66);animation:wvaUp 1.4s .5s cubic-bezier(.16,1,.3,1) both"
+        >
+          <div style="font-family:Archivo,sans-serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;opacity:.55;margin-bottom:10px">
+            Notes
+          </div>
+          Massing set back from the road edge — light enters from the north face, void carried through
+          all floors.
+        </div>
+        <div
+          data-h="meta"
+          style="position:absolute;right:var(--gut);top:172px;text-align:right;font-size:9px;line-height:2;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;color:rgba(13,13,13,.5);animation:wvaUp 1.4s .65s cubic-bezier(.16,1,.3,1) both"
+        >
+          <div style="height:1px;background:rgba(13,13,13,.25);margin-bottom:10px"></div>
+          <div id="wva-active-sector">{first.sector}</div>
+          <div id="wva-active-client">{first.client}</div>
+          <div>Sheet <span id="wva-active-no">{first.no}</span> / {projects.length}</div>
+          <div style="font-family:Caveat,cursive;font-size:16px;letter-spacing:0;text-transform:none;color:#e2231a;margin-top:8px">
+            rev. approved
+          </div>
+        </div>
+
+        <div
+          data-h="lede"
+          style="position:absolute;left:var(--gut);right:var(--gut);bottom:46px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px"
+        >
+          <div style="max-width:600px">
+            <h1
+              style="margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.24;font-weight:300;letter-spacing:-.01em;text-wrap:pretty;animation:wvaUp 1.3s .4s cubic-bezier(.16,1,.3,1) both"
+            >
+              Every project begins as a drawing — and stays one until the city stands in it.
+            </h1>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+            {
+              heroSlides.map((s, i) => (
+                <button
+                  type="button"
+                  data-slide={String(i)}
+                  aria-label={`Show ${s.name}`}
+                  aria-current={i === 0 ? 'true' : 'false'}
+                  style={`display:flex;align-items:center;gap:12px;background:none;border:0;padding:4px 0;cursor:pointer;color:#0d0d0d;font-family:inherit;font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:${i === 0 ? 1 : 0.4};transition:opacity .6s ease`}
+                >
+                  <span>{s.no}</span>
+                  <span
+                    data-tickrule
+                    style={`position:relative;display:block;height:1px;width:${i === 0 ? '54px' : '22px'};background:${i === 0 ? '#e2231a' : 'rgba(13,13,13,.35)'};transition:width .8s cubic-bezier(.16,1,.3,1),background-color .6s ease`}
+                  >
+                    <span
+                      data-count={i === 0 ? 'yes' : 'no'}
+                      style="position:absolute;inset:0;background:#0d0d0d;transform-origin:left;transform:scaleX(0)"
+                    />
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <div style="position:relative;padding:0 var(--gut)">
+        <div style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;padding:10px 0 34px">
+          <div style="display:flex;align-items:baseline;gap:16px">
+            <span style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.4;white-space:nowrap">
+              Sheet continues
+            </span>
+            <span style="font-family:Caveat,cursive;font-size:17px;white-space:nowrap;color:rgba(13,13,13,.6)">
+              twelve projects, one register
+            </span>
+          </div>
+          <div
+            style="display:flex;align-items:center;gap:12px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;white-space:nowrap"
+          >
+            <span>On the board</span>
+            <span style="display:block;width:44px;height:1px;background:#e2231a"></span>
+            <span id="wva-active-name" style="letter-spacing:.06em;text-transform:none;font-size:12px;opacity:.85">
+              {first.name}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <section id="work" style="padding:0 var(--gut) 96px;position:relative;background:transparent">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding-bottom:16px" data-rv>
+          <div>
+            <div
+              style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+            >
+              <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>01 / Selected
+              Works
+            </div>
+            <div style="margin-top:12px;font-size:22px;font-weight:300;letter-spacing:-.01em">Drawing register</div>
+          </div>
+          <div
+            id="wva-filters"
+            role="group"
+            aria-label="Filter the register by sector"
+            style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:flex-end"
+          >
+            {
+              filters.map((ft) => (
+                <button
+                  type="button"
+                  data-filter={ft.label}
+                  aria-pressed={ft.label === 'All' ? 'true' : 'false'}
+                  style={`background:none;border:0;padding:4px 0;cursor:pointer;font-family:inherit;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:${ft.label === 'All' ? '#0d0d0d' : 'rgba(13,13,13,.45)'};border-bottom:1px solid ${ft.label === 'All' ? '#e2231a' : 'rgba(13,13,13,0)'};transition:color .4s ease,border-color .4s ease`}
+                >
+                  {ft.label} <span style="opacity:.45">{ft.count}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <div data-draw style="height:1px;background:rgba(13,13,13,.28)"></div>
+
+        <div data-r="reg" style="display:grid;grid-template-columns:minmax(300px,5fr) 7fr;gap:56px;align-items:start;padding-top:56px">
+          <div style="position:sticky;top:104px">
+            <div style="position:relative;aspect-ratio:4/5;background:#ffffff;border:1px solid rgba(13,13,13,.18);overflow:hidden">
+              <div
+                style="position:absolute;inset:0;opacity:.55;background-image:linear-gradient(rgba(13,13,13,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(13,13,13,.05) 1px,transparent 1px);background-size:24px 24px"
+              >
+              </div>
+              <Image
+                data-fade="reg"
+                src={img(projects[0].homeImage)}
+                alt=""
+                widths={REG_WIDTHS}
+                sizes="(max-width: 1180px) 90vw, 30vw"
+                style="position:absolute;inset:8%;width:84%;height:84%;object-fit:contain;opacity:1;transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1);filter:saturate(.78) contrast(1.03)"
+              />
+              <Image
+                data-fade="reg"
+                src={img(projects[1].homeImage)}
+                alt=""
+                widths={REG_WIDTHS}
+                sizes="(max-width: 1180px) 90vw, 30vw"
+                style="position:absolute;inset:8%;width:84%;height:84%;object-fit:contain;opacity:0;transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1);filter:saturate(.78) contrast(1.03)"
+              />
+              <span style="position:absolute;left:14px;top:14px;width:12px;height:12px;border-left:1px solid rgba(13,13,13,.4);border-top:1px solid rgba(13,13,13,.4)"></span>
+              <span style="position:absolute;right:14px;top:14px;width:12px;height:12px;border-right:1px solid rgba(13,13,13,.4);border-top:1px solid rgba(13,13,13,.4)"></span>
+              <span style="position:absolute;left:14px;bottom:14px;width:12px;height:12px;border-left:1px solid rgba(13,13,13,.4);border-bottom:1px solid rgba(13,13,13,.4)"></span>
+              <span style="position:absolute;right:14px;bottom:14px;width:12px;height:12px;border-right:1px solid rgba(13,13,13,.4);border-bottom:1px solid rgba(13,13,13,.4)"></span>
+              <span style="position:absolute;left:0;right:0;bottom:26%;height:1px;background:rgba(13,13,13,.18)"></span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px">
+              <div>
+                <div id="wva-row-name" style="font-size:17px;letter-spacing:-.01em">{firstRow.name}</div>
+                <div id="wva-row-client" style="font-size:11px;letter-spacing:.1em;opacity:.55;margin-top:4px">
+                  {firstRow.client}
+                </div>
+              </div>
+              <div style="text-align:right;font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.45;white-space:nowrap">
+                <div id="wva-row-sector">{firstRow.sector}</div>
+                <div style="margin-top:4px">Sheet <span id="wva-row-no">{firstRow.no}</span> / {projects.length}</div>
+              </div>
+            </div>
+            <div
+              id="wva-row-note"
+              style="margin-top:14px;font-family:Caveat,cursive;font-size:16px;line-height:1.5;color:rgba(13,13,13,.6)"
+            >
+              {firstRow.homeNote}
+            </div>
+          </div>
+
+          <div id="wva-rows">
+            {
+              projects.map((p, i) => (
+                <div
+                  data-row
+                  data-index={String(i)}
+                  data-sector={p.sector}
+                  style={`position:relative;display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:18px;padding:${i === 0 ? '26px 4px 26px 22px' : '19px 4px 19px 22px'};border-bottom:1px solid rgba(13,13,13,.12);cursor:pointer;background:${i === 0 ? 'rgba(13,13,13,.035)' : 'transparent'};transition:padding .6s cubic-bezier(.16,1,.3,1),background-color .5s ease`}
+                  data-r="row"
+                  data-rv
+                >
+                  <span
+                    data-rowrail
+                    style={`position:absolute;left:0;top:0;bottom:0;width:2px;background:#e2231a;transform:scaleY(${i === 0 ? 1 : 0});transform-origin:center;transition:transform .6s cubic-bezier(.16,1,.3,1)`}
+                  />
+                  <span
+                    data-rownum
+                    style={`font-size:10px;letter-spacing:.14em;opacity:${i === 0 ? 0.85 : 0.35};transition:opacity .5s ease`}
+                  >
+                    {p.no}
+                  </span>
+                  <span
+                    data-rowname
+                    style={`display:block;transform:translateX(${i === 0 ? '6px' : '0px'});transition:transform .7s cubic-bezier(.16,1,.3,1)`}
+                  >
+                    <span
+                      data-rowtitle
+                      style={`display:block;font-size:${i === 0 ? '24px' : '19px'};font-weight:300;letter-spacing:-.01em;transition:font-size .5s ease`}
+                    >
+                      {p.name}
+                    </span>
+                    <span style="display:block;font-size:10px;letter-spacing:.12em;opacity:.5;margin-top:3px">{p.client}</span>
+                  </span>
+                  <span style="display:flex;align-items:baseline;gap:20px;justify-content:flex-end;white-space:nowrap">
+                    <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.42">{p.sector}</span>
+                    <a
+                      href={`/projects/${p.slug}`}
+                      style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;border-bottom:1px solid rgba(13,13,13,.24);padding-bottom:2px"
+                    >
+                      Open ↗<span class="vh"> {p.name}</span>
+                    </a>
+                  </span>
+                </div>
+              ))
+            }
+            <div
+              style="display:flex;justify-content:space-between;align-items:center;padding-top:18px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.45"
+            >
+              <a href="/projects" style="display:flex;align-items:center;gap:10px;white-space:nowrap">
+                <span>All <span id="wva-row-count">{projects.length}</span> sheets</span>
+                <span style="display:block;width:22px;height:1px;background:#e2231a"></span>
+                <span>Index ↗</span>
+              </a>
+              <span style="white-space:nowrap">Hover to preview</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section style="padding:138px 0 0;position:relative">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 var(--gut) 14px" data-rv>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>02 / In Detail
+        </div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+          Plates 01–03
+        </div>
+      </div>
+      <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin:0 var(--gut)"></div>
+
+      <figure data-mask style="position:relative;margin:56px 0 0;overflow:hidden;height:78vh;min-height:520px">
+        <Image
+          data-par="0.08"
+          src={img('img/p/estella-3.jpg')}
+          alt="Gami Jaydeep Estella — the entrance lobby in marble with brass reveals at the lift lobby"
+          widths={[768, 1280, 1920, 2560]}
+          sizes="100vw"
+          style="width:100%;height:118%;object-fit:cover"
+        />
+        <div
+          style="position:absolute;inset:0;background:linear-gradient(270deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.14) 44%,rgba(0,0,0,0) 72%)"
+        >
+        </div>
+        <figcaption style="position:absolute;right:var(--gut);bottom:38px;max-width:400px;text-align:right;color:#ffffff">
+          <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.7">Plate 01 — Interiors</div>
+          <div style="font-size:22px;font-weight:300;margin-top:10px">Estella, Entrance Lobby</div>
+          <p style="font-size:12px;line-height:1.8;opacity:.72;margin:10px 0 0">
+            Marble laid in a single field, brass reveals at the lift lobby — the tower's address, read
+            at eye level.
+          </p>
+        </figcaption>
+      </figure>
+
+      <div style="padding:138px var(--gut) 0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px" data-rv>
+          <div
+            style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+          >
+            <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>03 / How We Work
+          </div>
+          <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+            Brief to approval
+          </div>
+        </div>
+        <div data-draw style="height:1px;background:rgba(13,13,13,.28)"></div>
+
+        <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding-top:56px">
+          <h2
+            style="grid-column:1 / span 5;margin:0;font-size:clamp(28px,3.4vw,44px);line-height:1.05;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
+            data-rv
+          >
+            One drawing, carried from the first conversation to the last approval.
+          </h2>
+          <p
+            style="grid-column:7 / span 5;align-self:end;margin:0;font-size:13px;line-height:1.85;opacity:.62"
+            data-rv
+          >
+            Every project runs through the same six stages. Consultants join at fixed points through
+            our alliances, so nothing waits on a hand-off — we mould and reshape the context of metros
+            and growing cities, at whatever scale is asked for.
+          </p>
+        </div>
+
+        <div
+          data-r="g6"
+          style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:64px calc(var(--gut) * -0.42) 0;border-top:1px solid rgba(13,13,13,.14);border-right:1px solid rgba(13,13,13,.1)"
+        >
+          {
+            steps.map((st) => (
+              <div
+                class="wva-step-light"
+                style="position:relative;padding:30px 26px 38px;border-left:1px solid rgba(13,13,13,.1);transition:background-color .5s ease"
+                data-rv
+              >
+                <span
+                  data-stepline
+                  style="position:absolute;left:-1px;top:-1px;width:calc(100% + 1px);height:1px;background:#e2231a;transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1)"
+                />
+                <div style="display:flex;align-items:center;gap:9px;font-size:9px;letter-spacing:.24em;opacity:.4">
+                  <span style="display:block;width:3px;height:3px;border-radius:50%;background:#e2231a" />
+                  {st.no}
+                </div>
+                <div style="margin-top:18px;font-size:15px;line-height:1.25;letter-spacing:-.01em;text-wrap:balance">
+                  {st.name}
+                </div>
+                <div style="margin-top:11px;font-size:11px;line-height:1.8;opacity:.55;text-wrap:pretty">{st.note}</div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:64px 0 0">
+          <div
+            style="grid-column:1 / span 3;padding-top:9px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.45"
+            data-rv
+          >
+            Alliances at fixed stages
+          </div>
+          <div data-r="g4" style="grid-column:4 / span 9;display:grid;grid-template-columns:repeat(4,1fr);gap:10px" data-rv>
+            {
+              alliances.map((al) => (
+                <span
+                  class="wva-alliance-light"
+                  style="display:flex;align-items:center;justify-content:center;border:1px solid rgba(13,13,13,.16);padding:11px 12px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;text-align:center;transition:border-color .45s ease,color .45s ease,background-color .45s ease"
+                >
+                  {al}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div data-r="g2" style="display:grid;grid-template-columns:7fr 5fr;gap:0;margin-top:112px;height:74vh;min-height:520px">
+        <figure data-mask style="position:relative;margin:0;overflow:hidden;height:100%">
+          <Image
+            data-par="0.1"
+            src={img('img/p/celeste-6.jpg')}
+            alt="Transindia Celeste — the illuminated street frontage at night"
+            widths={[640, 1024, 1600, 2200]}
+            sizes="(max-width: 980px) 100vw, 58vw"
+            style="width:100%;height:116%;object-fit:cover"
+          />
+          <figcaption
+            style="position:absolute;left:34px;bottom:22px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#ffffff;opacity:.85"
+            >Plate 02 — The Celeste, Street Frontage</figcaption
+          >
+        </figure>
+        <figure data-mask style="position:relative;margin:0;overflow:hidden;height:100%">
+          <Image
+            data-par="0.06"
+            src={img('img/p/gondia-1.jpg')}
+            alt="Private bungalow at Gondia — the C-shaped plan seen from the garden"
+            widths={[480, 768, 1200, 1600]}
+            sizes="(max-width: 980px) 100vw, 42vw"
+            style="width:100%;height:116%;object-fit:cover"
+          />
+          <figcaption
+            style="position:absolute;left:34px;bottom:22px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#ffffff;opacity:.85"
+            >Plate 03 — Bungalow at Gondia</figcaption
+          >
+        </figure>
+      </div>
+    </section>
+
+    <section
+      id="sectors"
+      style="margin-top:-84px;background:#0d0d0d;color:#ffffff;padding:168px var(--gut) 0;position:relative;z-index:1"
+    >
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px" data-rv>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.55"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Sectors
+        </div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.55">
+          Micro to macro
+        </div>
+      </div>
+      <div data-draw style="height:1px;background:rgba(255,255,255,.3)"></div>
+
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding-top:48px">
+        <div style="grid-column:1 / span 7">
+          {
+            homeSectors.map((s) => (
+              <div
+                data-r="labelrow"
+                style="display:grid;grid-template-columns:40px 1fr;gap:18px;align-items:baseline;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.14)"
+                data-rv
+              >
+                <span style="font-size:10px;letter-spacing:.14em;color:#e2231a;opacity:.9">{s.no}</span>
+                <span>
+                  <span style="display:block;font-size:22px;font-weight:300;letter-spacing:-.01em">{s.name}</span>
+                  <span style="display:block;font-size:12px;line-height:1.7;opacity:.55;margin-top:8px;max-width:52ch">
+                    {s.note}
+                  </span>
+                </span>
+              </div>
+            ))
+          }
+        </div>
+        <figure
+          data-mask
+          style="grid-column:9 / span 4;margin:34px 0 0;overflow:hidden;aspect-ratio:3/4;position:sticky;top:118px"
+        >
+          <Image
+            data-par="0.1"
+            src={img('img/p/celeste-4.jpg')}
+            alt="Transindia Celeste — night view from the approach"
+            widths={[360, 640, 900]}
+            sizes="(max-width: 980px) 100vw, 30vw"
+            style="width:100%;height:112%;object-fit:cover;filter:grayscale(.3) contrast(1.06)"
+          />
+        </figure>
+        <figcaption
+          style="grid-column:9 / span 4;padding-top:12px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.4"
+          data-rv
+          >The Celeste — Khar, Night View</figcaption
+        >
+      </div>
+
+      <div
+        style="margin-top:96px;padding:16px 0;border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18);overflow:hidden"
+        aria-hidden="true"
+      >
+        <div
+          class="wva-ticker"
+          style="display:flex;width:max-content;animation:wvaTick 42s linear infinite;font-size:11px;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          {
+            [0, 1].map(() => (
+              <span style="display:flex;gap:56px;padding-right:56px">
+                {['Residential', 'Commercial', 'IT Parks', 'Religious Buildings', 'Mixed Use', 'Interiors'].map(
+                  (label) => (
+                    <>
+                      <span>{label}</span>
+                      <span style="color:#e2231a">·</span>
+                    </>
+                  ),
+                )}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:88px 0 112px">
+        <div style="grid-column:1 / span 4" data-rv>
+          <div style="font-size:9px;letter-spacing:.3em;text-transform:uppercase;opacity:.5">Currently on the boards</div>
+          <div style="margin-top:18px;font-size:44px;line-height:1;font-weight:300;letter-spacing:-.02em">
+            <span data-countto="12">0</span><span style="font-size:15px;opacity:.5;letter-spacing:.1em"> sheets</span>
+          </div>
+          <div data-draw style="height:1px;background:#e2231a;margin-top:20px"></div>
+        </div>
+        <div style="grid-column:5 / span 3" data-rv>
+          <div style="font-size:9px;letter-spacing:.3em;text-transform:uppercase;opacity:.5">Across</div>
+          <div style="margin-top:18px;font-size:44px;line-height:1;font-weight:300;letter-spacing:-.02em">
+            <span data-countto="5">0</span><span style="font-size:15px;opacity:.5;letter-spacing:.1em"> sectors</span>
+          </div>
+          <div data-draw style="height:1px;background:#e2231a;margin-top:20px"></div>
+        </div>
+        <div style="grid-column:9 / span 4;align-self:end;font-size:12px;line-height:1.8;opacity:.6" data-rv>
+          From single plots in Khar to master layouts at Wadala and BKC — the studio works at whatever
+          scale the city asks for.
+        </div>
+      </div>
+    </section>
+
+    <section id="studio" style="padding:138px var(--gut) 0;position:relative;background:#ffffff">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>05 / Studio
+        </div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+          Est. Mumbai
+        </div>
+      </div>
+      <div data-draw style="height:1px;background:rgba(13,13,13,.22)"></div>
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding-top:56px">
+        <div style="grid-column:1 / span 5" data-rv>
+          <h2
+            style="margin:0;max-width:20ch;font-size:clamp(24px,2.6vw,34px);line-height:1.1;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
+          >
+            Young architects, bringing transition to the city.
+          </h2>
+          <p style="margin:24px 0 0;max-width:40ch;font-size:13px;line-height:1.85;opacity:.62;text-wrap:pretty">
+            Every design opportunity is treated as a personal endeavour — conceptual development,
+            drawings, approvals and site, carried by one hand from the first conversation to the last.
+          </p>
+        </div>
+        <div style="grid-column:7 / span 3;font-size:12px;line-height:1.9;opacity:.65" data-rv>
+          <div style="font-size:10px;letter-spacing:.24em;text-transform:uppercase;opacity:.6;margin-bottom:10px">
+            Principal
+          </div>
+          <div>Ar. Pravin Kudkar</div>
+          <div>B.Arch, KRVIA Mumbai</div>
+          <div>Registered with COA, India</div>
+        </div>
+        <div style="grid-column:10 / span 3;font-size:12px;line-height:1.9;opacity:.65" data-rv>
+          <div style="font-size:10px;letter-spacing:.24em;text-transform:uppercase;opacity:.6;margin-bottom:10px">
+            Worked With
+          </div>
+          <div>TATA Housing · TransIndia</div>
+          <div>Kalpataru · Gami · Jaydeep</div>
+          <div>DLF · Ajmera · DSK</div>
+        </div>
+        <div style="grid-column:1 / span 12;height:1px;background:rgba(13,13,13,.14);margin:100px 0 0"></div>
+      </div>
+    </section>
+
+    <section id="contact" style="padding:138px var(--gut) 0;position:relative;background:#ffffff">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px" data-rv>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+        >
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>06 / Contact
+        </div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+          Byculla (E), Mumbai
+        </div>
+      </div>
+      <div data-draw style="height:1px;background:rgba(13,13,13,.28)"></div>
+
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:56px 0 0">
+        <div style="grid-column:1 / span 6" data-rv>
+          <h2
+            style="margin:0;max-width:22ch;font-size:clamp(30px,3.6vw,46px);line-height:1.06;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
+          >
+            Have a site, a brief, or a drawing that needs finishing?
+          </h2>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:34px">
+            <a
+              class="wva-cta-solid"
+              href="/contact"
+              style="display:inline-flex;align-items:center;gap:10px;background:#0d0d0d;color:#ffffff;padding:14px 22px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;transition:background-color .5s ease"
+              >Start a project</a
+            >
+            <a
+              class="wva-cta-ghost"
+              href="#work"
+              style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(13,13,13,.3);padding:14px 22px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;transition:border-color .5s ease,color .5s ease"
+              >See the register</a
+            >
+          </div>
+        </div>
+
+        <div data-r="g2" style="grid-column:8 / span 5;display:grid;grid-template-columns:1fr 1fr;gap:32px 24px" data-rv>
+          <div>
+            <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">Studio</div>
+            <address style="font-size:12px;line-height:1.9;opacity:.72">
+              A-123, Sussex Industrial Estate A,<br />Dadoji Kondeo Marg,<br />Byculla (E), Mumbai 400027
+            </address>
+          </div>
+          <div>
+            <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
+              Enquiries
+            </div>
+            <div style="font-size:12px;line-height:1.9;opacity:.72">
+              <a href={`mailto:${site.email}`} style="border-bottom:1px solid rgba(13,13,13,.25)">{site.email}</a><br />
+              New projects &amp; collaborations
+            </div>
+          </div>
+          <div>
+            <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
+              Principal
+            </div>
+            <div style="font-size:12px;line-height:1.9;opacity:.72">Ar. Pravin Kudkar<br />Registered with COA, India</div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        data-r="g12"
+        style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:56px;padding-top:20px;border-top:1px solid rgba(13,13,13,.14)"
+        data-rv
+      >
+        <div
+          style="grid-column:1 / span 3;font-size:9px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.45;padding-top:2px"
+        >
+          Services
+        </div>
+        <div
+          style="grid-column:4 / span 9;display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;line-height:1.6;opacity:.72"
+        >
+          {
+            [
+              'Architectural design',
+              'Redevelopment & rehabilitation',
+              'Refurbishment',
+              'Interiors for lobbies & common areas',
+              'Master layout planning',
+              '3D visualisation',
+              'Working drawings & site coordination',
+              'Municipal submission & approvals',
+            ].map((label, i, all) => (
+              <>
+                <span>{label}</span>
+                {i < all.length - 1 && <span style="color:#e2231a">·</span>}
+              </>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="wva-progress"
+      aria-hidden="true"
+      style="position:fixed;left:56px;bottom:22px;z-index:35;display:flex;align-items:center;gap:10px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:#0d0d0d;mix-blend-mode:difference;pointer-events:none"
+    >
+      <span id="wva-progress-num" style="color:#ffffff">00</span>
+      <span style="display:block;width:54px;height:1px;background:rgba(255,255,255,.4)">
+        <span id="wva-progress-bar" style="display:block;height:1px;width:0;background:#ffffff"></span>
+      </span>
+    </div>
+  </div>
+</Base>
+
+<style is:global>
+  /* Page-specific overrides carried across verbatim from the export's home page. */
+
+  body {
+    background: #ffffff;
+  }
+
+  /* `style-hover` attributes in the export — restated as real CSS. */
+  .wva-step-light:hover {
+    background: rgba(13, 13, 13, 0.025);
+  }
+
+  .wva-alliance-light:hover {
+    border-color: #0d0d0d;
+    background: #0d0d0d;
+    color: #ffffff;
+  }
+
+  .wva-cta-solid:hover {
+    background: #e2231a;
+    color: #ffffff;
+  }
+
+  .wva-cta-ghost:hover {
+    border-color: #e2231a;
+    color: #e2231a;
+  }
+
+  #wva-grip:focus-visible {
+    outline: 2px solid #e2231a;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wva-ticker {
+      animation: none !important;
+    }
+    #wva-reflect img {
+      animation: none !important;
+    }
+  }
+
+  /* ---- The export's home-page responsive rules, verbatim ---- */
+
+  @media (max-width: 1180px) {
+    #wva-depth {
+      width: min(84vw, 760px) !important;
+    }
+  }
+
+  @media (max-width: 980px) {
+    #top {
+      height: 88vh !important;
+      min-height: 760px !important;
+    }
+    #wva-stage {
+      padding: 196px 0 0 !important;
+    }
+    #wva-depth {
+      width: min(88vw, 640px) !important;
+      height: clamp(280px, calc((100vh - 400px) * 0.72), 420px) !important;
+    }
+    #wva-reflect {
+      height: 16% !important;
+    }
+    #wva-anno-a {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    #top {
+      height: auto !important;
+      min-height: 0 !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 142px var(--gut) 8px !important;
+    }
+    #top > [data-h='sheetL'],
+    #top > [data-h='sheetR'],
+    #top > #wva-anno-a {
+      display: none !important;
+    }
+
+    #top > [data-h='meta'] {
+      position: static !important;
+      order: 1;
+      text-align: left !important;
+      display: flex !important;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      white-space: normal !important;
+      line-height: 1.6 !important;
+      font-size: 8.5px !important;
+    }
+    #top > [data-h='meta'] > div:first-child {
+      display: none !important;
+    }
+    #top > [data-h='meta'] > div:last-child {
+      width: 100%;
+    }
+
+    #top > [data-h='lede'] {
+      position: static !important;
+      order: 2;
+      margin-top: 20px;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 22px !important;
+    }
+    #top h1 {
+      font-size: 21px !important;
+      line-height: 1.32 !important;
+    }
+    #top > [data-h='lede'] > div:last-child {
+      align-items: flex-start !important;
+      flex-direction: row !important;
+      flex-wrap: wrap;
+      gap: 8px 18px !important;
+    }
+
+    #wva-stage {
+      position: static !important;
+      order: 3;
+      padding: 26px 0 0 !important;
+    }
+    #wva-depth {
+      width: 100% !important;
+      height: 260px !important;
+    }
+    #wva-reflect,
+    #wva-handle {
+      display: none !important;
+    }
+    #wva-depth svg,
+    #wva-ink {
+      display: none !important;
+    }
+    #wva-depth [style*='Caveat'] {
+      display: none !important;
+    }
+    #wva-plate img {
+      object-position: center !important;
+    }
+  }
+
+  /*
+   * [DESIGN CHANGE — approved] The hero was `height:100vh; min-height:960px`, so on any
+   * viewport shorter than ~960px (a 1440×900 laptop, most 13" screens) the section grew
+   * past the fold and clipped the headline. The floor now yields to the viewport when
+   * the viewport is the smaller of the two. At 960px tall and above this is a no-op and
+   * the composition is pixel-identical.
+   */
+  @media (min-width: 721px) {
+    #top {
+      min-height: min(960px, 100vh) !important;
+    }
+  }
+
+  @media (max-width: 980px) and (min-width: 721px) {
+    #top {
+      min-height: min(760px, 100vh) !important;
+    }
+  }
+</style>
+
+<script>
+  import { initHero, initRegister, type HeroSlide, type RegisterRow } from '../scripts/home';
+
+  const read = <T,>(id: string): T => JSON.parse(document.getElementById(id)!.textContent!) as T;
+
+  initHero(read<HeroSlide[]>('wva-hero-data'));
+  initRegister(read<RegisterRow[]>('wva-register-data'));
+</script>
+
+<script type="application/json" id="wva-hero-data" is:inline set:html={JSON.stringify(heroData)}></script>
+<script type="application/json" id="wva-register-data" is:inline set:html={JSON.stringify(registerData)}></script>
