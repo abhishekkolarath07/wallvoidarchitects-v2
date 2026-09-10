@@ -61,6 +61,14 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* The export marked up postal addresses as plain <div>s. Using <address> is better
+   semantics but brings a default margin and italics, which would shift the layout —
+   neutralised so the box model is identical to the export's. */
+address {
+  margin: 0;
+  font-style: normal;
+}
+
 /* ---------------------------------------------------------------- keyframes ---- */
 
 @keyframes wvaUp {
