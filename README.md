@@ -50,6 +50,13 @@ _source-material/       Reference only — never deployed (see .vercelignore)
 
 `/` · `/projects` · `/projects/<slug>` (12) · `/sectors` · `/studio` · `/contact` · `/404`
 
+URLs are clean by construction, not by host configuration. `build.format: 'directory'`
+emits `dist/projects/index.html`, which any static host serves at `/projects` with no
+rewrite rule — so the routing does not depend on a Vercel-specific flag and behaves the
+same on Netlify, Cloudflare, nginx or S3. `trailingSlash` is pinned to `never` in both
+`astro.config.mjs` and `vercel.json` so the two cannot disagree, and `vercel.json`
+carries a permanent redirect from any legacy `*.html` path to its clean equivalent.
+
 The projects index accepts `?sector=Residential|Commercial|Mixed%20Use|Interiors`, which is
 what the sector cards link to.
 
