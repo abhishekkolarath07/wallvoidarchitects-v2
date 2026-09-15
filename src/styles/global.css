@@ -18,6 +18,22 @@
   box-sizing: border-box;
 }
 
+/*
+ * [BUG FIX] The `hidden` attribute must always win.
+ *
+ * The UA rule `[hidden] { display: none }` has specificity (0,1,0), so any later
+ * class or attribute rule of equal specificity silently defeats it. That happened
+ * twice here: the mobile menu (`.wva-menu { display: flex }` inside a media query)
+ * stayed laid out while carrying `hidden`, leaving an invisible full-screen panel
+ * at z-index 39 that swallowed every tap on a phone; and the contact form's error
+ * slots (`.ct-err { display: block }`) reserved vertical space while empty.
+ *
+ * Making it !important closes the whole class of bug rather than each instance.
+ */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   background: #ffffff;
@@ -468,6 +484,40 @@ summary:focus-visible,
   }
   #wva-logo {
     height: 44px !important;
+  }
+
+  /*
+   * [RESPONSIVE FIX] Two-ended label rows.
+   *
+   * The design pairs a left label with a right label on one `space-between` row —
+   * "01 / Practice … Est. Mumbai", "Sheet 05 — Residential … Wall Voids Architects ·
+   * Mumbai", and so on. Both ends are `white-space: nowrap`, so on a phone the row is
+   * wider than the screen and the right-hand label is cut off at the edge rather than
+   * wrapping. `overflow: clip` on an ancestor hid this from scrollWidth, which is why
+   * it read as "no overflow" while text was visibly truncated.
+   *
+   * Letting these rows wrap keeps every label readable. The pairing is unchanged
+   * wherever it fits, and nothing above 720px is affected.
+   */
+  [style*='justify-content:space-between'] {
+    flex-wrap: wrap;
+  }
+
+  /* The register's "Sheet continues … On the board <project>" strip is a two-column
+     grid rather than a flex row, so it needs the same treatment. Targeted by an
+     explicit hook: an inline-style substring match on "1fr auto" would also catch
+     the "1fr auto 1fr" header and project nav. */
+  [data-r='sheetstrip'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Grid and flex children default to min-width:auto, so a long unbreakable child
+     can push its track wider than the screen. */
+  [data-r='row'],
+  [data-r='row'] > *,
+  [data-r='reg'],
+  [data-r='reg'] > * {
+    min-width: 0;
   }
 }
 
