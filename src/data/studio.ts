@@ -15,44 +15,24 @@ export const credentials = [
 ];
 
 /**
- * ⚠️ NEEDS CLIENT VERIFICATION BEFORE LAUNCH.
+ * Developers the practice has worked with, rendered under the heading
+ * "Developers worked with".
  *
- * This list is carried over verbatim from the Claude Design export and is rendered
- * under the heading "Developers worked with".
+ * The Claude Design export listed twelve names. Eight of them — TATA Housing,
+ * Kalpataru, DLF, Ajmera, DSK, Runwal, Rustomjee and Wadhwa — were flagged during
+ * the content audit because no project record in this repository corroborates them,
+ * and the practice confirmed they should come out. The four that remain are each
+ * backed by documented projects.
  *
- * Only the first four names are corroborated by the twelve documented projects:
- *   Transindia Group, Gami Jaydeep, Easy Homes Solutions, Punit Construction.
- *
- * The remaining eight (TATA Housing, Kalpataru, DLF, Ajmera, DSK, Runwal, Rustomjee,
- * Wadhwa) do not appear in any project record in this repository. Naming a developer
- * under that heading asserts a working relationship, so each one should be confirmed
- * — or removed — by the practice before this page goes live.
- *
- * Nothing has been added or removed here; the export's content is preserved as-is
- * pending that decision.
+ * Naming a developer here asserts a working relationship, so add a name only when a
+ * project record supports it.
  */
 export const clients = [
   'Transindia Group',
   'Gami Jaydeep',
   'Easy Homes Solutions',
   'Punit Construction',
-  'TATA Housing',
-  'Kalpataru',
-  'DLF',
-  'Ajmera',
-  'DSK',
-  'Runwal',
-  'Rustomjee',
-  'Wadhwa',
 ];
-
-/** Names above that the project data actually corroborates. */
-export const verifiedClients = new Set([
-  'Transindia Group',
-  'Gami Jaydeep',
-  'Easy Homes Solutions',
-  'Punit Construction',
-]);
 
 export const services = [
   'Architectural design and conceptual development',
