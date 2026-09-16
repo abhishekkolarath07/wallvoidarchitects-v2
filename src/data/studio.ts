@@ -21,17 +21,22 @@ export const credentials = [
  * The Claude Design export listed twelve names. Eight of them — TATA Housing,
  * Kalpataru, DLF, Ajmera, DSK, Runwal, Rustomjee and Wadhwa — were flagged during
  * the content audit because no project record in this repository corroborates them,
- * and the practice confirmed they should come out. The four that remain are each
- * backed by documented projects.
+ * and the practice confirmed they should come out.
  *
- * Naming a developer here asserts a working relationship, so add a name only when a
- * project record supports it.
+ * The practice then supplied the corrected list below. Two corrections it carries:
+ * "Gami Jaydeep" was one entry in the export but is two developers, Gami Group and
+ * Jaydeep Group; and Dudhwala Developers was missing.
+ *
+ * Naming a developer here asserts a working relationship, so add a name only on the
+ * practice's confirmation or where a project record supports it.
  */
 export const clients = [
   'Transindia Group',
-  'Gami Jaydeep',
+  'Gami Group',
+  'Jaydeep Group',
   'Easy Homes Solutions',
   'Punit Construction',
+  'Dudhwala Developers',
 ];
 
 export const services = [
