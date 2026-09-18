@@ -7,9 +7,9 @@
 //  [BUG FIX] Sector cards deep-link to a filtered register. Every card in the export
 //            pointed at the unfiltered projects page, so filtering did nothing.
 //  [CONTENT] Religious Buildings had no religious imagery, so the export illustrated it
-//            with a Gondia bungalow captioned "Private Bungalow, Gondia". The card now
-//            waits on a real image (see RELIGIOUS_IMAGE_TODO) and renders the same
-//            neutral panel meanwhile. Nothing is claimed that isn't true.
+//            with a Gondia bungalow captioned "Private Bungalow, Gondia". The practice
+//            has since supplied its own religious work, and the card now carries one of
+//            those images. Nothing is claimed that isn't true.
 
 import { countBySector, type Sector } from './projects';
 
@@ -26,16 +26,7 @@ export interface SectorEntry {
   count: string;
   /** Where the card links. Sectors with no projects invite an enquiry, as in the export. */
   href: string;
-  /** Set when the sector is still waiting on artwork from the practice. */
-  awaitingImage?: string;
 }
-
-/**
- * TODO(WVA): supply a photograph or render of a religious project and save it to
- * src/assets/img/p/religious-1.jpg. The card will pick it up automatically —
- * set `image` below to 'img/p/religious-1.jpg' and add the caption.
- */
-export const RELIGIOUS_IMAGE_TODO = 'src/assets/img/p/religious-1.jpg';
 
 const plural = (n: number) => `${n} project${n === 1 ? '' : 's'}`;
 
@@ -80,12 +71,13 @@ export const sectors: SectorEntry[] = [
     name: 'Religious Buildings',
     note: 'Temples, prayer halls and community religious spaces — where procession, gathering and daylight set the plan before anything else.',
     tags: ['Temples', 'Prayer halls', 'Gathering'],
-    image: null,
-    caption: '',
+    image: 'img/p/religious-1.jpg',
+    // Describes what the image shows. The practice has not supplied a project name or
+    // location for this work, so none is asserted here — replace once it does.
+    caption: 'Shrine and water court',
     // Verbatim from the export.
     count: 'On request',
     href: '/contact',
-    awaitingImage: RELIGIOUS_IMAGE_TODO,
   },
   {
     no: '05',
