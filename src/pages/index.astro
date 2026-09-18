@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import { img } from '../lib/images';
 import { site } from '../data/site';
 import { filters, heroSlides, projects } from '../data/projects';
-import { alliances, homeSectors, steps } from '../data/sectors';
+import { homeSectors } from '../data/sectors';
 
 /** Ink overlay path for a plate: img/p/sion-2.jpg -> img/p/ink-sion-2.jpg */
 const inkPath = (key: string) => key.replace(/([^/]+)$/, 'ink-$1');
@@ -21,14 +21,17 @@ const optimised = async (key: string, widths: number[]) => {
   return { src: result.src, srcset: result.srcSet.attribute };
 };
 
+/** Hero plate for a slide: its own drawing where it has one, else the register image. */
+const heroKey = (p: { homeHero?: string; homeImage: string }) => p.homeHero ?? p.homeImage;
+
 const heroData = await Promise.all(
   heroSlides.map(async (p) => ({
     no: p.no,
     name: p.name,
     client: p.client,
     sector: p.sector,
-    plate: await optimised(p.homeImage, HERO_WIDTHS),
-    ink: await optimised(inkPath(p.homeImage), HERO_WIDTHS),
+    plate: await optimised(heroKey(p), HERO_WIDTHS),
+    ink: await optimised(inkPath(heroKey(p)), HERO_WIDTHS),
   })),
 );
 
@@ -47,10 +50,10 @@ const first = heroSlides[0];
 const firstRow = projects[0];
 const second = heroSlides[1];
 
-const heroPlate = img(first.homeImage);
-const heroPlateB = img(second.homeImage);
-const heroInk = img(inkPath(first.homeImage));
-const heroInkB = img(inkPath(second.homeImage));
+const heroPlate = img(heroKey(first));
+const heroPlateB = img(heroKey(second));
+const heroInk = img(inkPath(heroKey(first)));
+const heroInkB = img(inkPath(heroKey(second)));
 
 const schema = [
   {
@@ -494,85 +497,6 @@ const schema = [
         </figcaption>
       </figure>
 
-      <div style="padding:138px var(--gut) 0">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px" data-rv>
-          <div
-            style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
-          >
-            <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>03 / How We Work
-          </div>
-          <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
-            Brief to approval
-          </div>
-        </div>
-        <div data-draw style="height:1px;background:rgba(13,13,13,.28)"></div>
-
-        <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding-top:56px">
-          <h2
-            style="grid-column:1 / span 5;margin:0;font-size:clamp(28px,3.4vw,44px);line-height:1.05;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
-            data-rv
-          >
-            One drawing, carried from the first conversation to the last approval.
-          </h2>
-          <p
-            style="grid-column:7 / span 5;align-self:end;margin:0;font-size:13px;line-height:1.85;opacity:.62"
-            data-rv
-          >
-            Every project runs through the same six stages. Consultants join at fixed points through
-            our alliances, so nothing waits on a hand-off — we mould and reshape the context of metros
-            and growing cities, at whatever scale is asked for.
-          </p>
-        </div>
-
-        <div
-          data-r="g6"
-          style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:64px calc(var(--gut) * -0.42) 0;border-top:1px solid rgba(13,13,13,.14);border-right:1px solid rgba(13,13,13,.1)"
-        >
-          {
-            steps.map((st) => (
-              <div
-                class="wva-step-light"
-                style="position:relative;padding:30px 26px 38px;border-left:1px solid rgba(13,13,13,.1);transition:background-color .5s ease"
-                data-rv
-              >
-                <span
-                  data-stepline
-                  style="position:absolute;left:-1px;top:-1px;width:calc(100% + 1px);height:1px;background:#e2231a;transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1)"
-                />
-                <div style="display:flex;align-items:center;gap:9px;font-size:9px;letter-spacing:.24em;opacity:.4">
-                  <span style="display:block;width:3px;height:3px;border-radius:50%;background:#e2231a" />
-                  {st.no}
-                </div>
-                <div style="margin-top:18px;font-size:15px;line-height:1.25;letter-spacing:-.01em;text-wrap:balance">
-                  {st.name}
-                </div>
-                <div style="margin-top:11px;font-size:11px;line-height:1.8;opacity:.55;text-wrap:pretty">{st.note}</div>
-              </div>
-            ))
-          }
-        </div>
-
-        <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:64px 0 0">
-          <div
-            style="grid-column:1 / span 3;padding-top:9px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.45"
-            data-rv
-          >
-            Alliances at fixed stages
-          </div>
-          <div data-r="g4" style="grid-column:4 / span 9;display:grid;grid-template-columns:repeat(4,1fr);gap:10px" data-rv>
-            {
-              alliances.map((al) => (
-                <span
-                  class="wva-alliance-light"
-                  style="display:flex;align-items:center;justify-content:center;border:1px solid rgba(13,13,13,.16);padding:11px 12px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;text-align:center;transition:border-color .45s ease,color .45s ease,background-color .45s ease"
-                >
-                  {al}
-                </span>
-              ))
-            }
-          </div>
-        </div>
-      </div>
 
       <div data-r="g2" style="display:grid;grid-template-columns:7fr 5fr;gap:0;margin-top:112px;height:74vh;min-height:520px">
         <figure data-mask style="position:relative;margin:0;overflow:hidden;height:100%">
@@ -614,7 +538,7 @@ const schema = [
         <div
           style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.55"
         >
-          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Sectors
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>03 / Sectors
         </div>
         <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.55">
           Micro to macro
@@ -714,7 +638,7 @@ const schema = [
         <div
           style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
         >
-          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>05 / Studio
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Studio
         </div>
         <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
           Est. Mumbai
@@ -758,7 +682,7 @@ const schema = [
         <div
           style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
         >
-          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>06 / Contact
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>05 / Contact
         </div>
         <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
           Byculla (E), Mumbai
@@ -876,16 +800,6 @@ const schema = [
     background: #ffffff;
   }
 
-  /* `style-hover` attributes in the export — restated as real CSS. */
-  .wva-step-light:hover {
-    background: rgba(13, 13, 13, 0.025);
-  }
-
-  .wva-alliance-light:hover {
-    border-color: #0d0d0d;
-    background: #0d0d0d;
-    color: #ffffff;
-  }
 
   .wva-cta-solid:hover {
     background: #e2231a;
