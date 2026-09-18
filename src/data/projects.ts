@@ -38,11 +38,13 @@ export interface Project {
   /** Card note on /projects. */
   cardNote: string;
   /**
-   * Hero carousel plate for the home page. Optional — falls back to `homeImage`.
-   * Whatever this resolves to must have a pixel-aligned `ink-` twin beside it, since
-   * the hero wipes between the two.
+   * Hero wipe overrides. The wipe reads render on one side, drawing on the other,
+   * so the two must be the same view of the building — each sketch is paired with
+   * the render it was drawn from, which is not always the register image.
+   * Both optional: `homePlate` falls back to `homeImage`, `homeInk` to its `ink-` twin.
    */
-  homeHero?: string;
+  homePlate?: string;
+  homeInk?: string;
   /** Register image on the home page. */
   homeImage: string;
   /** Register margin-note on the home page. */
@@ -100,7 +102,7 @@ export const projects: Project[] = [
     cardImage: "img/p/celeste-1.jpg",
     cardNote: "Sunset Living Terraces — sundecks that turn the façade into a vertical community.",
     homeImage: "img/p/celeste-2.jpg",
-    homeHero: "img/p/hero-celeste.jpg",
+    homeInk: "img/p/sketch-celeste.jpg",
     homeNote: "Sunset Living Terraces — sundecks and continuous balconies made for Mumbai evenings.",
   },
   {
@@ -152,7 +154,8 @@ export const projects: Project[] = [
     cardImage: "img/p/estella-5.jpg",
     cardNote: "Vertical Garden Frame — slender frames growing lighter and greener as they rise.",
     homeImage: "img/p/estella-5.jpg",
-    homeHero: "img/p/hero-estella.jpg",
+    homePlate: "img/p/estella-4.jpg",
+    homeInk: "img/p/sketch-estella.jpg",
     homeNote: "Vertical Garden Frame — the tower grows lighter and greener the higher it climbs.",
   },
   {
@@ -201,7 +204,7 @@ export const projects: Project[] = [
     cardImage: "img/p/bellavista-1.jpg",
     cardNote: "The rooftop rebuilt as an elevated green community.",
     homeImage: "img/p/bellavista-3.jpg",
-    homeHero: "img/p/hero-bellavista.jpg",
+    homeInk: "img/p/sketch-bellavista.jpg",
     homeNote: "The roof rebuilt as an elevated green community — the garden this density leaves out.",
   },
   {
@@ -248,7 +251,8 @@ export const projects: Project[] = [
     cardImage: "img/p/prince-2.jpg",
     cardNote: "Lotus-petal curves, drawn inside a retained plinth and column grid.",
     homeImage: "img/p/prince-2.jpg",
-    homeHero: "img/p/hero-prince-tower.jpg",
+    homePlate: "img/p/prince-3.jpg",
+    homeInk: "img/p/sketch-prince-tower.jpg",
     homeNote: "Built within the existing plinth and columns; curved balcony bands and a sculptural rooftop crown.",
   },
   {
