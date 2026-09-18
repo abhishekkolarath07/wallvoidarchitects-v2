@@ -645,7 +645,12 @@ export const filters: Array<{ label: string; count: number }> = [
 ];
 
 /** Hero slides on the home page: the export uses projects 05, 03, 01, 04 in this order. */
-export const heroSlugs = ['prince-residency', 'bellavista', 'celeste', 'prince-tower', 'estella'] as const;
+/*
+ * Carousel order. The four projects with new drawings lead, so the hero opens on one;
+ * Prince Residency I & II, which still uses its photographic plate, comes last.
+ * The sequence is the register's own sheet order, so the ticks read 01 → 05.
+ */
+export const heroSlugs = ['celeste', 'estella', 'bellavista', 'prince-tower', 'prince-residency'] as const;
 
 export const heroSlides = heroSlugs.map((slug) => {
   const p = projectsBySlug.get(slug);
