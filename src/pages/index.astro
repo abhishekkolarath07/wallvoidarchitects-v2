@@ -21,14 +21,17 @@ const optimised = async (key: string, widths: number[]) => {
   return { src: result.src, srcset: result.srcSet.attribute };
 };
 
+/** Hero plate for a slide: its own drawing where it has one, else the register image. */
+const heroKey = (p: { homeHero?: string; homeImage: string }) => p.homeHero ?? p.homeImage;
+
 const heroData = await Promise.all(
   heroSlides.map(async (p) => ({
     no: p.no,
     name: p.name,
     client: p.client,
     sector: p.sector,
-    plate: await optimised(p.homeImage, HERO_WIDTHS),
-    ink: await optimised(inkPath(p.homeImage), HERO_WIDTHS),
+    plate: await optimised(heroKey(p), HERO_WIDTHS),
+    ink: await optimised(inkPath(heroKey(p)), HERO_WIDTHS),
   })),
 );
 
@@ -47,10 +50,10 @@ const first = heroSlides[0];
 const firstRow = projects[0];
 const second = heroSlides[1];
 
-const heroPlate = img(first.homeImage);
-const heroPlateB = img(second.homeImage);
-const heroInk = img(inkPath(first.homeImage));
-const heroInkB = img(inkPath(second.homeImage));
+const heroPlate = img(heroKey(first));
+const heroPlateB = img(heroKey(second));
+const heroInk = img(inkPath(heroKey(first)));
+const heroInkB = img(inkPath(heroKey(second)));
 
 const schema = [
   {
