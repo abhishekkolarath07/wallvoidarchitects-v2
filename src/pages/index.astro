@@ -21,8 +21,9 @@ const optimised = async (key: string, widths: number[]) => {
   return { src: result.src, srcset: result.srcSet.attribute };
 };
 
-/** Hero plate for a slide: its own drawing where it has one, else the register image. */
-const heroKey = (p: { homeHero?: string; homeImage: string }) => p.homeHero ?? p.homeImage;
+/** The two sides of the hero wipe. Both fall back to the register image and its ink twin. */
+const plateKey = (p: { homePlate?: string; homeImage: string }) => p.homePlate ?? p.homeImage;
+const inkKey = (p: { homeInk?: string; homeImage: string }) => p.homeInk ?? inkPath(p.homeImage);
 
 const heroData = await Promise.all(
   heroSlides.map(async (p) => ({
@@ -30,8 +31,8 @@ const heroData = await Promise.all(
     name: p.name,
     client: p.client,
     sector: p.sector,
-    plate: await optimised(heroKey(p), HERO_WIDTHS),
-    ink: await optimised(inkPath(heroKey(p)), HERO_WIDTHS),
+    plate: await optimised(plateKey(p), HERO_WIDTHS),
+    ink: await optimised(inkKey(p), HERO_WIDTHS),
   })),
 );
 
@@ -50,10 +51,10 @@ const first = heroSlides[0];
 const firstRow = projects[0];
 const second = heroSlides[1];
 
-const heroPlate = img(heroKey(first));
-const heroPlateB = img(heroKey(second));
-const heroInk = img(inkPath(heroKey(first)));
-const heroInkB = img(inkPath(heroKey(second)));
+const heroPlate = img(plateKey(first));
+const heroPlateB = img(plateKey(second));
+const heroInk = img(inkKey(first));
+const heroInkB = img(inkKey(second));
 
 const schema = [
   {
