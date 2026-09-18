@@ -99,7 +99,13 @@ export const sectors: SectorEntry[] = [
   },
 ];
 
-/** Process steps — verbatim from the export. Shared by /sectors and the home page. */
+/**
+ * Process steps — verbatim from the export.
+ *
+ * Currently unrendered: the "How we work" sections that used these were removed from
+ * the home page and from /sectors at the practice's request. Kept because this is the
+ * practice's own content, not dead code — delete it only if the process itself changes.
+ */
 export const steps = [
   { no: '01', name: 'Brief', note: "The client's dream and requirement, written down as a programme." },
   { no: '02', name: 'Discussion & Research', note: 'Site, byelaws and context studied before a line is drawn.' },
@@ -109,7 +115,7 @@ export const steps = [
   { no: '06', name: 'Approvals', note: 'Municipal submission carried through with our advisory partners.' },
 ];
 
-/** Consultant alliances — verbatim from the export. */
+/** Consultant alliances — verbatim from the export. Unrendered, as `steps` above. */
 export const alliances = [
   'Structural',
   'MEP & HVAC',

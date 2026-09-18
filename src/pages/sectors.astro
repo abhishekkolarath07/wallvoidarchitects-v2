@@ -2,17 +2,8 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { imgOrNull } from '../lib/images';
-import { alliances, sectors, steps } from '../data/sectors';
+import { sectors } from '../data/sectors';
 
-// The ticker duplicates its content so the -50% translate loops seamlessly.
-const tickerLabels = [
-  'Residential',
-  'Commercial',
-  'IT Parks',
-  'Religious Buildings',
-  'Mixed Use',
-  'Interiors',
-];
 ---
 
 <Base
@@ -112,91 +103,6 @@ const tickerLabels = [
     }
   </section>
 
-  <section style="margin-top:112px;background:#0d0d0d;color:#ffffff;padding:96px var(--gut)">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
-      <div
-        style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.55"
-      >
-        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>How we work
-      </div>
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.55">
-        Brief to approval
-      </div>
-    </div>
-    <div style="height:1px;background:rgba(255,255,255,.3)"></div>
-
-    <div
-      data-r="g6"
-      style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:56px calc(var(--gut) * -0.42) 0;border-top:1px solid rgba(255,255,255,.2);border-right:1px solid rgba(255,255,255,.14)"
-    >
-      {
-        steps.map((st) => (
-          <div
-            class="wva-step"
-            style="position:relative;padding:30px 26px 38px;border-left:1px solid rgba(255,255,255,.14);transition:background-color .5s ease"
-            data-rv
-          >
-            <div style="display:flex;align-items:center;gap:9px;font-size:9px;letter-spacing:.24em;opacity:.45">
-              <span style="display:block;width:3px;height:3px;border-radius:50%;background:#e2231a" />
-              {st.no}
-            </div>
-            <div style="margin-top:18px;font-size:15px;line-height:1.25;letter-spacing:-.01em;text-wrap:balance">
-              {st.name}
-            </div>
-            <div style="margin-top:11px;font-size:11px;line-height:1.8;opacity:.55;text-wrap:pretty">{st.note}</div>
-          </div>
-        ))
-      }
-    </div>
-
-    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding-top:64px">
-      <div
-        style="grid-column:1 / span 3;padding-top:9px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.5"
-        data-rv
-      >
-        Alliances at fixed stages
-      </div>
-      <div
-        data-r="g4"
-        style="grid-column:4 / span 9;display:grid;grid-template-columns:repeat(4,1fr);gap:10px"
-        data-rv
-      >
-        {
-          alliances.map((al) => (
-            <span
-              class="wva-alliance"
-              style="display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.2);padding:11px 12px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;text-align:center;transition:border-color .45s ease,background-color .45s ease,color .45s ease"
-            >
-              {al}
-            </span>
-          ))
-        }
-      </div>
-    </div>
-
-    <div
-      style="margin-top:84px;padding:16px 0;border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18);overflow:hidden"
-      aria-hidden="true"
-    >
-      <div
-        class="wva-ticker"
-        style="display:flex;width:max-content;animation:seTick 44s linear infinite;font-size:11px;letter-spacing:.34em;text-transform:uppercase;opacity:.45"
-      >
-        {
-          [0, 1].map(() => (
-            <span style="display:flex;gap:54px;padding-right:54px">
-              {tickerLabels.map((label) => (
-                <>
-                  <span>{label}</span>
-                  <span style="color:#e2231a">·</span>
-                </>
-              ))}
-            </span>
-          ))
-        }
-      </div>
-    </div>
-  </section>
 
   <section style="padding:112px var(--gut) 0">
     <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:end">
@@ -234,14 +140,6 @@ const tickerLabels = [
     }
   }
 
-  @keyframes seTick {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
 
   [data-rv] {
     transform: translateY(22px);
@@ -275,28 +173,12 @@ const tickerLabels = [
   }
 
   /* `style-hover` attributes in the export — no browser meaning, restated as CSS. */
-  .wva-step:hover {
-    background: rgba(255, 255, 255, 0.045);
-  }
-
-  .wva-alliance:hover {
-    border-color: #ffffff;
-    background: #ffffff;
-    color: #0d0d0d;
-  }
-
   .wva-ghost-cta:hover {
     background: #0d0d0d;
     color: #ffffff;
     border-color: #0d0d0d;
   }
 
-  /* The endless ticker is decoration; stop it when motion is not wanted. */
-  @media (prefers-reduced-motion: reduce) {
-    .wva-ticker {
-      animation: none !important;
-    }
-  }
 
   @media (max-width: 980px) {
     section[style*='186px'] {
