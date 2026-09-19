@@ -239,7 +239,10 @@ figure[data-mask]:hover > img {
   border-bottom: 1px solid rgba(13, 13, 13, 0.2);
   padding: 11px 0;
   font-family: Archivo, sans-serif;
-  font-size: 14px;
+  /* Matches the 14px step of the type scale above. These are set here rather than
+     inline, so the attribute selectors do not reach them; without this the contact
+     fields would stay put while their labels grew. */
+  font-size: clamp(14px, 0.84vw, 17.5px);
   color: #0d0d0d;
   border-radius: 0;
   transition: border-color 0.45s ease;
@@ -331,6 +334,66 @@ summary:focus-visible,
 #wva-logo {
   max-width: none;
   flex: none;
+}
+
+/* ------------------------------------------------------------- type scale ------ */
+
+/*
+ * [RESPONSIVE FIX] The export was drawn at 1440 and sets every size in fixed px on
+ * inline styles — 155 of the site's 201 font-size declarations are 8-13px and never
+ * move. Its display type is fluid but capped, and those caps are already reached at
+ * about 1350px. So above the design width the page keeps getting wider while the type
+ * stands still, and on a 24" or 27" monitor the body copy reads far smaller than it
+ * was drawn to. On /studio at 1920 that is a 54px heading against a 12px paragraph.
+ *
+ * Each size below grows with the viewport instead. The `clamp` minimum is the export's
+ * own value, so everything at or below 1440 is byte-identical — at 1440 the vw term is
+ * always under the minimum. Growth is roughly +15% at 1920 and +25-30% at 2560, and it
+ * is continuous, so resizing never jumps.
+ *
+ * Matching on the inline style string is deliberate: these sizes live in `style`
+ * attributes, which no ordinary selector can reach, and the build emits them verbatim.
+ * `!important` is what lets a stylesheet rule beat an inline declaration.
+ *
+ * Display type is untouched. Raising the body sizes is what closes the gap; shrinking
+ * the headings would be a change to the design's hierarchy rather than to its scale.
+ */
+
+[style*='font-size:8px'] {
+  font-size: clamp(8px, 0.48vw, 10px) !important;
+}
+[style*='font-size:8.5px'] {
+  font-size: clamp(8.5px, 0.51vw, 10.5px) !important;
+}
+[style*='font-size:9px'] {
+  font-size: clamp(9px, 0.54vw, 11.5px) !important;
+}
+[style*='font-size:10px'] {
+  font-size: clamp(10px, 0.6vw, 13px) !important;
+}
+[style*='font-size:11px'] {
+  font-size: clamp(11px, 0.66vw, 14px) !important;
+}
+[style*='font-size:12px'] {
+  font-size: clamp(12px, 0.72vw, 15.5px) !important;
+}
+[style*='font-size:13px'] {
+  font-size: clamp(13px, 0.78vw, 16.5px) !important;
+}
+[style*='font-size:14px'] {
+  font-size: clamp(14px, 0.84vw, 17.5px) !important;
+}
+[style*='font-size:15px'] {
+  font-size: clamp(15px, 0.9vw, 19px) !important;
+}
+[style*='font-size:16px'] {
+  font-size: clamp(16px, 0.96vw, 20px) !important;
+}
+[style*='font-size:17px'] {
+  font-size: clamp(17px, 1.02vw, 21px) !important;
+}
+[style*='font-size:18px'] {
+  font-size: clamp(18px, 1.08vw, 22.5px) !important;
 }
 
 /* ------------------------------------------------------------- responsive ------ */
