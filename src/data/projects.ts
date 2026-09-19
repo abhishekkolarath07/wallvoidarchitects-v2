@@ -204,6 +204,7 @@ export const projects: Project[] = [
     cardImage: "img/p/bellavista-1.jpg",
     cardNote: "The rooftop rebuilt as an elevated green community.",
     homeImage: "img/p/bellavista-3.jpg",
+    homePlate: "img/p/bellavista-1.jpg",
     homeInk: "img/p/sketch-bellavista.jpg",
     homeNote: "The roof rebuilt as an elevated green community — the garden this density leaves out.",
   },
