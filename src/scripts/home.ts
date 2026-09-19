@@ -298,3 +298,18 @@ export function initRegister(rows: RegisterRow[]): void {
 
   paint();
 }
+
+/**
+ * The home page's plate video loops silently on its own. Under reduced motion it is
+ * paused and rewound instead, so the poster frame shows and nothing moves — matching
+ * how the carousel, reveals and parallax already stand down.
+ */
+export function initPlateVideo(): void {
+  const video = document.getElementById('wva-plate-video');
+  if (!(video instanceof HTMLVideoElement)) return;
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  video.autoplay = false;
+  video.removeAttribute('autoplay');
+  video.pause();
+  video.currentTime = 0;
+}

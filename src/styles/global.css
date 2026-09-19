@@ -159,7 +159,8 @@ address {
   transform: none;
 }
 
-[data-mask] > img {
+[data-mask] > img,
+[data-mask] > video {
   transform: scale(1.08);
   transition:
     transform 1.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -167,7 +168,8 @@ address {
   clip-path: inset(0 0 100% 0);
 }
 
-[data-mask].in > img {
+[data-mask].in > img,
+[data-mask].in > video {
   transform: scale(1);
   clip-path: inset(0 0 0 0);
 }
@@ -605,7 +607,8 @@ summary:focus-visible,
     transform: none !important;
   }
 
-  [data-mask] > img {
+  [data-mask] > img,
+  [data-mask] > video {
     transform: none !important;
     clip-path: inset(0 0 0 0) !important;
   }
