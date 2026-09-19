@@ -476,26 +476,20 @@ const schema = [
       <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin:0 var(--gut)"></div>
 
       <figure data-mask style="position:relative;margin:56px 0 0;overflow:hidden;height:78vh;min-height:520px">
-        <Image
-          data-par="0.08"
-          src={img('img/p/estella-3.jpg')}
-          alt="Gami Jaydeep Estella — the entrance lobby in marble with brass reveals at the lift lobby"
-          widths={[768, 1280, 1920, 2560]}
-          sizes="100vw"
-          style="width:100%;height:118%;object-fit:cover"
-        />
-        <div
-          style="position:absolute;inset:0;background:linear-gradient(270deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.14) 44%,rgba(0,0,0,0) 72%)"
+        <video
+          id="wva-plate-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster="/video/drawing-loop.jpg"
+          aria-label="A building drawn in line, the view moving slowly in and back out again."
+          style="display:block;width:100%;height:100%;object-fit:cover"
         >
-        </div>
-        <figcaption style="position:absolute;right:var(--gut);bottom:38px;max-width:400px;text-align:right;color:#ffffff">
-          <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.7">Plate 01 — Interiors</div>
-          <div style="font-size:22px;font-weight:300;margin-top:10px">Estella, Entrance Lobby</div>
-          <p style="font-size:12px;line-height:1.8;opacity:.72;margin:10px 0 0">
-            Marble laid in a single field, brass reveals at the lift lobby — the tower's address, read
-            at eye level.
-          </p>
-        </figcaption>
+          <source src="/video/drawing-loop.webm" type="video/webm" />
+          <source src="/video/drawing-loop.mp4" type="video/mp4" />
+        </video>
       </figure>
 
 
@@ -968,10 +962,11 @@ const schema = [
 </style>
 
 <script>
-  import { initHero, initRegister, type HeroSlide, type RegisterRow } from '../scripts/home';
+  import { initHero, initPlateVideo, initRegister, type HeroSlide, type RegisterRow } from '../scripts/home';
 
   const read = <T,>(id: string): T => JSON.parse(document.getElementById(id)!.textContent!) as T;
 
   initHero(read<HeroSlide[]>('wva-hero-data'));
   initRegister(read<RegisterRow[]>('wva-register-data'));
+  initPlateVideo();
 </script>
