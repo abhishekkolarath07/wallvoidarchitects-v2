@@ -826,6 +826,27 @@ const schema = [
     }
   }
 
+  /*
+   * [RESPONSIVE FIX] The export capped the plate at 980x700. That is right at its own
+   * 1440-wide design size, but on a 27" or 32" monitor it strands the hero in the
+   * middle of the screen — 38% of the width at 2560, 28% at 3440 — while 200-900px of
+   * vertical space goes unused.
+   *
+   * Both ceilings now grow with the viewport instead of being fixed. Each is written so
+   * the old value still wins wherever it used to bind, so nothing at or below the
+   * export's design size changes: at 1440x900 this still resolves to exactly 980x454.
+   * The composition is untouched — only its ceiling moves, and it moves continuously,
+   * so there is no jump when a window is resized across a breakpoint.
+   *
+   * `!important` because #wva-depth carries these as inline styles. This sits above the
+   * export's own overrides so that those, being later and equally specific, still win at
+   * the narrow widths they were written for.
+   */
+  #wva-depth {
+    width: min(72vw, max(980px, 62vw), 1600px) !important;
+    height: clamp(454px, calc((100vh - 406px) * 0.82), max(700px, 62vh)) !important;
+  }
+
   /* ---- The export's home-page responsive rules, verbatim ---- */
 
   @media (max-width: 1180px) {
