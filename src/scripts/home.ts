@@ -143,7 +143,9 @@ export function initHero(slides: HeroSlide[]): void {
         return;
       }
       wipe += gap * 0.14;
-      if (ink) ink.style.clipPath = `inset(0 0 0 ${wipe.toFixed(2)}%)`;
+      // The drawing occupies everything left of the handle; the render is what the
+      // handle uncovers to its right. Hence the inset comes off the right edge.
+      if (ink) ink.style.clipPath = `inset(0 ${(100 - wipe).toFixed(2)}% 0 0)`;
       if (handle) handle.style.left = `${wipe.toFixed(2)}%`;
       raf = requestAnimationFrame(apply);
     };
