@@ -144,7 +144,7 @@ const schema = [
                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;opacity:0;transition:opacity 1.6s cubic-bezier(.16,1,.3,1);filter:saturate(.72) contrast(1.04)"
               />
 
-              <div id="wva-ink" style="position:absolute;inset:0;clip-path:inset(0 0 0 46%)">
+              <div id="wva-ink" style="position:absolute;inset:0;clip-path:inset(0 54% 0 0)">
                 <div style="position:absolute;inset:0;background:#ffffff"></div>
                 <Image
                   data-fade="ink"
@@ -836,9 +836,30 @@ const schema = [
    * export's own overrides so that those, being later and equally specific, still win at
    * the narrow widths they were written for.
    */
+  :root {
+    /*
+     * Empty space above the plate. The export fixed it at 236px — 22% of a 1080-tall
+     * screen spent on nothing — and the plate's height formula has to subtract it, so
+     * the same constant was starving the drawing on exactly the screens with the most
+     * room to give it. It now closes as the viewport widens, bottoming out at 164px.
+     * At 1440 and below it still resolves to 236px.
+     */
+    --wva-hero-top: clamp(164px, calc(236px - (100vw - 1440px) * 0.15), 236px);
+  }
+
+  #wva-stage {
+    padding-top: var(--wva-hero-top) !important;
+  }
+
   #wva-depth {
     width: min(72vw, max(980px, 62vw), 1600px) !important;
-    height: clamp(454px, calc((100vh - 406px) * 0.82), max(700px, 62vh)) !important;
+    /*
+     * 170px is the chrome below the plate: the 18px gap, the lede, and its bottom
+     * margin. Driving the top term from the variable above keeps the padding and this
+     * formula in step — together they still resolve to the export's `100vh - 406px`
+     * at 1440 and below.
+     */
+    height: clamp(454px, calc((100vh - var(--wva-hero-top) - 170px) * 0.82), max(700px, 62vh)) !important;
   }
 
   /* ---- The export's home-page responsive rules, verbatim ---- */
