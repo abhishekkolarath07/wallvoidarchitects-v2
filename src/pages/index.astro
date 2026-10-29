@@ -952,12 +952,20 @@ const schema = [
       height: 260px !important;
     }
     #wva-reflect,
-    #wva-handle {
+    #wva-depth svg {
       display: none !important;
     }
-    #wva-depth svg,
-    #wva-ink {
-      display: none !important;
+    /*
+     * [BUG FIX] The export also hid #wva-ink and #wva-handle here, which switched the
+     * drawing-to-render wipe off entirely below 720px — the hero's whole point, absent
+     * on a phone, showing the render alone with nothing to drag. Both are restored.
+     *
+     * The grip grows from 32px to 44px, the smallest comfortable touch target, and it
+     * already carries `touch-action: none`, so dragging it does not scroll the page.
+     */
+    #wva-grip {
+      left: -22px !important;
+      width: 44px !important;
     }
     #wva-depth [style*='Caveat'] {
       display: none !important;

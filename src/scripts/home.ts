@@ -136,9 +136,21 @@ export function initHero(slides: HeroSlide[]): void {
     let dragging = false;
     let raf: number | null = null;
 
+    /*
+     * Stop the loop once the plate is well clear of the screen. This used to test
+     * `scrollY > innerHeight * 1.2`, which assumes the plate sits in the first
+     * viewport — true on a desktop, but on a phone the hero stacks and the plate
+     * follows the headline, so that test could switch the wipe off while the plate
+     * was still in view. Measuring the plate itself holds on both.
+     */
+    const plateFarOffScreen = () => {
+      const r = plate.getBoundingClientRect();
+      return r.bottom < -200 || r.top > window.innerHeight + 200;
+    };
+
     const apply = () => {
       const gap = target - wipe;
-      if (Math.abs(gap) < 0.05 || window.scrollY > window.innerHeight * 1.2) {
+      if (Math.abs(gap) < 0.05 || plateFarOffScreen()) {
         raf = null;
         return;
       }
@@ -192,7 +204,7 @@ export function initHero(slides: HeroSlide[]): void {
 
     // Hover-follow: the wipe tracks the pointer across the plate.
     window.addEventListener('mousemove', (event) => {
-      if (dragging || window.scrollY > window.innerHeight) return;
+      if (dragging || plateFarOffScreen()) return;
       const rect = plate.getBoundingClientRect();
       if (event.clientY > rect.top - 80 && event.clientY < rect.bottom + 80) {
         setFrom(event.clientX);
