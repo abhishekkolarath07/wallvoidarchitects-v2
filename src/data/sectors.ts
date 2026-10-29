@@ -6,10 +6,11 @@
 //            Mixed Use project exists.
 //  [BUG FIX] Sector cards deep-link to a filtered register. Every card in the export
 //            pointed at the unfiltered projects page, so filtering did nothing.
-//  [CONTENT] Religious Buildings had no religious imagery, so the export illustrated it
-//            with a Gondia bungalow captioned "Private Bungalow, Gondia". The practice
-//            has since supplied its own religious work, and the card now carries one of
-//            those images. Nothing is claimed that isn't true.
+//  [CONTENT] The sector now called Miscellaneous Buildings had no imagery of its own, so
+//            the export illustrated it with a Gondia bungalow captioned "Private
+//            Bungalow, Gondia". The practice has since supplied its own religious work,
+//            and the card now carries one of those images, captioned by what the frame
+//            shows. Nothing is claimed that isn't true.
 
 import { countBySector, type Sector } from './projects';
 
@@ -69,12 +70,19 @@ export const sectors: SectorEntry[] = [
   {
     no: '04',
     name: 'Miscellaneous Buildings',
-    note: 'Temples, prayer halls and community religious spaces — where procession, gathering and daylight set the plan before anything else.',
-    tags: ['Temples', 'Prayer halls', 'Gathering'],
+    // The export called this sector "Religious Buildings" and the note described only
+    // that. The practice renamed it to "Miscellaneous Buildings" (comments sheet, item
+    // 10), so the note now reads as the catch-all the name promises. Religious and
+    // community work is still named because it is the only work filed here that the
+    // practice has evidenced; no other building type is claimed. [CONTENT]
+    note: 'The work that falls outside the other four sectors — religious and community buildings among them, where procession, gathering and daylight set the plan before anything else.',
+    tags: ['Religious', 'Community', 'Gathering'],
     image: 'img/p/religious-1.jpg',
-    // Describes what the image shows. The practice has not supplied a project name or
-    // location for this work, so none is asserted here — replace once it does.
-    caption: 'Shrine and water court',
+    // Describes what the image shows — a shrine pavilion with a lit cornice and carved
+    // screens, set behind a stepping-stone water channel. The practice has not supplied
+    // a project name or location for this work, so none is asserted here. Replace this
+    // with "Name, place" to match the other four cards once it does.
+    caption: 'Shrine pavilion and water court',
     // Verbatim from the export.
     count: 'On request',
     href: '/contact',
@@ -124,6 +132,6 @@ export const homeSectors = [
   { no: '01', name: 'Residential Buildings', note: 'Towers, redevelopment and rehab schemes across Mumbai.' },
   { no: '02', name: 'Commercial Buildings', note: 'Hotels, retail and sales experience centres.' },
   { no: '03', name: 'IT Parks / Office Buildings', note: 'Business district character at metropolitan scale.' },
-  { no: '04', name: 'Miscellaneous Buildings', note: 'Temples, prayer halls and community religious spaces.' },
+  { no: '04', name: 'Miscellaneous Buildings', note: 'Religious and community buildings, and work outside the other four sectors.' },
   { no: '05', name: 'Mixed Use Development', note: 'Master layouts from micro to macro level.' },
 ];
