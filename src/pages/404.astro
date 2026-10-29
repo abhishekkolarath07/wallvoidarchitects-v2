@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { navigation } from '../data/site';
+import { navigation, site } from '../data/site';
 
 // Composed from the export's own vocabulary — the section eyebrow, the drawing-sheet
 // heading scale and the ghost CTA. No new visual language is introduced.
@@ -13,7 +13,7 @@ import { navigation } from '../data/site';
   noindex
   footerVariant="compact"
 >
-  <span slot="header-meta">Byculla (E), Mumbai</span>
+  <span slot="header-meta">{site.localityLine}</span>
   <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
 
   <section style="padding:186px var(--gut) 0">

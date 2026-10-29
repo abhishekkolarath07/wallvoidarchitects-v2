@@ -11,7 +11,7 @@ export const credentials = [
   { label: 'Qualification', value: 'B.Arch — Kamla Raheja Vidyanidhi Institute for Architecture, Mumbai' },
   { label: 'Registration', value: 'Registered with the Council of Architecture, India' },
   { label: 'Practice', value: 'Founder and principal architect, Wall Voids Architects' },
-  { label: 'Based', value: 'Byculla (E), Mumbai — working across Maharashtra' },
+  { label: 'Based', value: 'Byculla (E) / Cotton Green (W), Mumbai — working across Maharashtra' },
 ];
 
 /**
