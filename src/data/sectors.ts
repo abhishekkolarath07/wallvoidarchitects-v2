@@ -68,7 +68,7 @@ export const sectors: SectorEntry[] = [
   },
   {
     no: '04',
-    name: 'Religious Buildings',
+    name: 'Miscellaneous Buildings',
     note: 'Temples, prayer halls and community religious spaces — where procession, gathering and daylight set the plan before anything else.',
     tags: ['Temples', 'Prayer halls', 'Gathering'],
     image: 'img/p/religious-1.jpg',
@@ -124,6 +124,6 @@ export const homeSectors = [
   { no: '01', name: 'Residential Buildings', note: 'Towers, redevelopment and rehab schemes across Mumbai.' },
   { no: '02', name: 'Commercial Buildings', note: 'Hotels, retail and sales experience centres.' },
   { no: '03', name: 'IT Parks / Office Buildings', note: 'Business district character at metropolitan scale.' },
-  { no: '04', name: 'Religious Buildings', note: 'Temples, prayer halls and community religious spaces.' },
+  { no: '04', name: 'Miscellaneous Buildings', note: 'Temples, prayer halls and community religious spaces.' },
   { no: '05', name: 'Mixed Use Development', note: 'Master layouts from micro to macro level.' },
 ];

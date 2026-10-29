@@ -103,7 +103,7 @@ const schema = [
 
       <section
         id="top"
-        style="position:relative;height:100vh;min-height:960px;overflow:hidden;background:transparent;color:#0d0d0d"
+        style="position:relative;height:100vh;min-height:1012px;overflow:hidden;background:transparent;color:#0d0d0d"
       >
         <div
           data-h="sheetL"
@@ -268,7 +268,8 @@ const schema = [
             <h1
               style="margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.24;font-weight:300;letter-spacing:-.01em;text-wrap:pretty;animation:wvaUp 1.3s .4s cubic-bezier(.16,1,.3,1) both"
             >
-              Every project begins as a drawing — and stays one until the city stands in it.
+              Every drawing is a powerful dialogue between wall and void—where architects shape
+              space, light, and life into the enduring character of a city.
             </h1>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
@@ -592,7 +593,7 @@ const schema = [
           {
             [0, 1].map(() => (
               <span style="display:flex;gap:56px;padding-right:56px">
-                {['Residential', 'Commercial', 'IT Parks', 'Religious Buildings', 'Mixed Use', 'Interiors'].map(
+                {['Residential', 'Commercial', 'IT Parks', 'Miscellaneous Buildings', 'Mixed Use', 'Interiors'].map(
                   (label) => (
                     <>
                       <span>{label}</span>
@@ -633,7 +634,7 @@ const schema = [
         <div
           style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
         >
-          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Studio
+          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / About Us
         </div>
         <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
           Est. Mumbai
@@ -690,7 +691,7 @@ const schema = [
           <h2
             style="margin:0;max-width:22ch;font-size:clamp(30px,3.6vw,46px);line-height:1.06;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
           >
-            Have a site, a brief, or a drawing that needs finishing?
+            Let's shape spaces that inspire, connect, and redefine the way we live.
           </h2>
           <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:34px">
             <a
@@ -854,12 +855,15 @@ const schema = [
   #wva-depth {
     width: min(72vw, max(980px, 62vw), 1600px) !important;
     /*
-     * 170px is the chrome below the plate: the 18px gap, the lede, and its bottom
-     * margin. Driving the top term from the variable above keeps the padding and this
-     * formula in step — together they still resolve to the export's `100vh - 406px`
-     * at 1440 and below.
+     * 215px is the chrome below the plate: the 18px gap, the lede, and its bottom
+     * margin. It was 170px while the headline ran to two lines; the practice's longer
+     * headline takes four at this measure, which is 47px more, and the section's
+     * min-height above moved from 960px to 1012px for the same reason. Leaving either
+     * alone put the headline on top of the artwork's reflection — a 25px overlap at
+     * 1440 and 1920. Driving the top term from the variable above keeps the padding
+     * and this formula in step.
      */
-    height: clamp(454px, calc((100vh - var(--wva-hero-top) - 170px) * 0.82), max(700px, 62vh)) !important;
+    height: clamp(454px, calc((100vh - var(--wva-hero-top) - 215px) * 0.82), max(700px, 62vh)) !important;
   }
 
   /* ---- The export's home-page responsive rules, verbatim ---- */

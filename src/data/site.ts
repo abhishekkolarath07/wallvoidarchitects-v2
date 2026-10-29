@@ -35,7 +35,7 @@ export const site = {
 export const navigation = [
   { label: 'Projects', href: '/projects' },
   { label: 'Sectors', href: '/sectors' },
-  { label: 'Studio', href: '/studio' },
+  { label: 'About us', href: '/studio' },
   { label: 'Contact', href: '/contact' },
 ] as const;
 
