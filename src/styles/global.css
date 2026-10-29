@@ -625,3 +625,16 @@ summary:focus-visible,
     transform: scaleX(1) !important;
   }
 }
+
+/*
+ * The locality line carries both flanking stations — "Byculla (E) / Cotton Green
+ * (W), Mumbai" — which is wide enough to burst the export's nowrap labels on a
+ * phone. Those labels keep `white-space:nowrap` inline, so the override has to be
+ * `!important` to reach them. Allowed to wrap below 760px only; the line is a
+ * single row at every width the export was drawn for.
+ */
+@media (max-width: 760px) {
+  .wva-locline {
+    white-space: normal !important;
+  }
+}

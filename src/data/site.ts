@@ -19,6 +19,18 @@ export const site = {
     postalCode: '400027',
     country: 'IN',
   },
+  /**
+   * The locality as the practice gives it: the two flanking railway stations.
+   * Byculla (E) and Cotton Green (W) are the usual way to place this address in
+   * Mumbai, and the practice asked for both to appear wherever the studio's
+   * location is named (comments sheet, item 13).
+   *
+   * `address.locality` and `addressLines` stay exactly as the export has them —
+   * they are the postal address and the schema.org `addressLocality`, where a
+   * second station name would be wrong. Use these two for prose and labels.
+   */
+  stations: 'Byculla (E) / Cotton Green (W)',
+  localityLine: 'Byculla (E) / Cotton Green (W), Mumbai',
   addressLines: [
     'A-123, Sussex Industrial Estate A,',
     'Dadoji Kondeo Marg, Byculla (E),',
