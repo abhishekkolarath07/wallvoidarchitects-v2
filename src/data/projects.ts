@@ -1,6 +1,12 @@
 // GENERATED from the approved Claude Design export — content is verbatim.
 // Source: _source-material/design-export/{WVA Project,WVA Projects,index.html}.dc.html
 // Do not invent values here. "To be confirmed" is a real, deliberate state.
+//
+// Project facts are cross-checked against the practice's own project documents.
+// Two generations of those exist: an earlier detailed set carrying the figures, and
+// a later "Building At …" set that restates the names, types and features. Where the
+// two disagree, the practice has ruled that the later set wins; the figures still come
+// from the earlier set, which is the only place they are given at all.
 
 export type Sector = 'Residential' | 'Commercial' | 'Mixed Use' | 'Interiors';
 
@@ -213,8 +219,8 @@ export const projects: Project[] = [
     name: "Gami Jaydeep Estella",
     location: "Chembur, Mumbai",
     sector: "Residential",
-    type: "High-rise residential / retail redevelopment",
-    developer: "Gami Group and Jaydeep Group",
+    type: "High-rise residential and commercial development",
+    developer: "Gami Group & Jaydeep Group",
     plot: "1,685 sq.mt.",
     bua: "200,000 sq.ft.",
     status: "Ongoing — finishing stage",
@@ -252,7 +258,7 @@ export const projects: Project[] = [
       { src: "img/p/estella-1.jpg", label: "Entrance gateway from the street" },
       { src: "img/p/estella-3.jpg", label: "Entrance lobby" }
     ],
-    client: "Gami Group and Jaydeep Group · Chembur",
+    client: "Gami Group & Jaydeep Group · Chembur",
     cardImage: "img/p/estella-5.jpg",
     cardNote: "Vertical Garden Frame — slender frames growing lighter and greener as they rise.",
     homeImage: "img/p/reg-estella.jpg",
@@ -263,10 +269,10 @@ export const projects: Project[] = [
   {
     slug: "celeste",
     no: "05",
-    name: "Transindia Celeste",
+    name: "The Celeste",
     location: "Khar, Mumbai",
     sector: "Residential",
-    type: "High-rise residential / retail redevelopment",
+    type: "High-rise residential and commercial development",
     developer: "Transindia Group",
     plot: "2,307 sq.mt.",
     bua: "211,040 sq.ft. (approx.)",
@@ -314,8 +320,8 @@ export const projects: Project[] = [
     name: "Urban Courtyard",
     location: "Bandra, near BKC, Mumbai",
     sector: "Mixed Use",
-    type: "High-rise residential / retail redevelopment",
-    developer: "Easy Homes Solutions",
+    type: "Large-scale residential redevelopment",
+    developer: "Transindia Group",
     plot: "21,532 sq.mt.",
     bua: "15,25,340 sq.ft.",
     status: "Presentation",
@@ -350,7 +356,7 @@ export const projects: Project[] = [
       { src: "img/p/mhnagar-8.jpg", label: "Master layout, aerial study" },
       { src: "img/p/mhnagar-6.jpg", label: "Podium and street level" }
     ],
-    client: "Easy Homes Solutions · Bandra",
+    client: "Transindia Group · Bandra",
     cardImage: "img/p/mhnagar-1.jpg",
     cardNote: "Urban Courtyard Living — wings arranged around one shared landscaped heart.",
     homeImage: "img/p/reg-mh-nagar.jpg",
@@ -530,7 +536,10 @@ export const projects: Project[] = [
     location: "Borivali, Mumbai",
     sector: "Interiors",
     type: "Residential building refurbishment",
-    developer: "Private",
+    // Neither of the practice's documents for this project names a client or a
+    // developer; both give only "Design Firm: Wall Voids Architects". The record
+    // previously said "Private", which was an assumption, not a source.
+    developer: UNCONFIRMED,
     plot: "To be confirmed",
     bua: "To be confirmed",
     status: "Completed",
@@ -572,7 +581,7 @@ export const projects: Project[] = [
     name: "Private Bungalow",
     location: "Gondia, Maharashtra",
     sector: "Residential",
-    type: "Residential — G+1 private bungalow",
+    type: "Luxury private bungalow",
     developer: "Private",
     plot: "880 sq.mt.",
     bua: "11,000 sq.ft.",
@@ -583,18 +592,18 @@ export const projects: Project[] = [
     concept: "The concept, “The Open Courtyard Embrace,” is derived from the bungalow’s asymmetrical C-shaped form: the longer and shorter wings partially enclose the central landscape, creating privacy and protection while remaining open toward the garden. The design is structured around two complementary sources of light — the one-side-open courtyard and the skylit atrium. The G+1 organization establishes a clear lifestyle hierarchy: connected family living and garden interaction at ground level, recreation and wellness above. Strong geometric frames, rounded openings, vertical screens and warm timber finishes give the house a refined contemporary identity, with deep recesses responding to Gondia’s warm climate.",
     margin: "two wings, one embrace",
     features: [
-      "Asymmetrical C-shaped plan around a central courtyard",
-      "Courtyard open on one side toward the garden",
-      "Skylit atrium between living and dining",
-      "Ground floor for living and family areas",
-      "First floor for private spaces and lifestyle amenities",
-      "Home theatre, gym and jacuzzi at first-floor level",
-      "Strong geometric frames and rounded openings",
-      "Vertical screens and warm timber finishes",
-      "Deep recesses and shaded outdoor spaces",
+      "Grand double-height entrance",
+      "Large arched and rounded openings",
       "Full-height glazing for natural light",
+      "Warm wood-finish façade highlights",
+      "Integrated linear façade lighting",
       "Landscaped entrance court and lawn",
-      "Integrated linear façade lighting"
+      "Buddha feature wall with accent lighting",
+      "Central driveway with sculptural feature",
+      "Covered parking area",
+      "Pergola seating and outdoor lounge",
+      "Flowering plants, hedges and mature trees",
+      "Stepping-stone pathways and garden courts"
     ],
     planning: [
       "Ground floor — primary living and family areas, courtyard and garden",
@@ -618,7 +627,7 @@ export const projects: Project[] = [
     name: "Dwarkamai",
     location: "Nagpur (outskirts), Maharashtra",
     sector: "Residential",
-    type: "Residential — G+2 twin bungalow",
+    type: "Luxury row-house / bungalow development",
     developer: "Private",
     plot: "890 sq.mt.",
     bua: "12,000 sq.ft.",
@@ -629,18 +638,18 @@ export const projects: Project[] = [
     concept: "The concept, “Two Homes, One Elevated Heart,” expresses the balance between independence and togetherness within a joint-family residence. The two bungalows function as individual homes but are united at the main living level through a shared elevated landscape. Within each residence, a full-height skylit courtyard becomes the vertical heart of family life: beginning between the living and dining areas, it rises through the bedroom level to a glass-covered terrace roof, letting light, views and family interaction flow vertically through the house. Two façade options explore projecting frames, shaded terraces, stone finishes, timber screens and integrated greenery.",
     margin: "independent homes, one shared heart",
     features: [
-      "Two independent G+2 bungalows under one architectural identity",
-      "Large covered arrival zone shared by both homes",
-      "Ground floor for arrival, amenities, services and parking",
-      "Bar and gymnasium at ground level",
-      "Principal living spaces raised to the first floor",
-      "Elevated landscape strip linking the two living levels",
-      "Full-height skylit courtyard with glass terrace roof",
-      "Four bedrooms arranged around the central void",
-      "Projecting frames and shaded terraces",
-      "Natural stone and timber-screen finishes",
-      "Integrated greenery and façade lighting",
-      "Secure gated-community frontage"
+      "Multiple interconnected luxury bungalows",
+      "Private entrances and covered parking",
+      "Large balconies with glass railings",
+      "Natural stone and wood-finish façade cladding",
+      "Pergola-style terrace roofs",
+      "Decorative screens and vertical fins",
+      "Large windows for natural light and ventilation",
+      "Landscaped balconies and boundary edges",
+      "Integrated façade and pathway lighting",
+      "Secure common entrance driveway",
+      "Contemporary compound-wall design",
+      "Semi-covered internal vehicular circulation"
     ],
     planning: [
       "Ground floor — entrance foyers, bar, gymnasium, parking",
