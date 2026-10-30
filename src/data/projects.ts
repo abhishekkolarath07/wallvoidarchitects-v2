@@ -46,6 +46,14 @@ export interface Project {
   homePlate?: string;
   homeInk?: string;
   /** Register image on the home page. */
+  /**
+   * The plate shown beside the home page's "01 / Selected Works" register — the
+   * practice's own rendered drawing of the project, one per sheet.
+   *
+   * The hero reads this too, but only as a fallback: a project that appears in the
+   * hero names `homePlate` and `homeInk` explicitly, so the hero is unaffected by
+   * what this points at.
+   */
   homeImage: string;
   /** Register margin-note on the home page. */
   homeNote: string;
@@ -101,7 +109,7 @@ export const projects: Project[] = [
     client: "Punit Construction · Dharavi",
     cardImage: "img/p/prince-2.jpg",
     cardNote: "Lotus-petal curves, drawn inside a retained plinth and column grid.",
-    homeImage: "img/p/prince-2.jpg",
+    homeImage: "img/p/reg-prince-tower.jpg",
     homePlate: "img/p/prince-3.jpg",
     homeInk: "img/p/sketch-prince-tower.jpg",
     homeNote: "Built within the existing plinth and columns; curved balcony bands and a sculptural rooftop crown.",
@@ -145,7 +153,7 @@ export const projects: Project[] = [
     client: "Transindia Group · Sion–Wadala",
     cardImage: "img/p/sion-3.jpg",
     cardNote: "High-rise and mid-rise wings unified by framed window modules.",
-    homeImage: "img/p/sion-2.jpg",
+    homeImage: "img/p/reg-prince-residency.jpg",
     homeNote: "High-rise and mid-rise wings unified by framed window modules. Tower 1 complete.",
   },
   {
@@ -193,7 +201,7 @@ export const projects: Project[] = [
     client: "Transindia Group · Mahim",
     cardImage: "img/p/bellavista-1.jpg",
     cardNote: "The rooftop rebuilt as an elevated green community.",
-    homeImage: "img/p/bellavista-3.jpg",
+    homeImage: "img/p/reg-bellavista.jpg",
     homePlate: "img/p/bellavista-1.jpg",
     homeInk: "img/p/sketch-bellavista.jpg",
     homeNote: "The roof rebuilt as an elevated green community — the garden this density leaves out.",
@@ -246,7 +254,7 @@ export const projects: Project[] = [
     client: "Gami Jaydeep · Chembur",
     cardImage: "img/p/estella-5.jpg",
     cardNote: "Vertical Garden Frame — slender frames growing lighter and greener as they rise.",
-    homeImage: "img/p/estella-5.jpg",
+    homeImage: "img/p/reg-estella.jpg",
     homePlate: "img/p/estella-4.jpg",
     homeInk: "img/p/sketch-estella.jpg",
     homeNote: "Vertical Garden Frame — the tower grows lighter and greener the higher it climbs.",
@@ -294,7 +302,8 @@ export const projects: Project[] = [
     client: "Transindia Group · Khar",
     cardImage: "img/p/celeste-1.jpg",
     cardNote: "Sunset Living Terraces — sundecks that turn the façade into a vertical community.",
-    homeImage: "img/p/celeste-2.jpg",
+    homeImage: "img/p/reg-celeste.jpg",
+    homePlate: "img/p/celeste-2.jpg",
     homeInk: "img/p/sketch-celeste.jpg",
     homeNote: "Sunset Living Terraces — sundecks and continuous balconies made for Mumbai evenings.",
   },
@@ -343,7 +352,7 @@ export const projects: Project[] = [
     client: "Easy Homes Solutions · Bandra",
     cardImage: "img/p/mhnagar-1.jpg",
     cardNote: "Urban Courtyard Living — wings arranged around one shared landscaped heart.",
-    homeImage: "img/p/mhnagar-1.jpg",
+    homeImage: "img/p/reg-mh-nagar.jpg",
     homeNote: "Urban Courtyard Living — every wing looks onto the same landscaped heart.",
   },
   {
@@ -393,7 +402,7 @@ export const projects: Project[] = [
     client: "Transindia Group · BKC",
     cardImage: "img/p/blueridge-1.jpg",
     cardNote: "A sail against the Mithi — offices shaped by wind, water and view corridors.",
-    homeImage: "img/p/blueridge-1.jpg",
+    homeImage: "img/p/reg-blue-ridge.jpg",
     homeNote: "The Sail and the River — a commercial form drawn from wind, water and the Mithi edge.",
   },
   {
@@ -442,7 +451,7 @@ export const projects: Project[] = [
     client: "Hospitality · Near Kanyakumari",
     cardImage: "img/p/kanya-1.jpg",
     cardNote: "Ghats ridges and sea ripples over a public entertainment base.",
-    homeImage: "img/p/kanya-1.jpg",
+    homeImage: "img/p/reg-kanyakumari.jpg",
     homeNote: "Where the Mountains Meet the Waves — Western Ghats ridges over a public entertainment base.",
   },
   {
@@ -490,7 +499,7 @@ export const projects: Project[] = [
     client: "Rehabilitation · Mulund East",
     cardImage: "img/p/sukhada-1.jpg",
     cardNote: "A landscaped parking base shielding the tower, crowned by a sky garden.",
-    homeImage: "img/p/sukhada-1.jpg",
+    homeImage: "img/p/reg-sukhada.jpg",
     homeNote: "Elevated Environmental Shield — the parking base turned into a landscaped buffer.",
   },
   {
@@ -533,7 +542,7 @@ export const projects: Project[] = [
     client: "Lobby & Podium · Borivali",
     cardImage: "img/p/borivali-1.jpg",
     cardNote: "An existing building re-fronted: green wall, fins, marble lobbies.",
-    homeImage: "img/p/borivali-1.jpg",
+    homeImage: "img/p/reg-borivali.jpg",
     homeNote: "Re-fronted without touching the structure — green wall, podium fins, marble lobbies.",
   },
   {
@@ -579,7 +588,7 @@ export const projects: Project[] = [
     client: "Private Residence · Gondia",
     cardImage: "img/p/gondia-1.jpg",
     cardNote: "An asymmetrical C-shape embracing a courtyard, open toward the garden.",
-    homeImage: "img/p/gondia-1.jpg",
+    homeImage: "img/p/reg-gondia.jpg",
     homeNote: "An asymmetrical C-shape embracing a courtyard, open on one side to the garden.",
   },
   {
@@ -630,7 +639,7 @@ export const projects: Project[] = [
     client: "Twin Bungalow · Nagpur",
     cardImage: "img/p/dwarkamai-2.jpg",
     cardNote: "Two homes for two brothers, joined at the living level by a shared garden.",
-    homeImage: "img/p/dwarkamai-2.jpg",
+    homeImage: "img/p/reg-dwarkamai.jpg",
     homeNote: "Two homes for two brothers — independent in plan, joined by a shared elevated garden.",
   },
 ];
