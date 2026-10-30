@@ -59,7 +59,6 @@ export function initHero(slides: HeroSlide[]): void {
   const ink = document.getElementById('wva-ink');
   const handle = document.getElementById('wva-handle');
   const grip = document.getElementById('wva-grip');
-  const annoA = document.getElementById('wva-anno-a');
   const ticks = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-slide]'));
   const reduced = prefersReducedMotion();
 
@@ -222,9 +221,6 @@ export function initHero(slides: HeroSlide[]): void {
       depth.style.transform =
         `perspective(1500px) rotateY(${(nx * 4).toFixed(2)}deg) rotateX(${(-ny * 3).toFixed(2)}deg) ` +
         `translate3d(${(nx * -14).toFixed(1)}px,${(ny * -8).toFixed(1)}px,0)`;
-      if (annoA) {
-        annoA.style.transform = `translate3d(${(nx * 10).toFixed(1)}px,${(ny * 6).toFixed(1)}px,0)`;
-      }
     });
   }
 }
