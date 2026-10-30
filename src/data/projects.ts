@@ -104,7 +104,8 @@ export const projects: Project[] = [
     wide: "img/p/prince-3.jpg",
     wideCaption: "Rooftop crown, aerial study",
     images: [
-      { src: "img/p/prince-1.jpg", label: "Site context at night" }
+      { src: "img/p/prince-1.jpg", label: "Site context at night" },
+      { src: "img/p/prince-entrance.jpg", label: "Entrance canopy and lobby at dusk" }
     ],
     client: "Punit Construction · Dharavi",
     cardImage: "img/p/prince-2.jpg",
@@ -462,7 +463,7 @@ export const projects: Project[] = [
     sector: "Residential",
     type: "Residential rehabilitation and sale development",
     developer: "Sukhada Co-operative Housing Society",
-    plot: "To be confirmed",
+    plot: "3,089 sq.mt.",
     bua: "To be confirmed",
     status: "Design stage",
     conceptName: "Elevated Environmental Shield",
@@ -494,7 +495,27 @@ export const projects: Project[] = [
     wide: "img/p/sukhada-2.jpg",
     wideCaption: "Façade option 2 — alternative crown and podium treatment",
     images: [
-
+      // Boards and conceptual views lifted from the practice's own concept
+      // presentation for the society (comments sheet, items 18 and 19). Board
+      // captions are the deck's own headings, verbatim. The floor plans and unit
+      // plans in that deck are deliberately not published here.
+      //
+      // Boards and views are interleaved so the portrait views land in the
+      // gallery's narrow columns and the landscape boards in the wide ones.
+      { src: "img/p/sukhada-board-site.jpg", label: "Design parameters and site connectivity" },
+      { src: "img/p/sukhada-view-1.jpg", label: "Conceptual view 1" },
+      { src: "img/p/sukhada-view-2.jpg", label: "Conceptual view 2" },
+      { src: "img/p/sukhada-board-climate.jpg", label: "Climate analysis" },
+      { src: "img/p/sukhada-board-shadow.jpg", label: "Shadow analysis" },
+      { src: "img/p/sukhada-board-units.jpg", label: "Units — isometric view" },
+      { src: "img/p/sukhada-board-section.jpg", label: "Schematic section" },
+      { src: "img/p/sukhada-view-3.jpg", label: "Conceptual view 3" },
+      { src: "img/p/sukhada-view-4.jpg", label: "Conceptual view 4" },
+      { src: "img/p/sukhada-board-shield.jpg", label: "Elevated environmental shield" },
+      { src: "img/p/sukhada-board-periphery.jpg", label: "Activated periphery" },
+      { src: "img/p/sukhada-board-landscape.jpg", label: "Podium landscape and terrace garden" },
+      { src: "img/p/sukhada-board-sustainability.jpg", label: "Sustainability — the crown terrace" },
+      { src: "img/p/sukhada-view-5.jpg", label: "Conceptual view 5" }
     ],
     client: "Rehabilitation · Mulund East",
     cardImage: "img/p/sukhada-1.jpg",
