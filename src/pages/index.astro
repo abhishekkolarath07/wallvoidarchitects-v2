@@ -106,12 +106,6 @@ const schema = [
         style="position:relative;height:100vh;min-height:1012px;overflow:hidden;background:transparent;color:#0d0d0d"
       >
         <div
-          data-h="sheetL"
-          style="position:absolute;left:var(--gut);top:130px;font-size:8px;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;opacity:.5"
-        >
-          Sheet A-01 — Elevation / Study
-        </div>
-        <div
           data-h="sheetR"
           style="position:absolute;right:var(--gut);top:130px;font-size:8px;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;opacity:.5"
         >
@@ -237,16 +231,6 @@ const schema = [
           </div>
         </div>
 
-        <div
-          id="wva-anno-a"
-          style="position:absolute;left:var(--gut);top:172px;max-width:210px;font-family:Caveat,cursive;font-size:17px;line-height:1.5;color:rgba(13,13,13,.66);animation:wvaUp 1.4s .5s cubic-bezier(.16,1,.3,1) both"
-        >
-          <div style="font-family:Archivo,sans-serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;opacity:.55;margin-bottom:10px">
-            Notes
-          </div>
-          Massing set back from the road edge — light enters from the north face, void carried through
-          all floors.
-        </div>
         <div
           data-h="meta"
           style="position:absolute;right:var(--gut);top:172px;text-align:right;font-size:9px;line-height:2;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;color:rgba(13,13,13,.5);animation:wvaUp 1.4s .65s cubic-bezier(.16,1,.3,1) both"
@@ -899,9 +883,6 @@ const schema = [
     #wva-reflect {
       height: 16% !important;
     }
-    #wva-anno-a {
-      display: none !important;
-    }
   }
 
   @media (max-width: 720px) {
@@ -913,9 +894,7 @@ const schema = [
       flex-direction: column !important;
       padding: 142px var(--gut) 8px !important;
     }
-    #top > [data-h='sheetL'],
-    #top > [data-h='sheetR'],
-    #top > #wva-anno-a {
+    #top > [data-h='sheetR'] {
       display: none !important;
     }
 
