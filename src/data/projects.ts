@@ -214,7 +214,7 @@ export const projects: Project[] = [
     location: "Chembur, Mumbai",
     sector: "Residential",
     type: "High-rise residential / retail redevelopment",
-    developer: "Gami Jaydeep",
+    developer: "Gami Group and Jaydeep Group",
     plot: "1,685 sq.mt.",
     bua: "200,000 sq.ft.",
     status: "Ongoing — finishing stage",
@@ -252,7 +252,7 @@ export const projects: Project[] = [
       { src: "img/p/estella-1.jpg", label: "Entrance gateway from the street" },
       { src: "img/p/estella-3.jpg", label: "Entrance lobby" }
     ],
-    client: "Gami Jaydeep · Chembur",
+    client: "Gami Group and Jaydeep Group · Chembur",
     cardImage: "img/p/estella-5.jpg",
     cardNote: "Vertical Garden Frame — slender frames growing lighter and greener as they rise.",
     homeImage: "img/p/reg-estella.jpg",
