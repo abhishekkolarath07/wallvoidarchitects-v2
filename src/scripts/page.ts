@@ -116,6 +116,11 @@ export function initScrollChrome(options: ScrollChromeOptions): () => void {
 
   let solid: boolean | null = null;
 
+  const readout = num?.closest<HTMLElement>('#wva-progress') ?? null;
+  const footer = document.querySelector<HTMLElement>('footer');
+  let hidden: boolean | null = null;
+  if (readout) readout.style.transition = 'opacity .4s ease';
+
   const setHeader = (next: boolean) => {
     if (next === solid) return;
     solid = next;
@@ -128,7 +133,14 @@ export function initScrollChrome(options: ScrollChromeOptions): () => void {
     }
 
     header.style.padding = next ? '11px var(--gut)' : '15px var(--gut)';
-    if (logo) logo.style.height = next ? '40px' : '50px';
+    /*
+     * The export shrank the mark from 50px to 40px once the header solidified, by
+     * writing the height inline. The mark is now sized by a responsive clamp carrying
+     * `!important`, which beats an inline declaration — so that write had quietly
+     * stopped doing anything. The shrink is expressed as a factor of the clamp instead,
+     * which keeps the export's behaviour and the responsive sizing at the same time.
+     */
+    if (logo) logo.style.setProperty('--wva-logo-k', next ? '0.8' : '1');
   };
 
   let ticking = false;
@@ -146,6 +158,19 @@ export function initScrollChrome(options: ScrollChromeOptions): () => void {
     if (spine && max > 0) spine.style.height = `${(pct * (max + vh)).toFixed(0)}px`;
     if (bar) bar.style.width = `${(pct * 100).toFixed(1)}%`;
     if (num) num.textContent = String(Math.round(pct * 100)).padStart(2, '0');
+
+    /*
+     * The readout is fixed to the viewport, so on reaching the footer it sits on top of
+     * the copyright line. It fades out once the footer is in view and returns on the
+     * way back up.
+     */
+    if (readout && footer) {
+      const over = footer.getBoundingClientRect().top < vh - 40;
+      if (over !== hidden) {
+        hidden = over;
+        readout.style.opacity = over ? '0' : '1';
+      }
+    }
   };
 
   const onScroll = () => {

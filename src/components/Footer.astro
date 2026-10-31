@@ -57,7 +57,12 @@ const addressHtml = site.addressLines.join('<br>');
             Reach
           </div>
           <div>
-            <a href={`mailto:${site.email}`}>Email</a>
+            {/*
+              Spelled out rather than labelled "Email". This footer is now the one the
+              whole site carries, and the address was the only place the enquiry address
+              appeared outside the contact page.
+            */}
+            <a href={`mailto:${site.email}`} style="white-space:nowrap">{site.email}</a>
           </div>
           <div>
             <a href={site.mapUrl} target="_blank" rel="noopener noreferrer">

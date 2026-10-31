@@ -344,7 +344,7 @@ summary:focus-visible,
    * 50 -> 58 at the small end, 78 -> 96 at the large. The narrow-width overrides
    * further down this file still win at the widths they were written for.
    */
-  height: clamp(58px, 4vw, 96px) !important;
+  height: calc(clamp(58px, 4vw, 96px) * var(--wva-logo-k, 1)) !important;
 }
 
 /* ------------------------------------------------------------- type scale ------ */

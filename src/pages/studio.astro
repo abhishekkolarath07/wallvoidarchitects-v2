@@ -25,7 +25,7 @@ const schema = [
   description="Wall Voids Architects is a Mumbai practice led by Ar. Pravin Kudkar, carrying projects from brief through drawings, approvals and site as one continuous act."
   path="/studio"
   active="/studio"
-  footerVariant="compact"
+  footerVariant="full"
   spineId="st-spine"
   schema={schema}
 >
@@ -40,8 +40,16 @@ const schema = [
         >
           <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>About us
         </div>
+        {/*
+          Every other page's h1 carries a two-line phrase at clamp(30px,4vw,54px). This
+          one carries the practice's full statement (item 15), which at that size set to
+          six lines and 324px — three times the height of any other page's heading. The
+          size is reduced for this heading alone so the block reads in proportion to the
+          rest of the site; the home page already sets the same sentence at 34px.
+          line-height goes from 1 to 1.12 because a multi-line block needs the leading.
+        */}
         <h1
-          style="margin:18px 0 0;font-size:clamp(30px,4vw,54px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance;animation:stUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
+          style="margin:18px 0 0;font-size:clamp(26px,2.6vw,36px);line-height:1.12;font-weight:300;letter-spacing:-.02em;text-wrap:pretty;animation:stUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
         >
           We create architecture where walls frame life, voids inspire possibilities, and spaces
           shape the way we live. Each project brings purpose to a place and contributes to the way
