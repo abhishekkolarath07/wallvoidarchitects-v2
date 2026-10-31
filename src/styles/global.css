@@ -337,13 +337,14 @@ summary:focus-visible,
   max-width: none;
   flex: none;
   /*
-   * [RESPONSIVE FIX] The export fixed the mark at 50px, so on a 24" or 27" monitor it
-   * shrinks against everything around it. It now grows with the viewport. The clamp
-   * minimum is the export's own value, so 1440 and below are unchanged — the vw term
-   * only passes 50px above about 1515px. The narrow-width overrides further down this
-   * file still win at the widths they were written for.
+   * [RESPONSIVE FIX] [DESIGN CHANGE — requested] The export fixed the mark at 50px, so
+   * on a 24" or 27" monitor it shrank against everything around it. It was first made
+   * to grow with the viewport from the export's own 50px; the practice has since asked
+   * for it larger again for the sake of the branding, so the whole curve is lifted:
+   * 50 -> 58 at the small end, 78 -> 96 at the large. The narrow-width overrides
+   * further down this file still win at the widths they were written for.
    */
-  height: clamp(50px, 3.3vw, 78px) !important;
+  height: clamp(58px, 4vw, 96px) !important;
 }
 
 /* ------------------------------------------------------------- type scale ------ */
@@ -369,17 +370,25 @@ summary:focus-visible,
  * the headings would be a change to the design's hierarchy rather than to its scale.
  */
 
+/*
+ * [DESIGN CHANGE — requested] The four smallest steps are the site's grey label type:
+ * the section eyebrows ("01 / Selected Works"), the sector tags, the register's meta
+ * columns, the filter row and the footer headings. The practice asked for all of it
+ * larger. These four therefore start two points above the export's value rather than
+ * at it, so they are bigger at every width including 1440 and below; the steps from
+ * 11px up are body copy and keep the export's size as their minimum.
+ */
 [style*='font-size:8px'] {
-  font-size: clamp(8px, 0.48vw, 10px) !important;
+  font-size: clamp(10px, 0.62vw, 13px) !important;
 }
 [style*='font-size:8.5px'] {
-  font-size: clamp(8.5px, 0.51vw, 10.5px) !important;
+  font-size: clamp(10.5px, 0.65vw, 13.5px) !important;
 }
 [style*='font-size:9px'] {
-  font-size: clamp(9px, 0.54vw, 11.5px) !important;
+  font-size: clamp(11px, 0.68vw, 14.5px) !important;
 }
 [style*='font-size:10px'] {
-  font-size: clamp(10px, 0.6vw, 13px) !important;
+  font-size: clamp(12px, 0.75vw, 16px) !important;
 }
 [style*='font-size:11px'] {
   font-size: clamp(11px, 0.66vw, 14px) !important;
@@ -490,7 +499,8 @@ summary:focus-visible,
     left: 12px;
   }
   #wva-logo {
-    height: 42px !important;
+    /* Lifted with the desktop mark, same request. */
+    height: 48px !important;
   }
 }
 
@@ -556,7 +566,8 @@ summary:focus-visible,
     display: none;
   }
   #wva-logo {
-    height: 44px !important;
+    /* Lifted with the desktop mark, same request. */
+    height: 50px !important;
   }
 
   /*
