@@ -448,7 +448,7 @@ const schema = [
           <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>02 / In Detail
         </div>
         <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
-          Plates 01–03
+          Plates 01–02
         </div>
       </div>
       <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin:0 var(--gut)"></div>
@@ -471,33 +471,31 @@ const schema = [
       </figure>
 
 
-      <div data-r="g2" style="display:grid;grid-template-columns:7fr 5fr;gap:0;margin-top:112px;height:74vh;min-height:520px">
+      {/*
+        One full-bleed plate where two stood side by side, at the practice's request.
+        The gateway render replaces The Celeste street frontage and the Gondia bungalow.
+
+        The band is sized by aspect rather than by viewport height. The image is 1.48:1
+        and the old two-up band was 2.41:1 at 1440, which cropped away the base of the
+        gateway, its two pavilions and the cars — most of what the picture is of. At
+        1.86:1 about 80 per cent of the image height survives, enough to hold the gateway
+        whole with the towers behind it. `max-height` keeps the band from running past
+        the window on a tall screen; `object-position` at 45% then gives up sky rather
+        than ground.
+      */}
+      <div style="margin-top:112px;width:100%;height:min(calc(100vw / 1.86), 88vh);min-height:520px">
         <figure data-mask style="position:relative;margin:0;overflow:hidden;height:100%">
           <Image
-            data-par="0.1"
-            src={img('img/p/celeste-6.jpg')}
-            alt="The Celeste — the illuminated street frontage at night"
-            widths={[640, 1024, 1600, 2200]}
-            sizes="(max-width: 980px) 100vw, 58vw"
-            style="width:100%;height:116%;object-fit:cover"
+            data-par="0.08"
+            src={img('img/p/gateway-night.jpg')}
+            alt="An illuminated entrance gateway at night, twin residential towers rising behind it"
+            widths={[768, 1280, 1920, 2560]}
+            sizes="100vw"
+            style="width:100%;height:116%;object-fit:cover;object-position:center 45%"
           />
           <figcaption
             style="position:absolute;left:34px;bottom:22px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#ffffff;opacity:.85"
-            >Plate 02 — The Celeste, Street Frontage</figcaption
-          >
-        </figure>
-        <figure data-mask style="position:relative;margin:0;overflow:hidden;height:100%">
-          <Image
-            data-par="0.06"
-            src={img('img/p/gondia-1.jpg')}
-            alt="Private bungalow at Gondia — the C-shaped plan seen from the garden"
-            widths={[480, 768, 1200, 1600]}
-            sizes="(max-width: 980px) 100vw, 42vw"
-            style="width:100%;height:116%;object-fit:cover"
-          />
-          <figcaption
-            style="position:absolute;left:34px;bottom:22px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#ffffff;opacity:.85"
-            >Plate 03 — Bungalow at Gondia</figcaption
+            >Plate 02 — Entrance Gateway at Night</figcaption
           >
         </figure>
       </div>
