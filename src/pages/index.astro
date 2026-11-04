@@ -698,9 +698,16 @@ const schema = [
       <div data-draw style="height:1px;background:rgba(13,13,13,.28)"></div>
 
       <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:56px 0 0">
-        <div style="grid-column:1 / span 6" data-rv>
+        {/*
+          The heading runs to where the Studio column used to begin, at the practice's
+          request. Both the column and the measure had to move: at six columns and 22ch
+          the line was capped around 500px of a 600px column, which is what left the
+          right-hand half of the section empty. At eight columns and 34ch it fills the
+          column exactly at 1440 and sets to two lines instead of three.
+        */}
+        <div style="grid-column:1 / span 8" data-rv>
           <h2
-            style="margin:0;max-width:22ch;font-size:clamp(30px,3.6vw,46px);line-height:1.06;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
+            style="margin:0;max-width:34ch;font-size:clamp(30px,3.6vw,46px);line-height:1.06;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
           >
             Let's shape spaces that inspire, connect, and redefine the way we live.
           </h2>
@@ -720,27 +727,19 @@ const schema = [
           </div>
         </div>
 
-        <div data-r="g2" style="grid-column:8 / span 5;display:grid;grid-template-columns:1fr 1fr;gap:32px 24px" data-rv>
-          <div>
-            <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">Studio</div>
-            <address style="font-size:12px;line-height:1.9;opacity:.72">
-              A-123, Sussex Industrial Estate A,<br />Dadoji Kondeo Marg,<br />Byculla (E), Mumbai 400027
-            </address>
+        {/*
+          The Studio address and the Principal block are removed at the practice's
+          request, leaving Enquiries. The postal address still stands in the footer's
+          bottom bar and in full on the contact page; the principal has his own section
+          on About us. The block is no longer a two-column grid, having one thing in it.
+        */}
+        <div style="grid-column:10 / span 3" data-rv>
+          <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
+            Enquiries
           </div>
-          <div>
-            <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
-              Enquiries
-            </div>
-            <div style="font-size:12px;line-height:1.9;opacity:.72">
-              <a href={`mailto:${site.email}`} style="border-bottom:1px solid rgba(13,13,13,.25)">{site.email}</a><br />
-              New projects &amp; collaborations
-            </div>
-          </div>
-          <div>
-            <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
-              Principal
-            </div>
-            <div style="font-size:12px;line-height:1.9;opacity:.72">Ar. Pravin Kudkar<br />Registered with COA, India</div>
+          <div style="font-size:12px;line-height:1.9;opacity:.72">
+            <a href={`mailto:${site.email}`} style="border-bottom:1px solid rgba(13,13,13,.25)">{site.email}</a><br />
+            New projects &amp; collaborations
           </div>
         </div>
       </div>
