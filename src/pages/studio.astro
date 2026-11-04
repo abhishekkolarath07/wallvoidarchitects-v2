@@ -69,21 +69,29 @@ const schema = [
   <section style="padding:56px var(--gut) 0">
     <figure data-plate style="margin:0">
       <div data-mask style="height:66vh;min-height:440px;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)">
+        {/*
+          `object-position` holds the crop high. The band is wider than the render is —
+          about 2.4:1 against 2:1 — and the project's name is lettered across the top of
+          the arch, so a centred crop would clip it. Giving up foreground forecourt costs
+          nothing.
+        */}
         <Image
-          src={img('img/p/mhnagar-3.jpg')}
-          alt="Urban Courtyard, Bandra — landscaped central court seen between the residential wings"
+          src={img('img/p/grandeur-gate.jpg')}
+          alt="Transindia Grandeur — the arched entrance gateway and glazed sales office, lit at dusk"
           widths={[640, 1024, 1600, 2000]}
           sizes="100vw"
           loading="eager"
           fetchpriority="high"
-          style="width:100%;height:112%;object-fit:cover;filter:saturate(.84) contrast(1.03)"
+          style="width:100%;height:112%;object-fit:cover;object-position:center 22%;filter:saturate(.84) contrast(1.03)"
         />
       </div>
       <figcaption
         style="display:flex;justify-content:space-between;gap:24px;padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45"
         data-rv
       >
-        <span>Urban Courtyard — Bandra, near BKC</span><span style="white-space:nowrap">In progress</span>
+        {/* Both halves read off the render's own signage, which letters the project
+            name across the arch and "Sales Office" over the entrance. */}
+        <span>Transindia Grandeur — Sales Office</span><span style="white-space:nowrap">Transindia Group</span>
       </figcaption>
     </figure>
   </section>
@@ -150,21 +158,14 @@ const schema = [
       data-r="g12"
       style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px;align-items:start"
     >
-      <figure data-plate style="grid-column:1 / span 4;margin:0">
-        <div data-mask style="height:52vh;min-height:360px;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)">
-          <Image
-            src={img('img/p/borivali-2.jpg')}
-            alt="RaviRaj Royal, Borivali — the refurbished main lobby in grey marble with warm metallic detailing"
-            widths={[420, 720, 1080]}
-            sizes="(max-width: 980px) 100vw, 33vw"
-            style="width:100%;height:112%;object-fit:cover;filter:saturate(.84) contrast(1.03)"
-          />
-        </div>
-        <figcaption style="padding-top:12px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45">
-          RaviRaj Royal, Borivali — main lobby
-        </figcaption>
-      </figure>
-      <div style="grid-column:6 / span 7">
+      {/*
+        The RaviRaj Royal lobby plate that stood at columns 1-4 is removed at the
+        practice's request. The text moves to columns 1-7, the measure the Practice
+        section above it uses, rather than spreading across all twelve: a credentials
+        row set 1200px wide would put its label and its value at opposite ends of the
+        screen, and the section would read as one wide block instead of a column.
+      */}
+      <div style="grid-column:1 / span 7">
         <h2
           style="margin:0;font-size:clamp(22px,2.6vw,32px);line-height:1.1;font-weight:300;letter-spacing:-.02em"
           data-rv
