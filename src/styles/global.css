@@ -116,16 +116,6 @@ address {
   }
 }
 
-@keyframes wvaRipple {
-  0%,
-  100% {
-    transform: scaleY(-1) skewX(0deg);
-  }
-  50% {
-    transform: scaleY(-1.03) skewX(0.6deg);
-  }
-}
-
 @keyframes wvaDrift {
   from {
     transform: scale(1.03);

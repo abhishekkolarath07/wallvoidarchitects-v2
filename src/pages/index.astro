@@ -201,26 +201,6 @@ const schema = [
               </svg>
             </div>
 
-            <div id="wva-reflect" style="position:absolute;left:0;right:0;top:100%;height:22%;overflow:hidden;pointer-events:none">
-              <Image
-                data-fade="refl"
-                src={heroPlate}
-                alt=""
-                widths={HERO_WIDTHS}
-                sizes="min(72vw, 980px)"
-                loading="lazy"
-                style="position:absolute;left:0;right:0;bottom:0;width:100%;height:300%;object-fit:contain;object-position:bottom;transform:scaleY(-1);transition:opacity 1.6s ease;filter:grayscale(.6) blur(2.4px) contrast(.95);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);animation:wvaRipple 7s ease-in-out infinite;opacity:.5"
-              />
-              <Image
-                data-fade="refl"
-                src={heroPlateB}
-                alt=""
-                widths={HERO_WIDTHS}
-                sizes="min(72vw, 980px)"
-                loading="lazy"
-                style="position:absolute;left:0;right:0;bottom:0;width:100%;height:300%;object-fit:contain;object-position:bottom;transform:scaleY(-1);transition:opacity 1.6s ease;filter:grayscale(.6) blur(2.4px) contrast(.95);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 62%);animation:wvaRipple 7s ease-in-out infinite;opacity:0"
-              />
-            </div>
           </div>
         </div>
 
@@ -826,9 +806,6 @@ const schema = [
     .wva-ticker {
       animation: none !important;
     }
-    #wva-reflect img {
-      animation: none !important;
-    }
   }
 
   /*
@@ -896,9 +873,6 @@ const schema = [
       width: min(88vw, 640px) !important;
       height: clamp(280px, calc((100vh - 400px) * 0.72), 420px) !important;
     }
-    #wva-reflect {
-      height: 16% !important;
-    }
   }
 
   @media (max-width: 720px) {
@@ -956,7 +930,6 @@ const schema = [
       width: 100% !important;
       height: 260px !important;
     }
-    #wva-reflect,
     #wva-depth svg {
       display: none !important;
     }

@@ -85,7 +85,6 @@ export function initHero(slides: HeroSlide[]): void {
 
     crossFade('plate', slide.plate, 1);
     crossFade('ink', slide.ink, 1);
-    crossFade('refl', slide.plate, 0.5);
 
     setText('wva-active-sector', slide.sector);
     setText('wva-active-client', slide.client);
