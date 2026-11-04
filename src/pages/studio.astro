@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { img } from '../lib/images';
 import { site } from '../data/site';
-import { clients, credentials, services, stats } from '../data/studio';
+import { clients, credentials, practice, principalBio, services, stats, team } from '../data/studio';
 
 const schema = [
   {
@@ -97,14 +97,23 @@ const schema = [
     </div>
     <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
     <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
-      <p
-        style="grid-column:1 / span 7;margin:0;font-size:clamp(17px,1.9vw,23px);line-height:1.55;font-weight:300;letter-spacing:-.01em;text-wrap:pretty"
-        data-rv
-      >
-        Wall Voids Architects brings the client's dream into a design, and takes it through
-        drawings, approvals and site as one continuous act. Nothing is handed off halfway — the
-        same hand that draws the first massing carries the municipal submission.
-      </p>
+      {/*
+        The practice supplied its own description of itself on 4 November 2026. The first
+        paragraph takes the lede position the export's single sentence held; the other two
+        follow at body size, so the section opens at the same weight it always did.
+      */}
+      <div style="grid-column:1 / span 7" data-rv>
+        <p
+          style="margin:0;font-size:clamp(17px,1.9vw,23px);line-height:1.55;font-weight:300;letter-spacing:-.01em;text-wrap:pretty"
+        >
+          {practice[0]}
+        </p>
+        {practice.slice(1).map((para) => (
+          <p style="margin:22px 0 0;max-width:62ch;font-size:13px;line-height:1.85;opacity:.66;text-wrap:pretty">
+            {para}
+          </p>
+        ))}
+      </div>
       <div style="grid-column:9 / span 4;align-self:end;padding-bottom:4px" data-rv>
         <div style="font-family:Caveat,cursive;font-size:18px;line-height:1.5;color:rgba(13,13,13,.6)">
           one hand, brief to handover
@@ -162,6 +171,14 @@ const schema = [
         >
           Ar. Pravin Kudkar
         </h2>
+        <div style="margin-top:8px" data-rv>
+          {principalBio.map((para) => (
+            <p style="margin:18px 0 0;max-width:62ch;font-size:13px;line-height:1.85;opacity:.66;text-wrap:pretty">
+              {para}
+            </p>
+          ))}
+        </div>
+        <div style="height:34px"></div>
         {
           credentials.map((c) => (
             <div
@@ -180,12 +197,55 @@ const schema = [
     </div>
   </section>
 
+  {/*
+    The team the practice supplied on 4 November 2026. A new section, added at its
+    request, and built from parts the page already uses: the title block, the drawn
+    rule, and the two-column label row the credentials above are set in. Clients and
+    Services move to 04 and 05 so the numbering still reads in order.
+  */}
   <section style="padding:120px var(--gut) 0">
     <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
       <div
         style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
       >
-        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>03 / Clients
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>03 / Team
+      </div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
+        {team.length} alongside the principal
+      </div>
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+    <div data-r="g2" style="display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;padding-top:20px">
+      {
+        team.map((t) => (
+          <div
+            style="display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:16px;padding:19px 0;border-bottom:1px solid rgba(13,13,13,.1)"
+            data-rv
+          >
+            <span style="display:block;width:16px;height:1px;background:#e2231a" />
+            <span>
+              <span style="display:block;font-size:15px;line-height:1.4;letter-spacing:-.01em">{t.name}</span>
+              <span style="display:block;margin-top:5px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.5">
+                {t.role}
+              </span>
+              {t.note && (
+                <span style="display:block;margin-top:8px;font-size:12px;line-height:1.75;opacity:.62;text-wrap:pretty">
+                  {t.note}
+                </span>
+              )}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section style="padding:120px var(--gut) 0">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
+      <div
+        style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+      >
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Clients
       </div>
       <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
         Developers worked with
@@ -211,7 +271,7 @@ const schema = [
       style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
       data-rv
     >
-      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>04 / Services
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>05 / Services
     </div>
     <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
     <div data-r="g2" style="display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;padding-top:20px">
