@@ -19,11 +19,14 @@ const addressHtml = site.addressLines.join('<br>');
       <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
         <div style="grid-column:1 / span 4">
           {/*
-            The mark fills its column rather than sitting at a fixed 58px, at the
-            practice's request. The file is 1573x527, so there is resolution to spare and
-            none of this upscales; `width` and `height` state those real dimensions so the
-            browser reserves the right box before the image arrives. The cap stops it
-            running away on a very wide screen, where four columns is nearly 800px.
+            The mark is sized against the link columns beside it rather than against its
+            own column. Filling the column put it at 423x142 at 1440 — taller than the
+            whole Navigate/Sectors/Reach block, which is 127px — and that is what read as
+            oversized. The 320px cap lands it at 107px, just under those columns, so it
+            still carries the branding weight the practice asked for without towering over
+            the footer's content. The file is 1573x527, so none of this upscales; `width`
+            and `height` state those real dimensions so the browser reserves the right box
+            before the image arrives.
 
             The line that sat beneath it — "Architecture, interiors and approvals for
             residential, commercial and mixed-use work across Mumbai" — is removed.
@@ -34,7 +37,7 @@ const addressHtml = site.addressLines.join('<br>');
             width="1573"
             height="527"
             data-no-filter
-            style="display:block;width:min(100%, 440px);height:auto;opacity:.95"
+            style="display:block;width:min(100%, 320px);height:auto;opacity:.95"
           />
         </div>
 

@@ -42,26 +42,21 @@ const schema = [
   <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
   <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">{projects.length}</span>
 
-  <section style="padding:186px var(--gut) 0">
+  <section style="padding:112px var(--gut) 0">
+    {/*
+      The display heading ("Every sheet / on the board") and its standfirst are removed at
+      the practice's request. The eyebrow carries the page title now, so it becomes the
+      h1: the page keeps exactly one top-level heading for screen readers and search
+      engines, and nothing about it looks different. The top padding drops from 186px to
+      112px because that padding was set to clear a 54px display line that is no longer
+      there.
+    */}
     <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
-      <div>
-        <div
-          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:pxUp 1s .1s cubic-bezier(.16,1,.3,1) both"
-        >
-          <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Index of works
-        </div>
-        <h1
-          style="margin:18px 0 0;font-size:clamp(30px,4vw,54px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance;animation:pxUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
-        >
-          Every sheet<br />on the board
-        </h1>
-      </div>
-      <p
-        style="margin:0;padding-bottom:8px;font-size:12px;line-height:1.85;opacity:.6;text-wrap:pretty;animation:pxUp 1.1s .36s cubic-bezier(.16,1,.3,1) both"
+      <h1
+        style="margin:0;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:pxUp 1s .1s cubic-bezier(.16,1,.3,1) both"
       >
-        Twelve projects across Mumbai, Nagpur, Gondia and Tamil Nadu — towers, redevelopment
-        schemes, row houses and refurbishments. Each block opens its full drawing set.
-      </p>
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Index of works
+      </h1>
     </div>
     <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
   </section>
