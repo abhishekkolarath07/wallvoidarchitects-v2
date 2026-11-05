@@ -388,29 +388,53 @@ summary:focus-visible,
 [style*='font-size:10px'] {
   font-size: clamp(12px, 0.75vw, 16px) !important;
 }
+/*
+ * [DESIGN CHANGE — requested] The body steps now start two points above the export's
+ * value too, for the same reason the label steps did: the practice reads the running
+ * copy as too small against the titles above it. The four smallest steps were lifted
+ * two points earlier; the display type was left alone then and is left alone now, so
+ * lifting these is what actually closes the gap.
+ *
+ * In effect the body scale shifts up two steps and reuses the clamps that were already
+ * written for them — 11px takes what 13px had, 12px takes 14px's, and so on. The growth
+ * shape is unchanged (max is about 1.27x min, continuous with the viewport).
+ *
+ * 12px is the one that matters most: 194 of the site's declarations are at that size,
+ * and it carries the sector notes, the register meta and most of the running paragraphs.
+ *
+ * 16-18px are lifted with the rest. They are mostly the Caveat handwriting annotations
+ * ("rev. approved", "one hand, brief to handover") plus the register's row name, and
+ * leaving them would have inverted the scale: 15px was landing at 17px while 16px stayed
+ * at 16. Caveat reads optically smaller than its nominal size, so two points there is
+ * proportionate rather than shouty, and the scale stays monotonic end to end.
+ *
+ * Display type above 18px is untouched. Lifting the body is what closes the gap the
+ * practice described; shrinking the titles would change the design's hierarchy rather
+ * than its scale.
+ */
 [style*='font-size:11px'] {
-  font-size: clamp(11px, 0.66vw, 14px) !important;
-}
-[style*='font-size:12px'] {
-  font-size: clamp(12px, 0.72vw, 15.5px) !important;
-}
-[style*='font-size:13px'] {
   font-size: clamp(13px, 0.78vw, 16.5px) !important;
 }
-[style*='font-size:14px'] {
+[style*='font-size:12px'] {
   font-size: clamp(14px, 0.84vw, 17.5px) !important;
 }
-[style*='font-size:15px'] {
+[style*='font-size:13px'] {
   font-size: clamp(15px, 0.9vw, 19px) !important;
 }
-[style*='font-size:16px'] {
+[style*='font-size:14px'] {
   font-size: clamp(16px, 0.96vw, 20px) !important;
 }
-[style*='font-size:17px'] {
+[style*='font-size:15px'] {
   font-size: clamp(17px, 1.02vw, 21px) !important;
 }
-[style*='font-size:18px'] {
+[style*='font-size:16px'] {
   font-size: clamp(18px, 1.08vw, 22.5px) !important;
+}
+[style*='font-size:17px'] {
+  font-size: clamp(19px, 1.14vw, 24px) !important;
+}
+[style*='font-size:18px'] {
+  font-size: clamp(20px, 1.2vw, 25px) !important;
 }
 
 /* ------------------------------------------------------------- responsive ------ */
