@@ -97,6 +97,23 @@ export const sectors: SectorEntry[] = [
     count: plural(countBySector('Mixed Use')),
     href: filtered('Mixed Use'),
   },
+  {
+    no: '06',
+    name: 'Interiors',
+    // [CONTENT] Added at the practice's request (comments sheet, item 11 — the one-line
+    // description was outstanding and the practice asked that one be written). Nothing
+    // here is invented: "interior design for lobbies and common areas" is the practice's
+    // own service line from studio.ts, and the rest describes RaviRaj Royal, Borivali —
+    // the one project already filed under the Interiors sector, whose own record lists
+    // the common lobby, lift lobbies, false ceilings and a marble/glass/timber/metal
+    // palette. No new project, client or capability is claimed.
+    note: 'Entrance lobbies, lift lobbies and common areas — refurbishment work carried out inside an existing building, where finish, light and signage do what structure cannot.',
+    tags: ['Lobbies', 'Common areas', 'Finishes'],
+    image: 'img/p/borivali-2.jpg',
+    caption: 'RaviRaj Royal, Borivali — main lobby',
+    count: plural(countBySector('Interiors')),
+    href: filtered('Interiors'),
+  },
 ];
 
 /**
@@ -134,4 +151,7 @@ export const homeSectors = [
   { no: '03', name: 'IT Parks / Office Buildings', note: 'Business district character at metropolitan scale.' },
   { no: '04', name: 'Miscellaneous Buildings', note: 'Religious and community buildings, and work outside the other four sectors.' },
   { no: '05', name: 'Mixed Use Development', note: 'Master layouts from micro to macro level.' },
+  // Added with the sector itself, so the home list and /sectors agree on how many there
+  // are. The home page already named Interiors in its sector ticker.
+  { no: '06', name: 'Interiors', note: 'Lobbies, lift lobbies and common areas inside existing buildings.' },
 ];
