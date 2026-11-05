@@ -327,24 +327,22 @@ summary:focus-visible,
   max-width: none;
   flex: none;
   /*
-   * [DESIGN CHANGE — requested] The header mark is now sized to the footer mark, less
-   * two points, at the practice's request. The footer logo renders at a flat 320x107 at
-   * every width; two typographic points is 2.67px, so this is 104px, and the two marks
-   * read as the same size top and bottom.
+   * [DESIGN CHANGE — requested] The header mark is sized to the footer mark, less two
+   * points. Both were reduced again at the practice's request: the footer cap went
+   * 320px -> 248px (107px -> 83px tall), so this is 80px, two points under it.
    *
-   * It is a flat height rather than the clamp(58px, 4vw, 96px) curve it replaces,
-   * because the footer mark it is matching is itself flat — a curve here would match at
-   * one width only. The practice has asked for this mark larger three times now; this
-   * is the size they picked, so it is stated once rather than derived.
+   * 80px is also the number that fixes the overlap they reported. The hero's sheet
+   * frame starts at y=104; with the header's 15px top padding a 104px mark reached
+   * y=119, so it sat 15px over that top rule. At 80px it bottoms out at y=95, nine
+   * clear of the line. The bar comes down with it, 135px -> 110px.
    *
-   * Consequence worth knowing: the fixed header grows from 89px to 134px at 1440
-   * (113px once --wva-logo-k shrinks it on scroll). The hero still clears it — see the
-   * --wva-hero-top note — but this is the tallest the header has been.
+   * It is a flat height rather than a clamp because the footer mark it is matching is
+   * itself flat — a curve would match at one width only.
    *
    * The narrow-width overrides further down this file still win at the widths they were
    * written for, so phones and small tablets keep a header that fits.
    */
-  height: calc(104px * var(--wva-logo-k, 1)) !important;
+  height: calc(80px * var(--wva-logo-k, 1)) !important;
 }
 
 /* ------------------------------------------------------------- type scale ------ */
@@ -500,8 +498,8 @@ summary:focus-visible,
   }
   #wva-logo {
     /*
-     * Lifted with the desktop mark (58 -> 104), so the step across this breakpoint is
-     * not a cliff. 72px still leaves a header that fits a small tablet.
+     * Sized against the desktop mark so the step across this breakpoint is not a cliff.
+     * 72px still leaves a header that fits a small tablet.
      */
     height: 72px !important;
   }
