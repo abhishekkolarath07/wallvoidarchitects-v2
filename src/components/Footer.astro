@@ -21,12 +21,13 @@ const addressHtml = site.addressLines.join('<br>');
           {/*
             The mark is sized against the link columns beside it rather than against its
             own column. Filling the column put it at 423x142 at 1440 — taller than the
-            whole Navigate/Sectors/Reach block, which is 127px — and that is what read as
-            oversized. The 320px cap lands it at 107px, just under those columns, so it
-            still carries the branding weight the practice asked for without towering over
-            the footer's content. The file is 1573x527, so none of this upscales; `width`
-            and `height` state those real dimensions so the browser reserves the right box
-            before the image arrives.
+            whole Navigate/Sectors/Reach block, which is 127px — and that is what first
+            read as oversized. The cap went to 320px (107px tall) and has since been cut
+            again at the practice's request: 248px, which is 83px tall and sits well
+            inside those 127px columns. The header mark is held two points under this
+            one, so the two still read as a pair. The file is 1573x527, so none of this
+            upscales; `width` and `height` state those real dimensions so the browser
+            reserves the right box before the image arrives.
 
             The line that sat beneath it — "Architecture, interiors and approvals for
             residential, commercial and mixed-use work across Mumbai" — is removed.
@@ -37,7 +38,7 @@ const addressHtml = site.addressLines.join('<br>');
             width="1573"
             height="527"
             data-no-filter
-            style="display:block;width:min(100%, 320px);height:auto;opacity:.95"
+            style="display:block;width:min(100%, 248px);height:auto;opacity:.95"
           />
         </div>
 
