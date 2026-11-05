@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import { img } from '../lib/images';
 import { site } from '../data/site';
 import { filters, heroSlides, projects } from '../data/projects';
-import { homeSectors } from '../data/sectors';
+import { homeSectors, sectors } from '../data/sectors';
 
 /** Ink overlay path for a plate: img/p/sion-2.jpg -> img/p/ink-sion-2.jpg */
 const inkPath = (key: string) => key.replace(/([^/]+)$/, 'ink-$1');
@@ -595,7 +595,7 @@ const schema = [
         <div style="grid-column:5 / span 3" data-rv>
           <div style="font-size:9px;letter-spacing:.3em;text-transform:uppercase;opacity:.5">Across</div>
           <div style="margin-top:18px;font-size:44px;line-height:1;font-weight:300;letter-spacing:-.02em">
-            <span data-countto="5">0</span><span style="font-size:15px;opacity:.5;letter-spacing:.1em"> sectors</span>
+            <span data-countto={String(sectors.length)}>0</span><span style="font-size:15px;opacity:.5;letter-spacing:.1em"> sectors</span>
           </div>
           <div data-draw style="height:1px;background:#e2231a;margin-top:20px"></div>
         </div>

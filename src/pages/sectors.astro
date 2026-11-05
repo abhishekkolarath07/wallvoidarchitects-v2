@@ -8,7 +8,7 @@ import { sectors } from '../data/sectors';
 
 <Base
   title="Sectors"
-  description="Residential, commercial, IT park, religious and mixed-use work — five sectors, one method, from first brief through municipal approval."
+  description="Residential, commercial, IT park, religious, mixed-use and interiors work — six sectors, one method, from first brief through municipal approval."
   path="/sectors"
   active="/sectors"
   footerVariant="full"
@@ -16,7 +16,8 @@ import { sectors } from '../data/sectors';
 >
   <span slot="header-meta">Micro to macro</span>
   <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
-  <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">05</span>
+  {/* Derived, so the count can no longer drift from the list below it. [BUG FIX] */}
+  <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">{String(sectors.length).padStart(2, '0')}</span>
 
   <section style="padding:112px var(--gut) 0">
     {/* See the note on /projects: display heading and standfirst removed, eyebrow promoted to h1. */}
