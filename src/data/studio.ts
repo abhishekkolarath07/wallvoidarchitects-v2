@@ -100,6 +100,10 @@ export const credentials = [
  *
  * Naming a developer here asserts a working relationship, so add a name only on the
  * practice's confirmation or where a project record supports it.
+ *
+ * The last four were supplied by the practice directly and are carried verbatim. No
+ * project in this repository is filed against them yet, which is expected — this list
+ * is who the practice has worked with, not an index of the twelve documented sheets.
  */
 export const clients = [
   'Transindia Group',
@@ -108,6 +112,10 @@ export const clients = [
   'Easy Homes Solutions',
   'Punit Construction',
   'Dudhwala Developers',
+  'Sherif Infra LLP',
+  'Mercury Life Spaces Ltd.',
+  'Nirban Group',
+  'Bhanupur Infra',
 ];
 
 export const services = [
