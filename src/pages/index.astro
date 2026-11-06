@@ -171,11 +171,35 @@ const schema = [
                 <span
                   style="position:absolute;top:26px;left:-5px;width:11px;height:11px;background:#e2231a;border-radius:50%;box-shadow:0 0 0 5px rgba(226,35,26,.14);pointer-events:none;transition:box-shadow .4s ease"
                 ></span>
+                {/*
+                  The wipe label rides the handle. Both copies are aria-hidden: the grip
+                  itself already carries "Reveal more drawing or more render", so this is
+                  decoration for sighted users and a second reading of it would be noise.
+                */}
                 <span
+                  data-movelabel="handle"
+                  aria-hidden="true"
                   style="position:absolute;bottom:-20px;left:8px;font-size:8px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.55"
                   >Move — Drawing / Render</span
                 >
               </div>
+
+              {/*
+                [RESPONSIVE FIX] On a phone the same label cannot ride the handle. It is
+                ~200px of unbreakable text hanging off a 1px rule that sits anywhere from
+                6% to 94% across the plate, so at the default 46% it ran to x=359 on a
+                320px screen and x=377 on a 360px one — past the right edge, where it was
+                simply cut off. Anchoring it to the plate's own left edge keeps it on
+                screen wherever the handle has been dragged. The copy above is hidden at
+                these widths and this one takes over; above 720px it is the other way
+                round and the desktop is untouched.
+              */}
+              <span
+                data-movelabel="plate"
+                aria-hidden="true"
+                style="position:absolute;bottom:-20px;left:0;font-size:8px;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;opacity:.55"
+                >Move — Drawing / Render</span
+              >
 
               <svg
                 id="wva-wire"
@@ -853,7 +877,11 @@ const schema = [
       margin-top: 20px;
       flex-direction: column !important;
       align-items: stretch !important;
-      gap: 22px !important;
+      /*
+       * 22px put a four-line, 22px headline 22px clear of the slide ticks, which read as
+       * one block rather than two. 34px separates them without changing either.
+       */
+      gap: 34px !important;
     }
     #top h1 {
       font-size: 21px !important;
