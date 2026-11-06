@@ -465,62 +465,47 @@ const schema = [
       */}
       <figure data-mask style="position:relative;margin:56px 0 0;overflow:hidden;width:100%;aspect-ratio:16 / 9">
         {/*
-          The practice's walkthrough of Gami Jaydeep Estella, supplied 4 November 2026,
-          replacing the line-drawing loop that stood here.
+          The practice's walkthrough of Prince Tower, supplied 6 November 2026, replacing
+          the Gami Jaydeep Estella film, which moves to the About us banner.
 
           H.264 only. The clip it replaced shipped a VP9 WebM first because VP9 encoded
           that line artwork smaller; on this footage it does not — matched for quality,
           VP9 came out larger than H.264 at every setting tried, so a WebM no browser
           would choose would only have been dead weight.
 
-          The source is 1920x1080 at 60fps and 27MB; it is served at 1600x900 at 30fps
-          and 2.7MB. The plate is 1440 wide at most and the camera moves slowly, so
-          neither the extra resolution nor the extra frames were doing anything.
+          The source is 1920x1080 at 50fps and 27MB; it is served at 1600x900 at 30fps
+          and 3.3MB. The plate is 1440 wide at most and the camera moves slowly, so
+          neither the extra resolution nor the extra frames were doing anything. CRF 28
+          rather than the 23 tried first: at 23 this footage came out 6.7MB, and on the
+          lobby shot — the most detailed frame in the clip — 28 is not tellable from 23
+          at the size it is shown.
 
           It loops. The walkthrough is an edited sequence with cuts in it already, so
           the return to the first shot reads as one more cut rather than a jump.
         */}
         <video
           id="wva-plate-video"
+          data-autoloop
           autoplay
           loop
           muted
           playsinline
           preload="metadata"
-          poster="/video/estella.jpg"
-          aria-label="A walkthrough of Gami Jaydeep Estella — the street approach at dusk, the entrance porch, the balcony facade, and an aerial view of the podium at night."
+          poster="/video/prince-tower.jpg"
+          aria-label="A walkthrough of Prince Tower on 90 Feet Road, Dharavi — the tower from the street, the grand entrance lobby, and an aerial view of the rooftop terraces at night."
           style="display:block;width:100%;height:100%;object-fit:contain;background:#0d0d0d"
         >
-          <source src="/video/estella.mp4" type="video/mp4" />
+          <source src="/video/prince-tower.mp4" type="video/mp4" />
         </video>
       </figure>
 
 
       {/*
-        One full-bleed plate where two stood side by side, at the practice's request.
-        The gateway render replaces The Celeste street frontage and the Gondia bungalow.
-
-        The band takes the render's own 1344:906 so the whole image shows. Any band
-        shallower than that crops it, and at the shapes tried earlier the crop took the
-        base of the gateway, its pavilions and the cars — most of what the picture is of.
-        The parallax drift is gone with it: `data-par` works by overflowing the frame and
-        sliding the image inside it, which is a crop by another name.
+        The Entrance Gateway at Night plate is removed from the home page at the
+        practice's request and now stands on the contact page, where it replaces the
+        Borivali refurbishment image. It kept its 1344:906 band in the move, so it is
+        still shown whole.
       */}
-      <div style="margin-top:112px;width:100%">
-        <figure data-mask style="position:relative;margin:0;overflow:hidden;width:100%;aspect-ratio:1344 / 906">
-          <Image
-            src={img('img/p/gateway-night.jpg')}
-            alt="An illuminated entrance gateway at night, twin residential towers rising behind it"
-            widths={[768, 1280, 1920, 2560]}
-            sizes="100vw"
-            style="width:100%;height:100%;object-fit:contain;background:#0d0d0d"
-          />
-          <figcaption
-            style="position:absolute;left:34px;bottom:22px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#ffffff;opacity:.85"
-            >Plate 02 — Entrance Gateway at Night</figcaption
-          >
-        </figure>
-      </div>
     </section>
 
     <section
@@ -944,11 +929,10 @@ const schema = [
 </style>
 
 <script>
-  import { initHero, initPlateVideo, initRegister, type HeroSlide, type RegisterRow } from '../scripts/home';
+  import { initHero, initRegister, type HeroSlide, type RegisterRow } from '../scripts/home';
 
   const read = <T,>(id: string): T => JSON.parse(document.getElementById(id)!.textContent!) as T;
 
   initHero(read<HeroSlide[]>('wva-hero-data'));
   initRegister(read<RegisterRow[]>('wva-register-data'));
-  initPlateVideo();
 </script>

@@ -228,3 +228,22 @@ export function initParallax(): () => void {
     window.removeEventListener('resize', onScroll);
   };
 }
+
+/**
+ * Silent looping films stand down under reduced motion: paused and rewound, so the
+ * poster frame shows and nothing moves — matching how the carousel, reveals and
+ * parallax already behave.
+ *
+ * This used to look up `#wva-plate-video` by id, which was fine while the home page was
+ * the only page with a film. The About us banner is a film too now, so it takes every
+ * element marked `data-autoloop` instead; both pages mark theirs.
+ */
+export function initPlateVideo(): void {
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll<HTMLVideoElement>('video[data-autoloop]').forEach((video) => {
+    video.autoplay = false;
+    video.removeAttribute('autoplay');
+    video.pause();
+    video.currentTime = 0;
+  });
+}
