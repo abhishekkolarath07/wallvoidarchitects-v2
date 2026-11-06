@@ -100,6 +100,10 @@ export const credentials = [
  *
  * Naming a developer here asserts a working relationship, so add a name only on the
  * practice's confirmation or where a project record supports it.
+ *
+ * The last four were supplied by the practice directly and are carried verbatim. No
+ * project in this repository is filed against them yet, which is expected — this list
+ * is who the practice has worked with, not an index of the twelve documented sheets.
  */
 export const clients = [
   'Transindia Group',
@@ -108,17 +112,39 @@ export const clients = [
   'Easy Homes Solutions',
   'Punit Construction',
   'Dudhwala Developers',
+  'Sherif Infra LLP',
+  'Mercury Life Spaces Ltd.',
+  'Nirban Group',
+  'Bhanupur Infra',
 ];
 
+/**
+ * [CONTENT] Replaced wholesale by the practice with the six headings below. The export's
+ * eight descriptive lines ("Architectural design and conceptual development",
+ * "Redevelopment and rehabilitation planning", "Refurbishment of existing buildings",
+ * "Interior design for lobbies and common areas", "Master layout planning, micro to
+ * macro", "3D visualisation and design presentation", "Working drawings and site
+ * coordination", "Municipal submission and approvals") are gone.
+ *
+ * Carried as given, with one spelling fix: the practice wrote "3D Visulisation", and the
+ * rest of the site spells it "visualisation". Raised rather than silently kept either
+ * way — say the word if the shorter spelling was deliberate.
+ *
+ * Two capabilities the old list named and this one does not spell out — municipal
+ * submission and approvals, and working drawings and site coordination — are still
+ * described on the About us page's practice text, so nothing is claimed or dropped
+ * that the practice has not decided.
+ *
+ * This is the single source: the home page's contact-section services row reads from
+ * here too, so the two lists cannot drift apart again.
+ */
 export const services = [
-  'Architectural design and conceptual development',
-  'Redevelopment and rehabilitation planning',
-  'Refurbishment of existing buildings',
-  'Interior design for lobbies and common areas',
-  'Master layout planning, micro to macro',
-  '3D visualisation and design presentation',
-  'Working drawings and site coordination',
-  'Municipal submission and approvals',
+  'Architecture',
+  'Planning',
+  'Interior Design',
+  'Landscape',
+  'Turnkey Projects',
+  '3D Visualisation',
 ];
 
 /** Enquiry types offered by the contact form — verbatim from the export. */

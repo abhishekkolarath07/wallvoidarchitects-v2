@@ -5,6 +5,7 @@ import { img } from '../lib/images';
 import { site } from '../data/site';
 import { filters, heroSlides, projects } from '../data/projects';
 import { homeSectors, sectors } from '../data/sectors';
+import { services } from '../data/studio';
 
 /** Ink overlay path for a plate: img/p/sion-2.jpg -> img/p/ink-sion-2.jpg */
 const inkPath = (key: string) => key.replace(/([^/]+)$/, 'ink-$1');
@@ -710,17 +711,14 @@ const schema = [
         <div
           style="grid-column:4 / span 9;display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;line-height:1.6;opacity:.72"
         >
+          {/*
+            [BUG FIX] This row used to carry its own hand-shortened copy of the services,
+            which is how it came to say "Interiors for lobbies & common areas" while
+            About us said "Interior design for lobbies and common areas". It now reads
+            the one list in studio.ts, so the practice's wording appears once.
+          */}
           {
-            [
-              'Architectural design',
-              'Redevelopment & rehabilitation',
-              'Refurbishment',
-              'Interiors for lobbies & common areas',
-              'Master layout planning',
-              '3D visualisation',
-              'Working drawings & site coordination',
-              'Municipal submission & approvals',
-            ].map((label, i, all) => (
+            services.map((label, i, all) => (
               <>
                 <span>{label}</span>
                 {i < all.length - 1 && <span style="color:#e2231a">·</span>}
