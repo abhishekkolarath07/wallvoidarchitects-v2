@@ -102,11 +102,12 @@ export const sectors: SectorEntry[] = [
     name: 'Interiors',
     // [CONTENT] Added at the practice's request (comments sheet, item 11 — the one-line
     // description was outstanding and the practice asked that one be written). Nothing
-    // here is invented: "interior design for lobbies and common areas" is the practice's
-    // own service line from studio.ts, and the rest describes RaviRaj Royal, Borivali —
-    // the one project already filed under the Interiors sector, whose own record lists
-    // the common lobby, lift lobbies, false ceilings and a marble/glass/timber/metal
-    // palette. No new project, client or capability is claimed.
+    // here is invented: it describes RaviRaj Royal, Borivali — the one project filed
+    // under the Interiors sector, whose own record lists the common lobby, lift lobbies,
+    // false ceilings and a marble/glass/timber/metal palette — and Interior Design is
+    // one of the practice's six services. No new project, client or capability is
+    // claimed. (This note used to cite the old service line "Interior design for lobbies
+    // and common areas", which the practice has since replaced with "Interior Design".)
     note: 'Entrance lobbies, lift lobbies and common areas — refurbishment work carried out inside an existing building, where finish, light and signage do what structure cannot.',
     tags: ['Lobbies', 'Common areas', 'Finishes'],
     image: 'img/p/borivali-2.jpg',
