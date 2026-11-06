@@ -270,13 +270,11 @@ const schema = [
 
   <section style="padding:120px var(--gut) 0">
     <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:end">
-      <div style="grid-column:1 / span 5" data-rv>
-        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45">Working with us</div>
-        <p style="margin:16px 0 0;max-width:38ch;font-size:13px;line-height:1.85;opacity:.62;text-wrap:pretty">
-          Bring a plot, a redevelopment or a half-finished scheme. The first conversation costs
-          nothing and usually saves a month.
-        </p>
-      </div>
+      {/*
+        The "Working with us" label and its paragraph are removed at the practice's
+        request. The Start a project link stays and keeps its own column, so it sits
+        where it always did rather than sliding left into the empty half.
+      */}
       <div style="grid-column:8 / span 5;text-align:right" data-rv>
         <a
           class="wva-ghost-cta"
