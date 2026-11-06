@@ -686,9 +686,13 @@ const schema = [
           <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
             Enquiries
           </div>
+          {/*
+            "New projects & collaborations" is removed at the practice's request, leaving
+            the address alone under the Enquiries label. The <br> goes with it, so nothing
+            trails an empty second line.
+          */}
           <div style="font-size:12px;line-height:1.9;opacity:.72">
-            <a href={`mailto:${site.email}`} style="border-bottom:1px solid rgba(13,13,13,.25)">{site.email}</a><br />
-            New projects &amp; collaborations
+            <a href={`mailto:${site.email}`} style="border-bottom:1px solid rgba(13,13,13,.25)">{site.email}</a>
           </div>
         </div>
       </div>
