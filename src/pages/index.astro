@@ -471,10 +471,18 @@ const schema = [
         source. The band simply could not be seen all at once, which reads as a crop
         while you scroll, and is what the practice reported.
 
-        The band is capped at 78vh so the whole frame fits on screen, and the cap is
-        applied to its WIDTH — width:min(100%, 78vh*16/9) — so the band stays exactly
+        The band is capped at 86vh so the whole frame fits on screen, and the cap is
+        applied to its WIDTH — width:min(100%, 86vh*16/9) — so the band stays exactly
         16:9 and simply centres itself when the window is too short to carry it full
-        bleed. Capping the height instead would have left the film in a 2.4:1 box with
+        bleed.
+
+        86vh and not 78vh: the first attempt at this cap left the film reading small —
+        1109px wide in a 1512px window, 73% of it. The constraint is the gap between
+        the header's bottom edge and the foot of the window, which is about 713px in an
+        800px window once the header has shrunk to 87px on scroll. 86vh is 688px there,
+        so it still clears the header, and the film comes out 1223px wide — 81% of the
+        window, a tenth larger than at 78vh. Measured clearance is positive at every
+        window shape checked, not assumed. Capping the height instead would have left the film in a 2.4:1 box with
         200px of dark matte down each side, which looks like a video player rather than
         like the rest of this site; a centred plate with page margins matches the other
         plates. On a narrow or tall window min(100%) wins and it is full bleed as
@@ -482,7 +490,7 @@ const schema = [
       */}
       <figure
         data-mask
-        style="position:relative;margin:56px auto 0;overflow:hidden;width:min(100%, calc(78vh * 16 / 9));aspect-ratio:16 / 9"
+        style="position:relative;margin:56px auto 0;overflow:hidden;width:min(100%, calc(86vh * 16 / 9));aspect-ratio:16 / 9"
       >
         {/*
           The practice's walkthrough of Prince Tower, supplied 6 November 2026, replacing
