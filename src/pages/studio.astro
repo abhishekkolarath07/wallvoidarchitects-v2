@@ -1,7 +1,5 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import { img } from '../lib/images';
 import { site } from '../data/site';
 import { clients, credentials, practice, principalBio, services, stats, team } from '../data/studio';
 
@@ -45,31 +43,40 @@ const schema = [
   </section>
 
   <section style="padding:56px var(--gut) 0">
+    {/*
+      The Gami Jaydeep Estella walkthrough takes this banner at the practice's request,
+      replacing the Transindia Grandeur render, which came off the site with it.
+
+      The band takes the film's own 16:9 instead of the 66vh it used to be. That matters:
+      66vh was about 2.4:1 and the render in it was cover-cropped to fit, which is what
+      the `object-position` note here used to be about. A film has no safe crop — every
+      shot is framed — so the band is the film's shape and the fit is `contain`.
+
+      Reduced motion is handled by the same code as the home page's film: both carry
+      `data-autoloop`, and under `prefers-reduced-motion` they are paused and rewound so
+      the poster frame shows and nothing moves.
+    */}
     <figure data-plate style="margin:0">
-      <div data-mask style="height:66vh;min-height:440px;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)">
-        {/*
-          `object-position` holds the crop high. The band is wider than the render is —
-          about 2.4:1 against 2:1 — and the project's name is lettered across the top of
-          the arch, so a centred crop would clip it. Giving up foreground forecourt costs
-          nothing.
-        */}
-        <Image
-          src={img('img/p/grandeur-gate.jpg')}
-          alt="Transindia Grandeur — the arched entrance gateway and glazed sales office, lit at dusk"
-          widths={[640, 1024, 1600, 2000]}
-          sizes="100vw"
-          loading="eager"
-          fetchpriority="high"
-          style="width:100%;height:112%;object-fit:cover;object-position:center 22%;filter:saturate(.84) contrast(1.03)"
-        />
+      <div data-mask style="width:100%;aspect-ratio:16 / 9;background:#0d0d0d;border:1px solid rgba(13,13,13,.1)">
+        <video
+          data-autoloop
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster="/video/estella.jpg"
+          aria-label="A walkthrough of Gami Jaydeep Estella — the street approach at dusk, the entrance porch, the balcony facade, and an aerial view of the podium at night."
+          style="display:block;width:100%;height:100%;object-fit:contain;background:#0d0d0d"
+        >
+          <source src="/video/estella.mp4" type="video/mp4" />
+        </video>
       </div>
       <figcaption
         style="display:flex;justify-content:space-between;gap:24px;padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45"
         data-rv
       >
-        {/* Both halves read off the render's own signage, which letters the project
-            name across the arch and "Sales Office" over the entrance. */}
-        <span>Transindia Grandeur — Sales Office</span><span style="white-space:nowrap">Transindia Group</span>
+        <span>Gami Jaydeep Estella — walkthrough</span><span style="white-space:nowrap">Gami Group &amp; Jaydeep Group</span>
       </figcaption>
     </figure>
   </section>

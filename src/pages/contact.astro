@@ -268,23 +268,32 @@ const schema = [
   </section>
 
   <section style="padding:120px var(--gut) 0">
+    {/*
+      The Entrance Gateway at Night plate moves here from the home page at the practice's
+      request, replacing the Borivali refurbishment image.
+
+      It keeps the band it had on the home page — its own 1344:906, with `object-fit:
+      contain` — rather than the 56vh this figure used to be. 56vh was about 2.7:1 and
+      cover-cropped whatever went in it; on this render that crop took the base of the
+      gateway, its pavilions and the cars, which is most of what the picture is of.
+    */}
     <figure
       data-mask
-      style="margin:0;height:56vh;min-height:400px;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)"
+      style="margin:0;width:100%;aspect-ratio:1344 / 906;background:#0d0d0d;border:1px solid rgba(13,13,13,.1)"
     >
       <Image
-        src={img('img/p/borivali-1.jpg')}
-        alt="Refurbishment at Borivali — the podium frontage with green wall and fins"
-        widths={[768, 1280, 1920]}
+        src={img('img/p/gateway-night.jpg')}
+        alt="An illuminated entrance gateway at night, twin residential towers rising behind it"
+        widths={[768, 1280, 1920, 2560]}
         sizes="100vw"
-        style="width:100%;height:110%;object-fit:cover;filter:saturate(.84) contrast(1.03)"
+        style="width:100%;height:100%;object-fit:contain;background:#0d0d0d"
       />
     </figure>
     <div
       style="display:flex;justify-content:space-between;gap:24px;padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45"
       data-rv
     >
-      <span>Refurbishment at Borivali — podium frontage</span>
+      <span>Plate 02 — Entrance Gateway at Night</span>
       <a href="/projects" style="white-space:nowrap">All sheets ↗</a>
     </div>
   </section>

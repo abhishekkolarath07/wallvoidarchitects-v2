@@ -82,7 +82,7 @@ const {
     <Footer variant={footerVariant} />
 
     <script>
-      import { initReveals, initCounters, initScrollChrome, initParallax } from '../scripts/page';
+      import { initReveals, initCounters, initScrollChrome, initParallax, initPlateVideo } from '../scripts/page';
 
       const header = document.getElementById('wva-header');
       const variant = (header?.dataset.variant === 'home' ? 'home' : 'inner') as 'home' | 'inner';
@@ -91,6 +91,9 @@ const {
       initReveals();
       initCounters();
       initParallax();
+      // Films stand down under reduced motion. Shared, because the home page is no
+      // longer the only page with one — the About us banner is a film too.
+      initPlateVideo();
       initScrollChrome({
         variant,
         spineId: spine?.id,
