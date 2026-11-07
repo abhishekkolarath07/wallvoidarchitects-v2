@@ -462,8 +462,28 @@ const schema = [
         The band takes the film's own 16:9 rather than a share of the window, so the
         whole frame shows. At 78vh it was about 2.3:1 and a cover fit cropped the top
         and bottom off every shot.
+
+        [BUG FIX] A full-bleed 16:9 band is taller than the window on a laptop: 851px at
+        1512 and 1080px at 1920, against perhaps 800px of usable viewport. Nothing was
+        cropping the film — the figure measured 16:9, the video measured 16:9 inside it
+        under `object-fit: contain`, with no transform and no spill, and a frame pulled
+        from the shipped encode is pixel-identical to the same frame of the practice's
+        source. The band simply could not be seen all at once, which reads as a crop
+        while you scroll, and is what the practice reported.
+
+        The band is capped at 78vh so the whole frame fits on screen, and the cap is
+        applied to its WIDTH — width:min(100%, 78vh*16/9) — so the band stays exactly
+        16:9 and simply centres itself when the window is too short to carry it full
+        bleed. Capping the height instead would have left the film in a 2.4:1 box with
+        200px of dark matte down each side, which looks like a video player rather than
+        like the rest of this site; a centred plate with page margins matches the other
+        plates. On a narrow or tall window min(100%) wins and it is full bleed as
+        before.
       */}
-      <figure data-mask style="position:relative;margin:56px 0 0;overflow:hidden;width:100%;aspect-ratio:16 / 9">
+      <figure
+        data-mask
+        style="position:relative;margin:56px auto 0;overflow:hidden;width:min(100%, calc(78vh * 16 / 9));aspect-ratio:16 / 9"
+      >
         {/*
           The practice's walkthrough of Prince Tower, supplied 6 November 2026, replacing
           the Gami Jaydeep Estella film, which moves to the About us banner.
