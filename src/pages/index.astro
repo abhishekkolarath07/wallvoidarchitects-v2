@@ -445,7 +445,22 @@ const schema = [
       </section>
     </div>
 
-    <section style="padding:138px 0 0;position:relative">
+    {/*
+      [BUG FIX] `padding-bottom` is what stops the Sectors band slicing the film.
+
+      The Sectors section below rises over this one by design — it carries
+      `margin-top:-84px` with `z-index:1`, so it paints across the last 84px of
+      whatever ends this section. That used to be the Entrance Gateway plate, which left
+      the home page in November; the film became the last element here and the dark band
+      has been cutting 84px off its foot ever since, in a hard horizontal line. Measured
+      at 84px of overlap at 1280, 1512 and 1920 — this is the crop the practice reported,
+      and it was not in the footage.
+
+      104px of bottom padding gives the band something to rise over: it keeps the
+      export's overlap exactly as it is, and lands it on empty page with 20px to spare
+      below the film instead of on the film itself.
+    */}
+    <section style="padding:138px 0 104px;position:relative">
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 var(--gut) 14px" data-rv>
         <div
           style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
