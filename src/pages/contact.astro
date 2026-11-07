@@ -225,7 +225,8 @@ const schema = [
         </a>
 
         <div data-line style="padding:20px 0;border-top:1px solid rgba(13,13,13,.14)" data-rv>
-          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Studio</div>
+          {/* "Studio" -> "Address" at the practice's request. */}
+          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Address</div>
           <address
             style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72;font-style:normal"
             set:html={site.addressLines.join('<br>')}
