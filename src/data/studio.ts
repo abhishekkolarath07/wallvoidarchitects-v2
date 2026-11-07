@@ -82,7 +82,16 @@ export const credentials = [
   { label: 'Qualification', value: 'B.Arch — Kamla Raheja Vidyanidhi Institute for Architecture, Mumbai' },
   { label: 'Registration', value: 'Registered with the Council of Architecture, India' },
   { label: 'Practice', value: 'Founder and principal architect, Wall Voids Architects' },
-  { label: 'Based', value: 'Byculla (E) / Cotton Green (W), Mumbai — working across Maharashtra' },
+  /*
+   * [CONTENT] Shortened at the practice's request, from "Byculla (E) / Cotton Green (W),
+   * Mumbai — working across Maharashtra". The two station names stay in site.ts, where
+   * the header and footer still carry them, and the postal address is unchanged.
+   *
+   * "Pan India" rather than "Maharashtra" is the practice's own correction and the
+   * project data backs it: Highway Hotel & Entertainment is in Kanyakumari, Tamil Nadu,
+   * so the reach already ran past the state line and the old wording understated it.
+   */
+  { label: 'Based', value: 'Mumbai — working across Pan India' },
 ];
 
 /**
