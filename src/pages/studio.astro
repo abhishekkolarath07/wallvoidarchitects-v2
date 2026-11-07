@@ -239,11 +239,18 @@ const schema = [
     </div>
     <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
     <div data-r="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-top:40px" data-rv>
+    {/*
+      [BUG FIX] These tiles were `white-space: nowrap`, so each one's text set a floor
+      under its grid track. With the eleventh name — "M/S Real Infrastructure Co", the
+      longest in the list — four tracks no longer fitted between 981px and about 1030px,
+      and the document ran up to 45px past the viewport. Letting a long name wrap lets
+      the track shrink; the tiles are already centred, so a two-line name sits correctly.
+    */}
       {
         clients.map((cl) => (
           <span
             data-cl
-            style="display:flex;align-items:center;justify-content:center;border:1px solid rgba(13,13,13,.14);padding:19px 12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;text-align:center;color:rgba(13,13,13,.55);transition:border-color .45s ease,color .45s ease"
+            style="display:flex;align-items:center;justify-content:center;border:1px solid rgba(13,13,13,.14);padding:19px 12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;text-align:center;color:rgba(13,13,13,.55);transition:border-color .45s ease,color .45s ease"
           >
             {cl}
           </span>
