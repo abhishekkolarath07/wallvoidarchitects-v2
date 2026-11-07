@@ -17,17 +17,27 @@ const addressHtml = site.addressLines.join('<br>');
   variant === 'full' && (
     <footer style="margin-top:112px;background:#0d0d0d;color:#ffffff;padding:64px var(--gut) 26px;position:relative">
       <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
-        <div style="grid-column:1 / span 4">
+        <div style="grid-column:1 / span 5">
           {/*
-            The mark is sized against the link columns beside it rather than against its
-            own column. Filling the column put it at 423x142 at 1440 — taller than the
-            whole Navigate/Sectors/Reach block, which is 127px — and that is what first
-            read as oversized. The cap went to 320px (107px tall) and has since been cut
-            again at the practice's request: 248px, which is 83px tall and sits well
-            inside those 127px columns. The header mark is held two points under this
-            one, so the two still read as a pair. The file is 1573x527, so none of this
-            upscales; `width` and `height` state those real dimensions so the browser
-            reserves the right box before the image arrives.
+            [DESIGN CHANGE — requested] The practice marked up the footer with the box it
+            wants the mark to fill: on their 1512-wide screen it runs from the gutter to
+            about x=590, roughly 570x190.
+
+            Four columns could not reach that. The mark's column ends at x=509 at 1512,
+            and the next thing along — Navigate — does not start until x=650, so a whole
+            empty column sat between them. The column is five wide now, which ends at
+            x=627 and leaves a 23px gap before Navigate at every width from 1280 up, and
+            the mark fills it: 565x189 at 1512, which is the box they drew.
+
+            The 600px cap is for large screens only. Five columns is 1001px at 2560, and
+            a metre-wide mark is not what was asked for; the cap holds it at 600x201 from
+            about 1800 up. The file is 1573x527, so even at 600 nothing upscales; `width`
+            and `height` state those real dimensions so the browser reserves the right
+            box before the image arrives.
+
+            This does make the mark the tallest thing in the row — it was deliberately
+            held under the 127px link columns before — so the footer grows with it. That
+            is the change the practice asked for, not a side effect.
 
             The line that sat beneath it — "Architecture, interiors and approvals for
             residential, commercial and mixed-use work across Mumbai" — is removed.
@@ -38,7 +48,7 @@ const addressHtml = site.addressLines.join('<br>');
             width="1573"
             height="527"
             data-no-filter
-            style="display:block;width:min(100%, 248px);height:auto;opacity:.95"
+            style="display:block;width:min(100%, 600px);height:auto;opacity:.95"
           />
         </div>
 
