@@ -840,9 +840,18 @@ const schema = [
       flex-direction: column !important;
       padding: 142px var(--gut) 8px !important;
     }
+    /*
+      [DESIGN CHANGE — requested] The plate leads on a phone. The stack was meta, lede,
+      plate — so the first thing on a small screen was four lines of headline, and the
+      drawing/render plate the hero is built around sat below the fold. It is now plate,
+      sheet meta, lede: the picture first, its sheet label under it as a caption, then
+      the headline and the slide ticks. Desktop is untouched; this is the 720px stack
+      only, where the hero is a flex column and these three orders are all that set it.
+    */
     #top > [data-h='meta'] {
       position: static !important;
-      order: 1;
+      order: 2;
+      margin-top: 26px;
       text-align: left !important;
       display: flex !important;
       flex-wrap: wrap;
@@ -860,7 +869,7 @@ const schema = [
 
     #top > [data-h='lede'] {
       position: static !important;
-      order: 2;
+      order: 3;
       margin-top: 20px;
       flex-direction: column !important;
       align-items: stretch !important;
@@ -883,8 +892,9 @@ const schema = [
 
     #wva-stage {
       position: static !important;
-      order: 3;
-      padding: 26px 0 0 !important;
+      order: 1;
+      /* First in the column now, so it carries no top padding of its own. */
+      padding: 0 !important;
     }
     #wva-depth {
       width: 100% !important;
