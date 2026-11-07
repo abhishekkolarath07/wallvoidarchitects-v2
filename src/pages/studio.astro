@@ -83,35 +83,54 @@ const schema = [
 
   <section style="padding:120px var(--gut) 0">
     <div
-      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
+      style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px"
       data-rv
     >
-      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>01 / Practice
+      <div
+        style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+      >
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>01 / Practice
+      </div>
+      {/*
+        The margin note used to hang in the empty right half of the grid below, which is
+        the half this section no longer has. It sits on the section's own header row now,
+        where every other section on the site puts its right-hand note.
+      */}
+      <div style="font-family:Caveat,cursive;font-size:17px;line-height:1.5;color:rgba(13,13,13,.6);white-space:nowrap">
+        one hand, brief to handover
+      </div>
     </div>
     <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
-    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
-      {/*
-        The practice supplied its own description of itself on 4 November 2026. The first
-        paragraph takes the lede position the export's single sentence held; the other two
-        follow at body size, so the section opens at the same weight it always did.
-      */}
-      <div style="grid-column:1 / span 7" data-rv>
+    {/*
+      [DESIGN CHANGE — requested] The practice asked why the type size changed partway
+      through this section, and for a better use of the page.
+
+      Both had the same cause. The first paragraph was set as a lede at clamp(17px,
+      1.9vw,23px) and full opacity, the other two at body size and .66 — a device that
+      works for one display sentence above a body block, but these three paragraphs are
+      one continuous description of the practice, so the step read as a mistake. They
+      are one setting now: same size, same leading, same opacity.
+
+      The layout followed from that. All three sat in columns 1-7 with a 62ch cap, so
+      the first paragraph ran to 790px while the other two stopped at 533px — a ragged
+      right edge against an empty right half of the page. One paragraph per column
+      across all twelve fills the width, gives each the same measure, and matches how
+      Team, Clients and Services below already use the grid.
+    */}
+    {/*
+      `data-rv` sits on the grid rather than on each paragraph: the reveal ends at
+      `opacity: 1`, so marking the paragraphs individually would have overridden their
+      own .72 and set the prose solid black. Revealing the block keeps the setting.
+    */}
+    <div data-r="g12" data-rv style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
+      {practice.map((para, i) => (
         <p
-          style="margin:0;font-size:clamp(17px,1.9vw,23px);line-height:1.55;font-weight:300;letter-spacing:-.01em;text-wrap:pretty"
+          data-prose
+          style={`grid-column:${1 + i * 4} / span 4;margin:0;font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty`}
         >
-          {practice[0]}
+          {para}
         </p>
-        {practice.slice(1).map((para) => (
-          <p style="margin:22px 0 0;max-width:62ch;font-size:13px;line-height:1.85;opacity:.66;text-wrap:pretty">
-            {para}
-          </p>
-        ))}
-      </div>
-      <div style="grid-column:9 / span 4;align-self:end;padding-bottom:4px" data-rv>
-        <div style="font-family:Caveat,cursive;font-size:18px;line-height:1.5;color:rgba(13,13,13,.6)">
-          one hand, brief to handover
-        </div>
-      </div>
+      ))}
     </div>
     <div data-r="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding-top:64px">
       {
@@ -141,44 +160,49 @@ const schema = [
     <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
     <div
       data-r="g12"
+      data-rv
       style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px;align-items:start"
     >
       {/*
-        The RaviRaj Royal lobby plate that stood at columns 1-4 is removed at the
-        practice's request. The text moves to columns 1-7, the measure the Practice
-        section above it uses, rather than spreading across all twelve: a credentials
-        row set 1200px wide would put its label and its value at opposite ends of the
-        screen, and the section would read as one wide block instead of a column.
+        [DESIGN CHANGE — requested] Same fix as the Practice section above. Everything
+        here sat in columns 1-7, so the bio stopped at 533px and the right half of the
+        page was empty for the whole section.
+
+        The name now spans the grid, the three bio paragraphs take a column each at the
+        same setting as Practice, and the credentials run two-up. The earlier note here
+        warned that a credentials row stretched to 1200px would strand its label and its
+        value at opposite ends of the screen; two columns of roughly 690px keeps each
+        row the width it was while still using the page.
       */}
-      <div style="grid-column:1 / span 7">
-        <h2
-          style="margin:0;font-size:clamp(22px,2.6vw,32px);line-height:1.1;font-weight:300;letter-spacing:-.02em"
-          data-rv
+      <h2
+        style="grid-column:1 / span 12;margin:0;font-size:clamp(22px,2.6vw,32px);line-height:1.1;font-weight:300;letter-spacing:-.02em"
+      >
+        Ar. Pravin Kudkar
+      </h2>
+      {principalBio.map((para, i) => (
+        <p
+          data-prose
+          style={`grid-column:${1 + i * 4} / span 4;margin:26px 0 0;font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty`}
         >
-          Ar. Pravin Kudkar
-        </h2>
-        <div style="margin-top:8px" data-rv>
-          {principalBio.map((para) => (
-            <p style="margin:18px 0 0;max-width:62ch;font-size:13px;line-height:1.85;opacity:.66;text-wrap:pretty">
-              {para}
-            </p>
-          ))}
-        </div>
-        <div style="height:34px"></div>
-        {
-          credentials.map((c) => (
-            <div
-              data-r="labelrow"
-              style="display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:baseline;padding:19px 0;border-bottom:1px solid rgba(13,13,13,.1)"
-              data-rv
-            >
-              <span style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42;white-space:nowrap">
-                {c.label}
-              </span>
-              <span style="font-size:13px;line-height:1.7;opacity:.75">{c.value}</span>
-            </div>
-          ))
-        }
+          {para}
+        </p>
+      ))}
+      <div
+        data-r="credgrid"
+        style="grid-column:1 / span 12;display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;margin-top:40px"
+      >
+        {credentials.map((c) => (
+          <div
+            data-r="labelrow"
+            style="display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:baseline;padding:19px 0;border-bottom:1px solid rgba(13,13,13,.1)"
+            data-rv
+          >
+            <span style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42;white-space:nowrap">
+              {c.label}
+            </span>
+            <span style="font-size:13px;line-height:1.7;opacity:.75">{c.value}</span>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -345,6 +369,21 @@ const schema = [
   @media (max-width: 980px) {
     section[style*='186px'] {
       padding-top: 150px !important;
+    }
+    /*
+     * [RESPONSIVE FIX] The shared rule for this grid sets `margin-top: 0 !important` on
+     * every direct child when it collapses to one column, which is right for the blocks
+     * it was written for but would run the Practice and Principal paragraphs together
+     * into one wall of text. Spacing is restored between them, and after the name.
+     */
+    [data-prose] + [data-prose],
+    h2 + [data-prose] {
+      margin-top: 22px !important;
+    }
+    /* Two columns of credentials have nowhere to go on a narrow screen. */
+    [data-r='credgrid'] {
+      grid-template-columns: 1fr !important;
+      margin-top: 28px !important;
     }
   }
 
