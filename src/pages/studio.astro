@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import { img } from '../lib/images';
 import { site } from '../data/site';
 import { clients, credentials, practice, principalBio, services, stats, team } from '../data/studio';
 
@@ -118,21 +120,44 @@ const schema = [
       Team, Clients and Services below already use the grid.
     */}
     {/*
+      [DESIGN CHANGE — requested] Text left, plate right. The three paragraphs stack in
+      columns 1-6 and the plate takes 8-12.
+
+      Alignment, which is the part the practice asked to be careful about, took two
+      things. The plate is 1500x2000 — a 3:4 portrait — so its height is set by its
+      width, and the wider the screen the taller it gets: filling five columns it stood
+      749px at 1512 and 976px at 1920, against a text column of about 510px either way.
+      Left alone the two would have drifted further apart the bigger the screen.
+
+      So: the stats row moves inside the left column rather than sitting in its own band
+      below, which lifts that column from about 360px to about 510px; and the plate is
+      capped at 480px wide and held to the right of its column, which fixes its height
+      near 640px at every desktop width instead of letting it grow. The two columns
+      share a top edge and now end within about 100px of each other from 1280 to 1920,
+      where before the gap was 240px and rising.
+
+      The plate keeps its own ratio under `object-fit: contain`, so it is shown whole —
+      capping the width rather than the height is what makes that possible.
+
       `data-rv` sits on the grid rather than on each paragraph: the reveal ends at
-      `opacity: 1`, so marking the paragraphs individually would have overridden their
-      own .72 and set the prose solid black. Revealing the block keeps the setting.
+      `opacity: 1`, so marking the paragraphs individually would override their own .72
+      and set the prose solid black.
     */}
-    <div data-r="g12" data-rv style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
-      {practice.map((para, i) => (
-        <p
-          data-prose
-          style={`grid-column:${1 + i * 4} / span 4;margin:0;font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty`}
-        >
-          {para}
-        </p>
-      ))}
-    </div>
-    <div data-r="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding-top:64px">
+    <div
+      data-r="g12"
+      data-rv
+      style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px;align-items:start"
+    >
+      <div data-practicetext style="grid-column:1 / span 6">
+        {practice.map((para, i) => (
+          <p
+            data-prose
+            style={`margin:${i === 0 ? '0' : '26px 0 0'};font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty`}
+          >
+            {para}
+          </p>
+        ))}
+        <div data-r="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding-top:56px">
       {
         stats.map((s) => (
           <div data-rv>
@@ -147,6 +172,27 @@ const schema = [
           </div>
         ))
       }
+        </div>
+      </div>
+
+      {/*
+        Supplied by the practice 7 November 2026. No project is named for it, so the alt
+        text describes what the frame shows and no caption asserts a name — the same
+        footing as the Entrance Gateway plate on the contact page.
+      */}
+      <div
+        data-practiceplate
+        data-mask
+        style="grid-column:8 / span 5;width:min(100%, 480px);margin-left:auto"
+      >
+        <Image
+          src={img('img/p/towers-night.webp')}
+          alt="Twin residential towers lit at dusk, with an arched entrance gateway and landscaped forecourt at their base"
+          widths={[480, 760, 1100, 1500]}
+          sizes="(max-width: 980px) 100vw, 480px"
+          style="display:block;width:100%;height:auto;object-fit:contain"
+        />
+      </div>
     </div>
   </section>
 
