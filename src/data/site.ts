@@ -25,15 +25,19 @@ export const site = {
    * Mumbai, and the practice asked for both to appear wherever the studio's
    * location is named (comments sheet, item 13).
    *
-   * `address.locality` and `addressLines` stay exactly as the export has them —
-   * they are the postal address and the schema.org `addressLocality`, where a
-   * second station name would be wrong. Use these two for prose and labels.
+   * `address.locality` stays exactly as the export has it: it feeds schema.org's
+   * `addressLocality`, which is a postal field, and a second station name would be
+   * wrong there.
+   *
+   * `addressLines` is the human-readable address shown on the contact page, and the
+   * practice has now asked for both stations in it too, so the second line carries
+   * them. It is prose, not a postal field — nothing machine-readable reads it.
    */
   stations: 'Byculla (E) / Cotton Green (W)',
   localityLine: 'Byculla (E) / Cotton Green (W), Mumbai',
   addressLines: [
     'A-123, Sussex Industrial Estate A,',
-    'Dadoji Kondeo Marg, Byculla (E),',
+    'Dadoji Kondeo Marg, Byculla (E) / Cotton Green (W),',
     'Mumbai, Maharashtra 400027',
   ],
   mapUrl: 'https://www.google.com/maps/search/Sussex+Industrial+Estate+Byculla+Mumbai',
