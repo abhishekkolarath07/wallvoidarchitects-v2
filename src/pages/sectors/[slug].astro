@@ -1,0 +1,187 @@
+---
+/**
+ * A sector's own plate gallery.
+ *
+ * Only sectors that carry `plates` get a page. A sector whose work is filed as
+ * projects — Residential, Commercial, Mixed Use, Interiors — sends people to the
+ * filtered register instead, where the project pages already show the work; a gallery
+ * there would only repeat them. This route exists for the sectors that have work to
+ * show and nowhere to show it, which until now dead-ended on the contact page.
+ */
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { img } from '../../lib/images';
+import { sectors } from '../../data/sectors';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return sectors
+    .filter((s) => s.slug && s.plates?.length)
+    .map((s) => ({ params: { slug: s.slug! }, props: { sector: s } }));
+}
+
+const { sector } = Astro.props;
+const plates = sector.plates!.map((pl) => ({ ...pl, asset: img(pl.src) }));
+
+const schema = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'Sectors', item: `${site.url}/sectors` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: sector.name,
+        item: `${site.url}/sectors/${sector.slug}`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title={sector.name}
+  description={sector.note}
+  path={`/sectors/${sector.slug}`}
+  active="/sectors"
+  footerVariant="full"
+  spineId="sg-spine"
+  schema={schema}
+>
+  <span slot="header-meta">Sector {sector.no}</span>
+  <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
+  <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">{plates.length} plates</span>
+
+  <section style="padding:112px var(--gut) 0">
+    {/*
+      The eyebrow is the h1, as it is on /projects, /sectors and About us: those pages
+      lost their display headings at the practice's request, and a new page that
+      reintroduced one would stand apart from the rest of the site.
+    */}
+    <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
+      <h1
+        style="margin:0;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5"
+      >
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>{sector.no} / {
+          sector.name
+        }
+      </h1>
+      <a
+        href="/sectors"
+        style="justify-self:end;font-size:9px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;opacity:.55"
+        >All sectors ↗</a
+      >
+    </div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+  </section>
+
+  <section style="padding:56px var(--gut) 0">
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px" data-rv>
+      <p
+        data-prose
+        style="grid-column:1 / span 6;margin:0;font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty"
+      >
+        {sector.note}
+      </p>
+      <div style="grid-column:8 / span 5;display:flex;flex-wrap:wrap;gap:8px;align-self:start">
+        {
+          sector.tags.map((t) => (
+            <span style="border:1px solid rgba(13,13,13,.16);padding:6px 11px;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.6">
+              {t}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/*
+    Every plate is shown whole: `object-fit: contain` in a band of the plate's own ratio,
+    the rule this site has settled on everywhere else.
+
+    The width is what keeps them in proportion to each other. These four run from 0.708
+    to 1.778, so a column-width band would put the portrait sheet at 1963px tall against
+    619px for the landscape ones. Deriving the width from 88vh and the plate's own ratio
+    holds every plate to about a screen instead; the 640px floor stops the portrait
+    sheet — a presentation board with dimensioned elevations on it — shrinking to the
+    point where its annotations cannot be read.
+  */}
+  <section style="padding:72px var(--gut) 0">
+    {
+      plates.map((pl) => {
+        const ratio = pl.asset.width / pl.asset.height;
+        return (
+          <figure
+            data-plate
+            style={`margin:0 auto 72px;width:min(100%, max(640px, calc(88vh * ${ratio.toFixed(4)})))`}
+          >
+            <div
+              data-mask
+              style={`width:100%;aspect-ratio:${pl.asset.width} / ${pl.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
+            >
+              <Image
+                src={pl.asset}
+                alt={`${sector.name} — ${pl.label}`}
+                widths={[640, 1024, 1600, 2000]}
+                sizes="(max-width: 980px) 100vw, 60vw"
+                style="display:block;width:100%;height:100%;object-fit:contain"
+              />
+            </div>
+            <figcaption style="padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;text-wrap:pretty">
+              {pl.label}
+            </figcaption>
+          </figure>
+        );
+      })
+    }
+  </section>
+
+  <section style="padding:40px var(--gut) 0">
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:end">
+      <div style="grid-column:1 / span 5" data-rv>
+        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45">
+          Work in this sector
+        </div>
+        <p style="margin:16px 0 0;max-width:44ch;font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty">
+          Send the plot details and what you have in mind, and we will tell you what is
+          buildable before you commit.
+        </p>
+      </div>
+      <div style="grid-column:8 / span 5;text-align:right" data-rv>
+        <a
+          class="wva-ghost-cta"
+          href="/contact"
+          style="display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(13,13,13,.26);padding:13px 22px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;transition:background-color .5s ease,color .5s ease,border-color .5s ease"
+          >Start a project <span style="color:#e2231a">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* `style-hover` in the export has no browser meaning; restated as CSS, as elsewhere. */
+  .wva-ghost-cta:hover {
+    background: #0d0d0d;
+    color: #ffffff;
+    border-color: #0d0d0d;
+  }
+
+  @media (max-width: 980px) {
+    /*
+      [RESPONSIVE FIX] The shared rule for this grid sets `margin-top: 0 !important` on
+      every child when it collapses to one column, which would close the gap between the
+      sector note and its tags.
+    */
+    [data-prose] + div {
+      margin-top: 22px !important;
+    }
+    /* Stacked, a plate takes the card's width at its own height; the 640px floor would
+       push it past a narrow screen. */
+    [data-plate] {
+      width: 100% !important;
+      margin-bottom: 48px !important;
+    }
+  }
+</style>
