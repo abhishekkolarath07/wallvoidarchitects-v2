@@ -83,8 +83,16 @@ export const sectors: SectorEntry[] = [
     // 10), so the note now reads as the catch-all the name promises. Religious and
     // community work is still named because it is the only work filed here that the
     // practice has evidenced; no other building type is claimed. [CONTENT]
-    note: 'The work that falls outside the other four sectors — religious and community buildings among them, where procession, gathering and daylight set the plan before anything else.',
-    tags: ['Religious', 'Community', 'Gathering'],
+    /*
+     * [CONTENT] Widened when the practice added four residential towers to this
+     * sector's page. The note used to read "religious and community buildings among
+     * them, where procession, gathering and daylight set the plan before anything
+     * else" — true of the shrine and the church, but it would have been contradicted
+     * by the first tower on the page below it. It now names both kinds of work, and
+     * the tags follow.
+     */
+    note: 'The work that falls outside the other four sectors — religious and community buildings, and standalone residential towers taken on one at a time, where the brief sets the plan before any building type does.',
+    tags: ['Religious', 'Community', 'Standalone buildings'],
     /*
      * [CONTENT] This sector has no projects in the register, so its card used to
      * dead-end on the contact page while three of its four plates sat unpublished. It
@@ -104,6 +112,28 @@ export const sectors: SectorEntry[] = [
         src: 'img/p/religious-4.jpg',
         label: 'Anjali Mudra — concept option 01, with elevations, section and plan',
       },
+      /*
+       * Supplied by the practice 8 November 2026 as MISC_PROJECTS. These four are named
+       * in the practice's own filenames, so the names are carried verbatim rather than
+       * described — including "Kannamvar", which the Mumbai locality usually spells
+       * "Kannamwar"; it is the practice's spelling and is left to them to confirm.
+       *
+       * Only the view is described beyond the name. No developer, client, status or
+       * area is asserted: the practice asked for the images alone for now, and these
+       * are not register projects.
+       */
+      { src: 'img/p/misc-kannamvar-1.jpg', label: 'Kannamvar Nagar — the tower from the street' },
+      { src: 'img/p/misc-kannamvar-2.jpg', label: 'Kannamvar Nagar — at dusk' },
+      {
+        src: 'img/p/misc-evara-1.jpg',
+        label: 'Gami Jaydeep Evara, Tilak Nagar — street approach at dusk',
+      },
+      {
+        src: 'img/p/misc-evara-2.jpg',
+        label: 'Gami Jaydeep Evara, Tilak Nagar — from the garden',
+      },
+      { src: 'img/p/misc-ranibagh.jpg', label: 'Building at Ranibagh' },
+      { src: 'img/p/misc-whitehouse-khar.jpg', label: 'White House, Khar' },
     ],
     image: 'img/p/religious-1.jpg',
     // Describes what the image shows — a shrine pavilion with a lit cornice and carved
