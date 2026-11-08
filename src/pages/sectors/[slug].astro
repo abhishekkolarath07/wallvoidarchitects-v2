@@ -97,38 +97,65 @@ const schema = [
   </section>
 
   {/*
-    Every plate is shown whole: `object-fit: contain` in a band of the plate's own ratio,
-    the rule this site has settled on everywhere else.
+    [DESIGN CHANGE — requested] The plates alternate left and right rather than running
+    down one centred column, each paired with its label across the page.
 
-    The width is what keeps them in proportion to each other. These four run from 0.708
-    to 1.778, so a column-width band would put the portrait sheet at 1963px tall against
-    619px for the landscape ones. Deriving the width from 88vh and the plate's own ratio
-    holds every plate to about a screen instead; the 640px floor stops the portrait
-    sheet — a presentation board with dimensioned elevations on it — shrinking to the
-    point where its annotations cannot be read.
+    Every plate is still shown whole: `object-fit: contain` in a band of the plate's own
+    ratio, the rule this site has settled on everywhere else. Width is what keeps a set
+    this mixed in proportion — these run from 0.651 to 1.778, so a column-width band
+    would put a portrait sheet near 1900px tall against 620px for a landscape one.
+    Deriving width from 78vh and the plate's own ratio holds each to about a screen; the
+    560px floor keeps the Anjali Mudra board, which carries dimensioned elevations,
+    readable. 78vh rather than the 88vh of the single column, because a plate now shares
+    its row with a label and no longer has the full width to spend.
+
+    The image takes seven columns and the label four, on opposite sides, swapping each
+    row. The image sits against the outer edge of its block — right-aligned when it is
+    on the left of the page, left-aligned when on the right — so whatever its width, the
+    plates hold the page's two margins and only their inner edges vary. The label is
+    centred against the plate's height.
   */}
   <section style="padding:72px var(--gut) 0">
     {
-      plates.map((pl) => {
+      plates.map((pl, i) => {
         const ratio = pl.asset.width / pl.asset.height;
+        const rightward = i % 2 === 1;
         return (
           <figure
             data-plate
-            style={`margin:0 auto 72px;width:min(100%, max(640px, calc(88vh * ${ratio.toFixed(4)})))`}
+            data-r="g12"
+            style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;margin:0 0 96px;align-items:center"
           >
             <div
-              data-mask
-              style={`width:100%;aspect-ratio:${pl.asset.width} / ${pl.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
+              data-plateimg
+              style={`grid-column:${rightward ? '6 / span 7' : '1 / span 7'};width:min(100%, max(560px, calc(78vh * ${ratio.toFixed(4)})));${
+                rightward ? 'margin-left:auto' : 'margin-right:auto'
+              }`}
             >
-              <Image
-                src={pl.asset}
-                alt={`${sector.name} — ${pl.label}`}
-                widths={[640, 1024, 1600, 2000]}
-                sizes="(max-width: 980px) 100vw, 60vw"
-                style="display:block;width:100%;height:100%;object-fit:contain"
-              />
+              <div
+                data-mask
+                style={`width:100%;aspect-ratio:${pl.asset.width} / ${pl.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
+              >
+                <Image
+                  src={pl.asset}
+                  alt={`${sector.name} — ${pl.label}`}
+                  widths={[640, 1024, 1600, 2000]}
+                  sizes="(max-width: 980px) 100vw, 55vw"
+                  style="display:block;width:100%;height:100%;object-fit:contain"
+                />
+              </div>
             </div>
-            <figcaption style="padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;text-wrap:pretty">
+            <figcaption
+              data-platecap
+              style={`grid-column:${rightward ? '1 / span 4' : '9 / span 4'};font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;text-wrap:pretty;line-height:1.9;${
+                rightward ? '' : 'text-align:right'
+              }`}
+            >
+              <span
+                style={`display:block;width:26px;height:1px;background:#e2231a;margin-bottom:14px;${
+                  rightward ? '' : 'margin-left:auto'
+                }`}
+              />
               {pl.label}
             </figcaption>
           </figure>
@@ -177,11 +204,23 @@ const schema = [
     [data-prose] + div {
       margin-top: 22px !important;
     }
-    /* Stacked, a plate takes the card's width at its own height; the 640px floor would
-       push it past a narrow screen. */
-    [data-plate] {
+    /*
+      Stacked, there is no left and right to alternate between: the plate takes the
+      card's width at its own height — the 560px floor would push it past a narrow
+      screen — and its label follows underneath, always left-aligned.
+    */
+    [data-plateimg] {
       width: 100% !important;
-      margin-bottom: 48px !important;
+    }
+    [data-plate] {
+      margin-bottom: 56px !important;
+    }
+    [data-platecap] {
+      text-align: left !important;
+      margin-top: 14px !important;
+    }
+    [data-platecap] > span {
+      margin-left: 0 !important;
     }
   }
 </style>
