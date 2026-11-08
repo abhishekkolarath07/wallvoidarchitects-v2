@@ -27,6 +27,14 @@ export interface SectorEntry {
   count: string;
   /** Where the card links. Sectors with no projects invite an enquiry, as in the export. */
   href: string;
+  /** URL segment for this sector's own gallery page, where it has one. */
+  slug?: string;
+  /**
+   * Plates for the sector's own page. Only sectors that carry one have this: a sector
+   * whose work is filed as projects sends people to the filtered register instead, and
+   * a gallery there would only repeat the project pages.
+   */
+  plates?: { src: string; label: string }[];
 }
 
 const plural = (n: number) => `${n} project${n === 1 ? '' : 's'}`;
@@ -77,6 +85,26 @@ export const sectors: SectorEntry[] = [
     // practice has evidenced; no other building type is claimed. [CONTENT]
     note: 'The work that falls outside the other four sectors — religious and community buildings among them, where procession, gathering and daylight set the plan before anything else.',
     tags: ['Religious', 'Community', 'Gathering'],
+    /*
+     * [CONTENT] This sector has no projects in the register, so its card used to
+     * dead-end on the contact page while three of its four plates sat unpublished. It
+     * has its own page now, and these are the plates.
+     *
+     * Every label describes what is in the frame. The practice has not named this work,
+     * so nothing here asserts a project, a client or a place. The fourth is labelled a
+     * concept because the sheet itself says "Concept Option 01" — it is a proposal, and
+     * presenting it as built work would be a claim the drawing does not make.
+     */
+    slug: 'miscellaneous',
+    plates: [
+      { src: 'img/p/religious-1.jpg', label: 'Shrine pavilion and water court' },
+      { src: 'img/p/religious-2.jpg', label: 'Church — approach from the forecourt' },
+      { src: 'img/p/religious-3.jpg', label: 'Church — front elevation' },
+      {
+        src: 'img/p/religious-4.jpg',
+        label: 'Anjali Mudra — concept option 01, with elevations, section and plan',
+      },
+    ],
     image: 'img/p/religious-1.jpg',
     // Describes what the image shows — a shrine pavilion with a lit cornice and carved
     // screens, set behind a stepping-stone water channel. The practice has not supplied
@@ -85,7 +113,7 @@ export const sectors: SectorEntry[] = [
     caption: 'Shrine pavilion and water court',
     // Verbatim from the export.
     count: 'On request',
-    href: '/contact',
+    href: '/sectors/miscellaneous',
   },
   {
     no: '05',
