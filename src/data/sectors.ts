@@ -91,67 +91,59 @@ export const sectors: SectorEntry[] = [
     name: 'Miscellaneous Buildings',
     // The export called this sector "Religious Buildings" and the note described only
     // that. The practice renamed it to "Miscellaneous Buildings" (comments sheet, item
-    // 10), so the note now reads as the catch-all the name promises. Religious and
-    // community work is still named because it is the only work filed here that the
-    // practice has evidenced; no other building type is claimed. [CONTENT]
+    // 10), so the note reads as the catch-all the name promises. [CONTENT]
     /*
-     * [CONTENT] Widened when the practice added four residential towers to this
-     * sector's page. The note used to read "religious and community buildings among
-     * them, where procession, gathering and daylight set the plan before anything
-     * else" — true of the shrine and the church, but it would have been contradicted
-     * by the first tower on the page below it. It now names both kinds of work, and
-     * the tags follow.
+     * [CONTENT] Narrowed again on 9 November 2026. The note was widened when four
+     * residential towers were added to this page; the practice has since set the page
+     * to five plates and the towers are not among them, so the note would have promised
+     * work the page no longer shows. It now names what is on the page: religious work,
+     * and the sales lobbies and offices that go with a development.
      */
-    note: 'The work that falls outside the other four sectors — religious and community buildings, and standalone residential towers taken on one at a time, where the brief sets the plan before any building type does.',
-    tags: ['Religious', 'Community', 'Standalone buildings'],
+    note: 'The work that falls outside the other four sectors — religious and community buildings, and the sales lobbies and offices a development is sold from, where the brief sets the plan before any building type does.',
+    tags: ['Religious', 'Community', 'Sales lobbies'],
     /*
-     * [CONTENT] This sector has no projects in the register, so its card used to
-     * dead-end on the contact page while three of its four plates sat unpublished. It
-     * has its own page now, and these are the plates.
+     * [CONTENT] The order and the contents of this page are the practice's own, given
+     * on 9 November 2026: the Anjali Mudra temple, the Transindia Grandeur sales lobby,
+     * the two churches, and last the Gami Jaydeep Evara sales office.
      *
-     * Every label describes what is in the frame. The practice has not named this work,
-     * so nothing here asserts a project, a client or a place. The fourth is labelled a
-     * concept because the sheet itself says "Concept Option 01" — it is a proposal, and
-     * presenting it as built work would be a claim the drawing does not make.
+     * The Evara sales office is not here yet. Nothing in the material supplied so far
+     * is identifiably that job — the gold-emblem office renders carry the same medallion
+     * as the Transindia Grandeur signage, so they read as Transindia's own offices — and
+     * naming one of them Evara would be a claim the images do not make. The practice is
+     * sending the file; it goes last.
+     *
+     * Taken off this page by the same instruction, and kept in the repository rather
+     * than deleted: the shrine pavilion, Kannamvar Nagar (two), Gami Jaydeep Evara
+     * (two), Ranibagh and White House, Khar now sit in _source-material/withheld-plates.
+     * They are out of src/assets because every file under it is emitted into the build
+     * whether a page uses it or not, so leaving them there would ship 3 MB of images
+     * nothing links to. Moving one back and adding its line here restores it. Those six
+     * towers were supplied on 8 November and are now published nowhere on the site.
+     *
+     * Every label still describes what is in the frame. "Anjali Mudra" and "Transindia
+     * Grandeur" are read off the sheets themselves — the first is titled "Concept
+     * Option 01 - Anjali Mudra", and the lobby's back wall is signed TRANSINDIA
+     * GRANDEUR. The first is labelled a concept because the sheet says so: presenting a
+     * proposal as built work would be a claim the drawing does not make. Neither church
+     * has been named by the practice, so neither is named here.
      */
     slug: 'miscellaneous',
     plates: [
-      { src: 'img/p/religious-1.jpg', label: 'Shrine pavilion and water court' },
-      { src: 'img/p/religious-2.jpg', label: 'Church — approach from the forecourt' },
-      { src: 'img/p/religious-3.jpg', label: 'Church — front elevation' },
       {
         src: 'img/p/religious-4.jpg',
         label: 'Anjali Mudra — concept option 01, with elevations, section and plan',
       },
-      /*
-       * Supplied by the practice 8 November 2026 as MISC_PROJECTS. These four are named
-       * in the practice's own filenames, so the names are carried verbatim rather than
-       * described — including "Kannamvar", which the Mumbai locality usually spells
-       * "Kannamwar"; it is the practice's spelling and is left to them to confirm.
-       *
-       * Only the view is described beyond the name. No developer, client, status or
-       * area is asserted: the practice asked for the images alone for now, and these
-       * are not register projects.
-       */
-      { src: 'img/p/misc-kannamvar-1.jpg', label: 'Kannamvar Nagar — the tower from the street' },
-      { src: 'img/p/misc-kannamvar-2.jpg', label: 'Kannamvar Nagar — at dusk' },
       {
-        src: 'img/p/misc-evara-1.jpg',
-        label: 'Gami Jaydeep Evara, Tilak Nagar — street approach at dusk',
+        src: 'img/p/int-grandeur-lobby.jpg',
+        label: 'Transindia Grandeur — sales lobby and reception',
       },
-      {
-        src: 'img/p/misc-evara-2.jpg',
-        label: 'Gami Jaydeep Evara, Tilak Nagar — from the garden',
-      },
-      { src: 'img/p/misc-ranibagh.jpg', label: 'Building at Ranibagh' },
-      { src: 'img/p/misc-whitehouse-khar.jpg', label: 'White House, Khar' },
+      { src: 'img/p/religious-2.jpg', label: 'Church — approach from the forecourt' },
+      { src: 'img/p/religious-3.jpg', label: 'Church — front elevation' },
     ],
-    image: 'img/p/religious-1.jpg',
-    // Describes what the image shows — a shrine pavilion with a lit cornice and carved
-    // screens, set behind a stepping-stone water channel. The practice has not supplied
-    // a project name or location for this work, so none is asserted here. Replace this
-    // with "Name, place" to match the other four cards once it does.
-    caption: 'Shrine pavilion and water court',
+    // Was the shrine pavilion, which is no longer on the page: a card should open onto
+    // the work it shows. This is the first church, as the page now runs.
+    image: 'img/p/religious-2.jpg',
+    caption: 'Church — approach from the forecourt',
     // Verbatim from the export.
     count: 'On request',
     href: '/sectors/miscellaneous',
@@ -203,7 +195,7 @@ export const sectors: SectorEntry[] = [
      */
     slug: 'interiors',
     plates: [
-      { src: 'img/p/int-grandeur-lobby.jpg', label: 'Transindia Grandeur — entrance lobby and reception' },
+      { src: 'img/p/int-grandeur-lobby.jpg', label: 'Transindia Grandeur — sales lobby and reception' },
       { src: 'img/p/int-prince-lobby.jpg', label: 'Prince Tower — lift lobby' },
       { src: 'img/p/int-gym-1.jpg', label: 'Gymnasium — cardio floor' },
       { src: 'img/p/int-gym-2.jpg', label: 'Gymnasium — free weights and mirrored wall' },
