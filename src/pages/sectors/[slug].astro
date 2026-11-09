@@ -171,9 +171,25 @@ const schema = [
           Work in this sector
         </div>
         <p style="margin:16px 0 0;max-width:44ch;font-size:13px;line-height:1.85;opacity:.72;text-wrap:pretty">
-          Send the plot details and what you have in mind, and we will tell you what is
-          buildable before you commit.
+          {
+            sector.enquiry ??
+              'Send the plot details and what you have in mind, and we will tell you what is buildable before you commit.'
+          }
         </p>
+        {/*
+          Only for a sector that has a gallery AND work filed in the register: the card
+          on /sectors can only point at one of the two, and it now opens the gallery.
+        */}
+        {
+          sector.register && (
+            <a
+              href={sector.register.href}
+              style="display:inline-block;margin-top:18px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.55;border-bottom:1px solid rgba(13,13,13,.26);padding-bottom:4px"
+            >
+              {sector.register.label} ↗
+            </a>
+          )
+        }
       </div>
       <div style="grid-column:8 / span 5;text-align:right" data-rv>
         <a

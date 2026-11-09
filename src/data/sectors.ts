@@ -35,6 +35,17 @@ export interface SectorEntry {
    * a gallery there would only repeat the project pages.
    */
   plates?: { src: string; label: string }[];
+  /**
+   * Replaces the closing paragraph on the sector's own page. The default asks for plot
+   * details, which is the right question for a building and the wrong one for a fit-out.
+   */
+  enquiry?: string;
+  /**
+   * A sector with its own gallery AND work filed in the register links to both: the
+   * gallery card can only point at one, and the register entries would otherwise be
+   * unreachable from the sector.
+   */
+  register?: { href: string; label: string };
 }
 
 const plural = (n: number) => `${n} project${n === 1 ? '' : 's'}`;
@@ -166,12 +177,80 @@ export const sectors: SectorEntry[] = [
     // one of the practice's six services. No new project, client or capability is
     // claimed. (This note used to cite the old service line "Interior design for lobbies
     // and common areas", which the practice has since replaced with "Interior Design".)
-    note: 'Entrance lobbies, lift lobbies and common areas — refurbishment work carried out inside an existing building, where finish, light and signage do what structure cannot.',
-    tags: ['Lobbies', 'Common areas', 'Finishes'],
+    /*
+     * [CONTENT] Widened when the practice supplied its interiors archive (Google Drive,
+     * "INTERIOR IMAGES FOR WEB", 8 November 2026). The note used to describe lobby and
+     * common-area refurbishment only — true of the one project filed in the register,
+     * but contradicted by the show flats, private residences and offices now on the
+     * page below it. It names the work that is actually shown, and the tags follow.
+     */
+    note: 'Entrance lobbies, lift lobbies and amenity floors, show flats, private residences and offices — work carried out inside a shell that already exists, where finish, light and signage do what structure cannot.',
+    tags: ['Lobbies', 'Show flats', 'Residences', 'Workplace'],
+    /*
+     * [CONTENT] The practice's interiors archive, supplied as eight folders of renders.
+     *
+     * Every label describes what is in the frame. Two carry a name because the render
+     * itself does — the lift-lobby sheet is signed PRINCE TOWER and the reception sheet
+     * TRANSINDIA GRANDEUR — and two carry a place because the practice's own filenames
+     * do (LIVING GOREGAON, MIRA LIVING). Nothing else here asserts a project, a client,
+     * a developer or a location: the folders are named by room type, not by job, and the
+     * practice has not said whose these are. "Show flat", "private residence",
+     * "bungalow" and "office" are the practice's own folder names.
+     *
+     * Four sheets from the bungalow set — both theatre views and both bar-lounge views —
+     * are not here. They are 8.5–9.4 MB each and could not be pulled from Drive; they
+     * need re-exporting smaller before they can be added.
+     */
+    slug: 'interiors',
+    plates: [
+      { src: 'img/p/int-grandeur-lobby.jpg', label: 'Transindia Grandeur — entrance lobby and reception' },
+      { src: 'img/p/int-prince-lobby.jpg', label: 'Prince Tower — lift lobby' },
+      { src: 'img/p/int-gym-1.jpg', label: 'Gymnasium — cardio floor' },
+      { src: 'img/p/int-gym-2.jpg', label: 'Gymnasium — free weights and mirrored wall' },
+      { src: 'img/p/int-pool.jpg', label: 'Indoor swimming pool and lounge' },
+      { src: 'img/p/int-chembur-1.jpg', label: 'Chembur show flat — bedroom, through to the living room' },
+      { src: 'img/p/int-chembur-2.jpg', label: 'Chembur show flat — bedroom with marble media wall' },
+      { src: 'img/p/int-chembur-3.jpg', label: 'Chembur show flat — bedroom, panelled media wall and wardrobe' },
+      { src: 'img/p/int-chembur-4.jpg', label: 'Chembur show flat — living room, dining beyond' },
+      { src: 'img/p/int-showflat-living.jpg', label: 'Show flat — living room' },
+      { src: 'img/p/int-showflat-master-bed.jpg', label: 'Show flat — master bedroom and dresser' },
+      { src: 'img/p/int-showflat-children-bed.jpg', label: 'Show flat — children’s bedroom' },
+      { src: 'img/p/int-showflat-kitchen.jpg', label: 'Show flat — kitchen' },
+      { src: 'img/p/int-showflat-bath.jpg', label: 'Show flat — bathroom' },
+      { src: 'img/p/int-showflat-vanity.jpg', label: 'Show flat — vanity counter' },
+      { src: 'img/p/int-goregaon-living.jpg', label: 'Living and dining, Goregaon' },
+      { src: 'img/p/int-mira-living.jpg', label: 'Living and dining, Mira Road' },
+      { src: 'img/p/int-bath-fluted.jpg', label: 'Bathroom — fluted timber and marble' },
+      { src: 'img/p/int-bedroom-panelled.jpg', label: 'Bedroom — panelled headboard wall' },
+      { src: 'img/p/int-residence-living-1.jpg', label: 'Private residence — living room' },
+      { src: 'img/p/int-residence-living-2.jpg', label: 'Private residence — living room, from the dining table' },
+      { src: 'img/p/int-residence-terrace-lounge.jpg', label: 'Private residence — terrace lounge and games room' },
+      { src: 'img/p/int-residence-terrace.jpg', label: 'Private residence — terrace at dusk' },
+      { src: 'img/p/int-residence-bedroom-1.jpg', label: 'Private residence — main bedroom' },
+      { src: 'img/p/int-residence-bedroom-2.jpg', label: 'Private residence — second bedroom' },
+      { src: 'img/p/int-residence-guest-bedroom.jpg', label: 'Private residence — guest bedroom' },
+      { src: 'img/p/int-residence-guest-bath.jpg', label: 'Private residence — guest bathroom' },
+      { src: 'img/p/int-bungalow-living-1.jpg', label: 'Bungalow — living room and courtyard' },
+      { src: 'img/p/int-bungalow-living-2.jpg', label: 'Bungalow — living room, fireplace wall' },
+      { src: 'img/p/int-bungalow-porch.jpg', label: 'Bungalow — entrance porch' },
+      { src: 'img/p/int-office-cabin-1.jpg', label: 'Office — private cabin' },
+      { src: 'img/p/int-office-cabin-2.jpg', label: 'Office — cabin with meeting seats' },
+      { src: 'img/p/int-office-reception-1.jpg', label: 'Office — reception and waiting lounge' },
+      { src: 'img/p/int-office-boardroom.jpg', label: 'Office — boardroom' },
+      { src: 'img/p/int-office-reception-2.jpg', label: 'Office — reception desk' },
+    ],
+    enquiry:
+      'Tell us the shell you have and what it has to do, and we will tell you what can be changed inside it.',
+    // The one Interiors project filed in the register. The card now opens the gallery,
+    // so without this link the project page would be unreachable from its own sector.
+    register: { href: filtered('Interiors'), label: 'Interiors in the project register' },
     image: 'img/p/borivali-2.jpg',
     caption: 'RaviRaj Royal, Borivali — main lobby',
-    count: plural(countBySector('Interiors')),
-    href: filtered('Interiors'),
+    // Was the project count. The card opens a gallery of 35 plates now, so "1 project"
+    // beside it would describe the register rather than what the card leads to. The same
+    // label the other gallery card carries.
+    count: 'On request',
+    href: '/sectors/interiors',
   },
 ];
 
@@ -212,5 +291,5 @@ export const homeSectors = [
   { no: '05', name: 'Mixed Use Development', note: 'Master layouts from micro to macro level.' },
   // Added with the sector itself, so the home list and /sectors agree on how many there
   // are. The home page already named Interiors in its sector ticker.
-  { no: '06', name: 'Interiors', note: 'Lobbies, lift lobbies and common areas inside existing buildings.' },
+  { no: '06', name: 'Interiors', note: 'Lobbies, show flats, residences and offices fitted out inside an existing shell.' },
 ];
