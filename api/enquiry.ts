@@ -48,7 +48,13 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /** Minimum time a genuine person needs to fill the form, in milliseconds. */
 const MIN_FILL_MS = 3000;
 
-/** In-memory rate limit. Per-instance only — a speed bump, not a guarantee. */
+/*
+ * In-memory rate limit — a speed bump, not a guarantee, and less of one on Edge than it
+ * was on Node: each isolate keeps its own Map and they are short-lived, so a determined
+ * sender spread across isolates sees a higher effective limit. It still stops the
+ * common case of one client hammering the form. A durable limit would need a shared
+ * store (Vercel KV, Upstash); worth adding only if abuse actually shows up.
+ */
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 5;
 const hits = new Map<string, number[]>();
@@ -70,6 +76,28 @@ function rateLimited(key: string): boolean {
 }
 
 const asText = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
+
+/*
+ * [ENGINEERING] Link and markup checks.
+ *
+ * What gets past a honeypot and a timing trap is not a crude bot: it is link-selling
+ * spam — SEO services, backlinks, crypto — sent by something that fills the fields
+ * properly. Links are its whole purpose, so they are the one thing it cannot leave out.
+ *
+ * An enquirer may legitimately send one link: a site plan, a reference, their own page.
+ * Two or more in a project brief is a sales pitch, and a link in a NAME or a LOCATION
+ * field is never anything else.
+ *
+ * Markup — [url=...] or <a href> — has no honest use in a plain-text form field, so it
+ * is treated as the bot signature it is and dropped silently, like the honeypot.
+ */
+const URL_PATTERN = /\b(?:https?:\/\/|www\.)\S+/gi;
+const MARKUP_PATTERN = /\[url[=\]]|\[\/?link\]|<a\s+href/i;
+
+const countUrls = (value: string): number => (value.match(URL_PATTERN) ?? []).length;
+
+/** Digits in a phone number, ignoring +, spaces, brackets and dashes. */
+const countDigits = (value: string): number => (value.match(/\d/g) ?? []).length;
 
 /** Strip characters that would let a value forge extra email headers. */
 const headerSafe = (value: string): string => value.replace(/[\r\n]+/g, ' ').slice(0, 200);
@@ -163,6 +191,11 @@ export default async function handler(request: Request): Promise<Response> {
     return json(200, { ok: true });
   }
 
+  // Markup in a plain-text field is a bot, not a person. Silent, like the honeypot.
+  for (const field of ['name', 'place', 'brief', 'kind'] as const) {
+    if (MARKUP_PATTERN.test(asText(payload[field]))) return json(200, { ok: true });
+  }
+
   const values = {
     name: asText(payload.name),
     email: asText(payload.email),
@@ -181,6 +214,22 @@ export default async function handler(request: Request): Promise<Response> {
   if (!values.brief) fields.brief = 'Please describe the project briefly.';
   if (!values.kind) fields.kind = 'Please pick a type of work.';
   else if (!KINDS.has(values.kind)) fields.kind = 'Please pick one of the listed types of work.';
+
+  /*
+   * These are visible errors, not silent drops: a real person who pasted two links can
+   * read the message and fix it. Only bot-only signals — honeypot, timing, markup — are
+   * dropped silently, where telling the sender would only teach the bot what to change.
+   */
+  if (values.brief && countUrls(values.brief) > 1) {
+    fields.brief = 'Please keep links out of the description — at most one, or send them by email.';
+  }
+  if (values.name && countUrls(values.name) > 0) fields.name = 'Please enter a name, without a link.';
+  if (values.place && countUrls(values.place) > 0) {
+    fields.place = 'Please enter the project location, without a link.';
+  }
+  if (values.phone && countDigits(values.phone) < 7) {
+    fields.phone = 'Please enter a phone number we can reach you on.';
+  }
 
   for (const [field, max] of Object.entries(LIMITS)) {
     const value = values[field as keyof typeof values];
