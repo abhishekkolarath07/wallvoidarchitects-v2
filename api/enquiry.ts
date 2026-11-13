@@ -1,5 +1,5 @@
 /**
- * Enquiry endpoint — Vercel Serverless Function (Node runtime).
+ * Enquiry endpoint — Vercel Function (Edge runtime).
  *
  * The site itself is fully static; this is the only server-side code. It validates
  * the enquiry again on the server (never trusting the client), applies basic abuse
@@ -93,7 +93,21 @@ function json(status: number, body: Record<string, unknown>): Response {
   });
 }
 
-export const config = { runtime: 'nodejs' };
+/*
+ * [BUG FIX] Was `runtime: 'nodejs'`, which broke this endpoint in production.
+ *
+ * This handler is written to the Web standard — it takes a `Request` and returns a
+ * `Response`. Vercel's Node runtime instead calls the handler as `(req, res)` and waits
+ * for the function to write to `res`, so the `Response` we returned was dropped on the
+ * floor and the invocation never completed: a GET hung until it timed out, and a POST
+ * came back as FUNCTION_INVOCATION_FAILED. It failed the same way with or without the
+ * Resend keys set, so it would have looked like a configuration problem forever.
+ *
+ * The Edge runtime speaks Request/Response natively, and this file uses nothing outside
+ * it: fetch, Request, Response, URL and process.env, all of which Edge provides. The
+ * alternative — rewriting against Node's (req, res) — would mean more code for no gain.
+ */
+export const config = { runtime: 'edge' };
 
 export default async function handler(request: Request): Promise<Response> {
   if (request.method !== 'POST') {
