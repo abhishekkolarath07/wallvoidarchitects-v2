@@ -18,7 +18,7 @@ const schema = [
 
 <Base
   title="Contact"
-  description="Send Wall Voids Architects a plot, a redevelopment or a feasibility question. Studio in Byculla (E) / Cotton Green (W), Mumbai — we reply within two working days."
+  description="Send Wall Voids Architects a plot, a redevelopment or a refurbishment. Studio in Byculla (E) / Cotton Green (W), Mumbai — we reply within two working days."
   path="/contact"
   active="/contact"
   footerVariant="full"
@@ -35,21 +35,21 @@ const schema = [
     <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
       <div>
         <div
-          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:ctUp 1s .1s cubic-bezier(.16,1,.3,1) both"
+          style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;--ct-o:.5;animation:ctUp 1s .1s cubic-bezier(.16,1,.3,1) both"
         >
           <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Contact
         </div>
         <h1
-          style="margin:18px 0 0;font-size:clamp(30px,4vw,54px);line-height:1;font-weight:300;letter-spacing:-.03em;text-wrap:balance;animation:ctUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
+          style="margin:18px 0 0;font-size:clamp(24px,2.9vw,36px);line-height:1.1;font-weight:300;letter-spacing:-.02em;text-wrap:nowrap;animation:ctUp 1.1s .22s cubic-bezier(.16,1,.3,1) both"
         >
-          Tell us what<br />you want built
+          Tell us what you want built
         </h1>
       </div>
       <p
-        style="margin:0;padding-bottom:8px;font-size:12px;line-height:1.85;opacity:.6;text-wrap:pretty;animation:ctUp 1.1s .36s cubic-bezier(.16,1,.3,1) both"
+        style="margin:0;padding-bottom:8px;font-size:12px;line-height:1.85;opacity:.72;--ct-o:.72;text-wrap:pretty;animation:ctUp 1.1s .36s cubic-bezier(.16,1,.3,1) both"
       >
-        A plot, a redevelopment, a refurbishment or just a question about feasibility — send it
-        across and we'll come back within two working days.
+        A plot, a redevelopment, a refurbishment or just a question about what is buildable —
+        send it across and we'll come back within two working days.
       </p>
     </div>
     <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
@@ -302,13 +302,22 @@ const schema = [
 
 <style is:global>
   /* Page-specific overrides carried across verbatim from WVA Contact.dc.html. */
+  /*
+   * [BUG FIX] This used to end at `opacity: 1`, and with `animation-fill-mode: both`
+   * that final frame outranks the element's own inline opacity for good. The intro
+   * paragraph was written at .6 and the eyebrow at .5; both rendered at full strength,
+   * which is why the paragraph read heavier than the address beside it — the practice
+   * saw it as a size difference, but both are and were 14px. Elements that want to
+   * settle somewhere other than 1 now say so in --ct-o. The paragraph is set to .72,
+   * the address's own value, since matching the two is what was asked for.
+   */
   @keyframes ctUp {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
     to {
-      opacity: 1;
+      opacity: var(--ct-o, 1);
       transform: translateY(0);
     }
   }

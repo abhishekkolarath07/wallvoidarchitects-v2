@@ -248,7 +248,7 @@ const schema = [
         >
           <div style="max-width:600px">
             <h1
-              style="margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.24;font-weight:300;letter-spacing:-.01em;text-wrap:pretty;animation:wvaUp 1.3s .4s cubic-bezier(.16,1,.3,1) both"
+              style="margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.24;font-weight:300;letter-spacing:-.01em;text-align:justify;animation:wvaUp 1.3s .4s cubic-bezier(.16,1,.3,1) both"
             >
               Every drawing is a powerful dialogue between wall and void—where architects shape
               space, light, and life into the enduring character of a city.
@@ -623,7 +623,7 @@ const schema = [
           {
             [0, 1].map(() => (
               <span style="display:flex;gap:56px;padding-right:56px">
-                {['Residential', 'Commercial', 'IT Parks', 'Miscellaneous Buildings', 'Mixed Use', 'Interiors'].map(
+                {['Residential', 'Commercial / Office', 'Miscellaneous Buildings', 'Mixed Use', 'Interiors'].map(
                   (label) => (
                     <>
                       <span>{label}</span>
@@ -683,9 +683,16 @@ const schema = [
           right-hand half of the section empty. At eight columns and 34ch it fills the
           column exactly at 1440 and sets to two lines instead of three.
         */}
-        <div style="grid-column:1 / span 8" data-rv>
+        {/*
+          [DESIGN CHANGE — requested] Set to the size of the hero lede and held on one
+          line (comments sheet, 17 November 2026). The 34ch cap and the eight-column
+          span both had to go for the line to fit: at this size the sentence needs about
+          nine columns, and the Enquiries block beside it starts at ten.
+        */}
+        <div style="grid-column:1 / span 9" data-rv>
           <h2
-            style="margin:0;max-width:34ch;font-size:clamp(30px,3.6vw,46px);line-height:1.06;font-weight:300;letter-spacing:-.02em;text-wrap:pretty"
+            data-oneline
+            style="margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.24;font-weight:300;letter-spacing:-.01em;text-wrap:nowrap"
           >
             Let's shape spaces that inspire, connect, and redefine the way we live.
           </h2>
@@ -711,7 +718,8 @@ const schema = [
           bottom bar and in full on the contact page; the principal has his own section
           on About us. The block is no longer a two-column grid, having one thing in it.
         */}
-        <div style="grid-column:10 / span 3" data-rv>
+        {/* Shifted flush right at the practice's request, as the footer's last column is. */}
+        <div style="grid-column:10 / span 3;text-align:right" data-rv>
           <div style="font-size:9px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;margin-bottom:12px">
             Enquiries
           </div>
@@ -861,6 +869,14 @@ const schema = [
   }
 
   @media (max-width: 980px) {
+    /*
+      The one-line contact heading is a desktop instruction: the sentence is about
+      660px wide at its smallest and a phone has 350 to give it, so held on one line it
+      is simply cut off. Below the grid's break it wraps, balanced.
+    */
+    [data-oneline] {
+      text-wrap: balance !important;
+    }
     #top {
       height: 88vh !important;
       min-height: 760px !important;

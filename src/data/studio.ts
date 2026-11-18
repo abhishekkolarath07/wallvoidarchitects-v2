@@ -125,8 +125,8 @@ export const clients = [
   'Sherif Infra LLP',
   'Mercury Life Spaces Ltd.',
   'Nirban Group',
-  'Bhanupur Infra',
-  'M/S Real Infrastructure Co',
+  'Bhanupur Infra.',
+  'M/S Real Infrastructure Co.',
 ];
 
 /**
@@ -158,12 +158,15 @@ export const services = [
   '3D Visualisation',
 ];
 
-/** Enquiry types offered by the contact form — verbatim from the export. */
+/*
+ * Enquiry types offered by the contact form — from the export, less 'Feasibility',
+ * which the practice removed (comments sheet, 17 November 2026). KINDS in
+ * api/enquiry.ts must match: the endpoint rejects any value not on its own list.
+ */
 export const enquiryKinds = [
   'New building',
   'Redevelopment',
   'Refurbishment',
   'Bungalow',
   'Interiors',
-  'Feasibility',
 ];

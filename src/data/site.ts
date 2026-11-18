@@ -56,7 +56,9 @@ export const navigation = [
 ] as const;
 
 /** Footer sector labels — plain text in the export, not links. Preserved as such. */
-export const footerSectors = ['Residential', 'Commercial', 'IT Parks / Office', 'Mixed Use'] as const;
+// 'IT Parks / Office' goes with the sector itself, removed 17 November 2026, and
+// Commercial takes its name from the renamed sector.
+export const footerSectors = ['Residential', 'Commercial / Office', 'Mixed Use'] as const;
 
 export const colors = {
   ink: '#0d0d0d',

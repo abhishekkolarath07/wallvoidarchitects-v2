@@ -23,6 +23,22 @@ export function getStaticPaths() {
 const { sector } = Astro.props;
 const plates = sector.plates!.map((pl) => ({ ...pl, asset: img(pl.src) }));
 
+/*
+ * Rows, not plates. A plate carrying `pairNext` keeps the next N beside it rather than
+ * below: a portrait sheet is as tall as two landscape plates and leaves the other half
+ * of its row empty, which is what the practice asked to fill. Everything else is one
+ * plate per row, alternating left and right as before — and the alternation counts rows
+ * rather than plates, so a paired row doesn't put two in a row on the same side.
+ */
+type Plate = (typeof plates)[number];
+const rows: { lead: Plate; pair: Plate[] }[] = [];
+for (let i = 0; i < plates.length; i += 1) {
+  const lead = plates[i];
+  const pair = lead.pairNext ? plates.slice(i + 1, i + 1 + lead.pairNext) : [];
+  rows.push({ lead, pair });
+  i += pair.length;
+}
+
 const schema = [
   {
     '@type': 'BreadcrumbList',
@@ -117,9 +133,11 @@ const schema = [
   */}
   <section style="padding:72px var(--gut) 0">
     {
-      plates.map((pl, i) => {
-        const ratio = pl.asset.width / pl.asset.height;
-        const rightward = i % 2 === 1;
+      rows.map(({ lead, pair }, i) => {
+        const ratio = lead.asset.width / lead.asset.height;
+        const rightward = pair.length === 0 && i % 2 === 1;
+        const cap =
+          'font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;text-wrap:pretty;line-height:1.9';
         return (
           <figure
             data-plate
@@ -128,36 +146,71 @@ const schema = [
           >
             <div
               data-plateimg
-              style={`grid-column:${rightward ? '6 / span 7' : '1 / span 7'};width:min(100%, max(560px, calc(78vh * ${ratio.toFixed(4)})));${
-                rightward ? 'margin-left:auto' : 'margin-right:auto'
-              }`}
+              style={`grid-column:${pair.length ? '1 / span 5' : rightward ? '6 / span 7' : '1 / span 7'};width:${
+                pair.length ? '100%' : `min(100%, max(560px, calc(78vh * ${ratio.toFixed(4)})))`
+              };${pair.length ? '' : rightward ? 'margin-left:auto' : 'margin-right:auto'}`}
             >
               <div
                 data-mask
-                style={`width:100%;aspect-ratio:${pl.asset.width} / ${pl.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
+                style={`width:100%;aspect-ratio:${lead.asset.width} / ${lead.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
               >
                 <Image
-                  src={pl.asset}
-                  alt={`${sector.name} — ${pl.label}`}
+                  src={lead.asset}
+                  alt={`${sector.name} — ${lead.label}`}
                   widths={[640, 1024, 1600, 2000]}
                   sizes="(max-width: 980px) 100vw, 55vw"
                   style="display:block;width:100%;height:100%;object-fit:contain"
                 />
               </div>
+              {pair.length > 0 && (
+                <figcaption data-platecap style={`${cap};margin-top:14px`}>
+                  <span style="display:block;width:26px;height:1px;background:#e2231a;margin-bottom:14px" />
+                  {lead.label}
+                </figcaption>
+              )}
             </div>
-            <figcaption
-              data-platecap
-              style={`grid-column:${rightward ? '1 / span 4' : '9 / span 4'};font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;text-wrap:pretty;line-height:1.9;${
-                rightward ? '' : 'text-align:right'
-              }`}
-            >
-              <span
-                style={`display:block;width:26px;height:1px;background:#e2231a;margin-bottom:14px;${
-                  rightward ? '' : 'margin-left:auto'
+
+            {pair.length > 0 ? (
+              <div
+                data-pair
+                style="grid-column:7 / span 6;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center"
+              >
+                {pair.map((pl) => (
+                  <figure style="margin:0">
+                    <div
+                      data-mask
+                      style={`width:100%;aspect-ratio:${pl.asset.width} / ${pl.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
+                    >
+                      <Image
+                        src={pl.asset}
+                        alt={`${sector.name} — ${pl.label}`}
+                        widths={[480, 768, 1200, 1600]}
+                        sizes="(max-width: 980px) 100vw, 26vw"
+                        style="display:block;width:100%;height:100%;object-fit:contain"
+                      />
+                    </div>
+                    <figcaption data-platecap style={`${cap};margin-top:14px`}>
+                      <span style="display:block;width:26px;height:1px;background:#e2231a;margin-bottom:14px" />
+                      {pl.label}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            ) : (
+              <figcaption
+                data-platecap
+                style={`grid-column:${rightward ? '1 / span 4' : '9 / span 4'};${cap};${
+                  rightward ? '' : 'text-align:right'
                 }`}
-              />
-              {pl.label}
-            </figcaption>
+              >
+                <span
+                  style={`display:block;width:26px;height:1px;background:#e2231a;margin-bottom:14px;${
+                    rightward ? '' : 'margin-left:auto'
+                  }`}
+                />
+                {lead.label}
+              </figcaption>
+            )}
           </figure>
         );
       })
@@ -227,6 +280,12 @@ const schema = [
     */
     [data-plateimg] {
       width: 100% !important;
+    }
+    /* Side by side only while there is width for it; stacked, each takes the card. */
+    [data-pair] {
+      grid-template-columns: 1fr !important;
+      gap: 56px !important;
+      margin-top: 56px !important;
     }
     [data-plate] {
       margin-bottom: 56px !important;

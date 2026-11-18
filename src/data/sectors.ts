@@ -34,7 +34,16 @@ export interface SectorEntry {
    * whose work is filed as projects sends people to the filtered register instead, and
    * a gallery there would only repeat the project pages.
    */
-  plates?: { src: string; label: string }[];
+  plates?: {
+    src: string;
+    label: string;
+    /**
+     * Lay the next N plates side by side in the space beside this one, instead of
+     * giving each its own row. For a tall sheet, which takes half the width and the
+     * height of two, that space would otherwise be empty.
+     */
+    pairNext?: number;
+  }[];
   /**
    * Replaces the closing paragraph on the sector's own page. The default asks for plot
    * details, which is the right question for a building and the wrong one for a fit-out.
@@ -52,6 +61,16 @@ const plural = (n: number) => `${n} project${n === 1 ? '' : 's'}`;
 
 const filtered = (sector: Sector) => `/projects?sector=${encodeURIComponent(sector)}`;
 
+/*
+ * [CONTENT] The practice removed the "IT Parks / Office Buildings" sector and folded
+ * that work into Commercial, renamed "Commercial / Office Buildings" (comments sheet,
+ * 17 November 2026). The sectors renumber 01-05 as a result.
+ *
+ * No project needed refiling: Transindia Blue Ridge, the office development the removed
+ * card illustrated, is already filed under the Commercial sector in the register. Only
+ * the card is gone, so blueridge-1.jpg is now unused by this file; it stays in
+ * src/assets because the Blue Ridge project page still uses it.
+ */
 export const sectors: SectorEntry[] = [
   {
     no: '01',
@@ -65,7 +84,7 @@ export const sectors: SectorEntry[] = [
   },
   {
     no: '02',
-    name: 'Commercial Buildings',
+    name: 'Commercial / Office Buildings',
     note: 'Office developments, retail frontage and hospitality — from a landmark commercial tower to the street edge of a residential scheme.',
     tags: ['Offices', 'Retail', 'Hospitality'],
     image: 'img/p/kanya-1.jpg',
@@ -75,19 +94,6 @@ export const sectors: SectorEntry[] = [
   },
   {
     no: '03',
-    name: 'IT Parks / Office Buildings',
-    note: 'Business-district character at metropolitan scale, planned for floorplate efficiency and a facade that holds its own on the skyline.',
-    tags: ['Workplace', 'Floorplates', 'Facade'],
-    image: 'img/p/blueridge-1.jpg',
-    caption: 'Blue Ridge, near BKC',
-    // Verbatim from the export — this sector carries no project count.
-    count: 'Metropolitan',
-    // No projects are filed under this sector, so the card invites an enquiry
-    // rather than dead-ending on an empty register. [BUG FIX]
-    href: '/contact',
-  },
-  {
-    no: '04',
     name: 'Miscellaneous Buildings',
     // The export called this sector "Religious Buildings" and the note described only
     // that. The practice renamed it to "Miscellaneous Buildings" (comments sheet, item
@@ -106,11 +112,6 @@ export const sectors: SectorEntry[] = [
      * on 9 November 2026: the Anjali Mudra temple, the Transindia Grandeur sales lobby,
      * the two churches, and last the Gami Jaydeep Evara sales office.
      *
-     * The Evara sales office is not here yet. Nothing in the material supplied so far
-     * is identifiably that job — the gold-emblem office renders carry the same medallion
-     * as the Transindia Grandeur signage, so they read as Transindia's own offices — and
-     * naming one of them Evara would be a claim the images do not make. The practice is
-     * sending the file; it goes last.
      *
      * Taken off this page by the same instruction, and kept in the repository rather
      * than deleted: the shrine pavilion, Kannamvar Nagar (two), Gami Jaydeep Evara
@@ -130,15 +131,33 @@ export const sectors: SectorEntry[] = [
     slug: 'miscellaneous',
     plates: [
       {
+        /*
+         * [DESIGN CHANGE — requested] This sheet is portrait and takes the height of two
+         * landscape plates, leaving the right-hand half of its row empty — "this space
+         * looking blank, place 2 images side by side" (comments sheet, 17 November
+         * 2026). The next two plates fill it, so the page still reads in the order the
+         * practice gave.
+         */
         src: 'img/p/religious-4.jpg',
         label: 'Anjali Mudra — concept option 01, with elevations, section and plan',
+        pairNext: 2,
       },
       {
-        src: 'img/p/int-grandeur-lobby.jpg',
-        label: 'Transindia Grandeur — sales lobby and reception',
+        src: 'img/p/misc-grandeur-front.jpg',
+        label: 'Transindia Grandeur — entrance arch and sales office',
       },
       { src: 'img/p/religious-2.jpg', label: 'Church — approach from the forecourt' },
       { src: 'img/p/religious-3.jpg', label: 'Church — front elevation' },
+      {
+        /*
+         * Supplied 18 November 2026 as the "Gami Jaydeep sales office". The render is
+         * signed GAMI GROUP, ESTELLA and JAYDEEP GROUP, and Gami Jaydeep Estella is a
+         * project in the register, so the label follows the signage rather than the
+         * filename. Evara, named on the withheld tower plates, is a different job.
+         */
+        src: 'img/p/misc-gami-sales-office.jpg',
+        label: 'Gami Jaydeep Estella — sales office',
+      },
     ],
     // Was the shrine pavilion, which is no longer on the page: a card should open onto
     // the work it shows. This is the first church, as the page now runs.
@@ -149,7 +168,7 @@ export const sectors: SectorEntry[] = [
     href: '/sectors/miscellaneous',
   },
   {
-    no: '05',
+    no: '04',
     name: 'Mixed Use Development',
     note: 'Master layouts from micro to macro — residential wings, commercial edges and landscaped courts resolved as one plan.',
     tags: ['Master layout', 'Podium', 'Landscape'],
@@ -159,7 +178,7 @@ export const sectors: SectorEntry[] = [
     href: filtered('Mixed Use'),
   },
   {
-    no: '06',
+    no: '05',
     name: 'Interiors',
     // [CONTENT] Added at the practice's request (comments sheet, item 11 — the one-line
     // description was outstanding and the practice asked that one be written). Nothing
@@ -236,8 +255,14 @@ export const sectors: SectorEntry[] = [
     // The one Interiors project filed in the register. The card now opens the gallery,
     // so without this link the project page would be unreachable from its own sector.
     register: { href: filtered('Interiors'), label: 'Interiors in the project register' },
-    image: 'img/p/borivali-2.jpg',
-    caption: 'RaviRaj Royal, Borivali — main lobby',
+    /*
+     * [CONTENT] The practice asked for the RaviRaj Royal lobby on this card to be
+     * replaced (comments sheet, 17 November 2026) and pasted this render beside it.
+     * It is an office reception, so the caption describes the frame: the practice has
+     * not named this job, and the emblem on its wall is the Transindia one.
+     */
+    image: 'img/p/int-office-reception-2.jpg',
+    caption: 'Office reception and lounge',
     // Was the project count. The card opens a gallery of 35 plates now, so "1 project"
     // beside it would describe the register rather than what the card leads to. The same
     // label the other gallery card carries.
@@ -277,11 +302,10 @@ export const alliances = [
 /** Short sector list used on the home page — verbatim from the export. */
 export const homeSectors = [
   { no: '01', name: 'Residential Buildings', note: 'Towers, redevelopment and rehab schemes across Mumbai.' },
-  { no: '02', name: 'Commercial Buildings', note: 'Hotels, retail and sales experience centres.' },
-  { no: '03', name: 'IT Parks / Office Buildings', note: 'Business district character at metropolitan scale.' },
-  { no: '04', name: 'Miscellaneous Buildings', note: 'Religious and community buildings, and work outside the other four sectors.' },
-  { no: '05', name: 'Mixed Use Development', note: 'Master layouts from micro to macro level.' },
+  { no: '02', name: 'Commercial / Office Buildings', note: 'Hotels, retail, offices and sales experience centres.' },
+  { no: '03', name: 'Miscellaneous Buildings', note: 'Religious and community buildings, and work outside the other four sectors.' },
+  { no: '04', name: 'Mixed Use Development', note: 'Master layouts from micro to macro level.' },
   // Added with the sector itself, so the home list and /sectors agree on how many there
   // are. The home page already named Interiors in its sector ticker.
-  { no: '06', name: 'Interiors', note: 'Lobbies, show flats, residences and offices fitted out inside an existing shell.' },
+  { no: '05', name: 'Interiors', note: 'Lobbies, show flats, residences and offices fitted out inside an existing shell.' },
 ];
