@@ -28,7 +28,8 @@ export interface RegisterRow {
   image: { src: string; srcset: string };
 }
 
-const SLIDE_MS = 6200;
+// 6200 in the export; shortened at the practice's request (17 November 2026).
+const SLIDE_MS = 4500;
 const WIPE_START = 46;
 
 /** Swap the back image of a crossfade pair in, fade the front one out. */
@@ -117,8 +118,8 @@ export function initHero(slides: HeroSlide[]): void {
 
   render();
 
-  // Auto-advance, paused once the visitor scrolls past the hero. The export used the
-  // same 6.2s cadence and 0.8vh threshold.
+  // Auto-advance, paused once the visitor scrolls past the hero, at the 0.8vh
+  // threshold the export used.
   if (!reduced && slides.length > 1) {
     const timer = window.setInterval(() => {
       if (window.scrollY > window.innerHeight * 0.8) return;

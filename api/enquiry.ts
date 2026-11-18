@@ -26,13 +26,14 @@ interface EnquiryPayload {
   renderedAt?: unknown;
 }
 
+// Must match enquiryKinds in src/data/studio.ts, which renders the chips. 'Feasibility'
+// was removed by the practice on 17 November 2026; a submission carrying it is rejected.
 const KINDS = new Set([
   'New building',
   'Redevelopment',
   'Refurbishment',
   'Bungalow',
   'Interiors',
-  'Feasibility',
 ]);
 
 const LIMITS: Record<string, number> = {
