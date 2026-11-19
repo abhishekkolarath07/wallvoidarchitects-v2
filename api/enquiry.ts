@@ -20,25 +20,19 @@ interface EnquiryPayload {
   email?: unknown;
   phone?: unknown;
   brief?: unknown;
-  kind?: unknown;
   website?: unknown;
   renderedAt?: unknown;
 }
 
-// Must match enquiryKinds in src/data/studio.ts, which renders the chips. 'Feasibility'
-// was removed by the practice on 17 November 2026; a submission carrying it is rejected.
-const KINDS = new Set([
-  'New building',
-  'Redevelopment',
-  'Refurbishment',
-  'Bungalow',
-  'Interiors',
-]);
-
 /*
- * The contact form no longer asks for a project location (comments sheet, 19 November
- * 2026), so `place` is gone from the payload, the required set, the email and the
- * subject line. A submission that still carries one is simply ignored.
+ * The contact form no longer asks for a project location or a type of work (comments
+ * sheet, 19 November 2026), so `place` and `kind` are gone from the payload, the
+ * required set, the email and the subject line. A submission that still carries either
+ * is ignored rather than rejected, so a page cached before the change still posts.
+ *
+ * The subject was "Enquiry — {kind}, {place}" and is now fixed text: with both fields
+ * gone there is nothing left to vary it by, and a stable prefix is still what a mail
+ * rule filters on.
  */
 const LIMITS: Record<string, number> = {
   name: 120,
@@ -196,7 +190,7 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   // Markup in a plain-text field is a bot, not a person. Silent, like the honeypot.
-  for (const field of ['name', 'brief', 'kind'] as const) {
+  for (const field of ['name', 'brief'] as const) {
     if (MARKUP_PATTERN.test(asText(payload[field]))) return json(200, { ok: true });
   }
 
@@ -205,7 +199,6 @@ export default async function handler(request: Request): Promise<Response> {
     email: asText(payload.email),
     phone: asText(payload.phone),
     brief: asText(payload.brief),
-    kind: asText(payload.kind),
   };
 
   const fields: Record<string, string> = {};
@@ -214,8 +207,6 @@ export default async function handler(request: Request): Promise<Response> {
   else if (!EMAIL.test(values.email)) fields.email = 'That email address does not look right.';
   if (!values.phone) fields.phone = 'Please add a phone number.';
   if (!values.brief) fields.brief = 'Please describe the project briefly.';
-  if (!values.kind) fields.kind = 'Please pick a type of work.';
-  else if (!KINDS.has(values.kind)) fields.kind = 'Please pick one of the listed types of work.';
 
   /*
    * These are visible errors, not silent drops: a real person who pasted two links can
@@ -256,7 +247,6 @@ export default async function handler(request: Request): Promise<Response> {
     ['Name', values.name],
     ['Email', values.email],
     ['Phone', values.phone],
-    ['Type of work', values.kind],
   ];
 
   const text = [
@@ -292,7 +282,7 @@ export default async function handler(request: Request): Promise<Response> {
         to: [to],
         // Never put visitor input in `from` — only in reply_to, header-sanitised.
         reply_to: headerSafe(values.email),
-        subject: headerSafe(`Enquiry — ${values.kind}`),
+        subject: 'Enquiry — Wall Voids Architects website',
         text,
         html,
       }),
