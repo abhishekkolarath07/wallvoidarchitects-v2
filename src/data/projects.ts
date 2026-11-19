@@ -452,7 +452,9 @@ export const projects: Project[] = [
       { src: "img/p/asiad-6.jpg", label: "Site location — Chennai to Anna Nagar West" }
     ],
     client: "Residential · Anna Nagar West, Chennai",
-    cardImage: "img/p/asiad-1.jpg",
+    // The banner render, as on the project page itself. The annotated sheet render it
+    // replaces keeps its place in the drawing set, where the marks make sense.
+    cardImage: "img/p/asiad-hero.jpg",
     cardNote: "Two towers from one base, with eighty per cent of the ground given back as landscape.",
     /*
      * The practice's drawn elevation of the twin towers, supplied 19 November. Every
