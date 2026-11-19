@@ -383,6 +383,11 @@ export const projects: Project[] = [
      * the sheets describe a proposal throughout — "the proposed twin towers", "design
      * intent", "a vision" — and show no approval or construction.
      *
+     * The arrival and movement diagram was Plate 05 and is removed at the practice's
+     * request; its file goes with it rather than sitting unreferenced in src/assets,
+     * where everything is emitted into the build whether a page uses it or not. It is
+     * in the git history and on sheet 03 if it is ever wanted back.
+     *
      * The imagery is the practice's own render and drawings. The sheets also carry
      * panels headed LOOKALIKES and photographs of neighbouring buildings, which are
      * reference material for other people's work: none of it is used here, and none of
@@ -421,13 +426,20 @@ export const projects: Project[] = [
       "Crown — sky cafe, garden lounge and wellness terraces",
       "Vehicular — one-way ramps and a separate school-bus drop-off"
     ],
-    hero: "img/p/asiad-1.jpg",
+    /*
+     * The clean night render the practice supplied on 19 November. It replaces the
+     * annotated sheet render here: a hero is the page's banner, and the marks on that
+     * one — 135M, sea-breeze arrows, 80% open landscape — belong on a presentation
+     * sheet rather than across the top of the page. The annotated render stays in the
+     * register card and the gallery, where it reads as what it is.
+     */
+    hero: "img/p/asiad-hero.jpg",
     wide: "img/p/asiad-2.jpg",
     wideCaption: "Form evolution — from temple proportions to twin towers",
     images: [
+      { src: "img/p/asiad-1.jpg", label: "Twin towers — height, sea breeze and open landscape" },
       { src: "img/p/asiad-3.jpg", label: "Temple verticality, reimagined for Chennai" },
       { src: "img/p/asiad-4.jpg", label: "Typical floor layout — Tower A and Tower B" },
-      { src: "img/p/asiad-5.jpg", label: "Arrival, movement and the planted perimeter" },
       { src: "img/p/asiad-6.jpg", label: "Site location — Chennai to Anna Nagar West" }
     ],
     client: "Residential · Anna Nagar West, Chennai",
