@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { img } from '../lib/images';
 import { site } from '../data/site';
-import { enquiryKinds } from '../data/studio';
 
 const schema = [
   {
@@ -56,50 +55,68 @@ const schema = [
   </section>
 
   {/*
-    [DESIGN CHANGE — requested] The contact details come first and the enquiry form sits
-    below them (comments sheet, 19 November 2026). Hours, the practice line, "Open in
-    maps" and the handwritten note are removed by the same sheet; the map link still
-    stands in the footer on every page.
+    [DESIGN CHANGE — requested] Email, address and the enquiry form stack down the right
+    of the page, with the Blue Ridge render filling the left at the same height
+    (comments sheet, 19 November 2026).
+
+    The render is the one place on the site that is cropped rather than shown whole: it
+    is told to match the height of the column beside it, and the column is roughly twice
+    as tall as a 4:3 image in that width. `object-fit: cover` centred on the entrance
+    keeps the arch and the lit ground floor in frame and takes the loss off the sky and
+    the planting. Below 980px the column stacks and the figure goes back to the image's
+    own ratio, where there is no height to match.
   */}
   <section style="padding:56px var(--gut) 0">
-    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:26px 28px;align-items:start">
-      <div
-        style="grid-column:1 / span 12;font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45"
-      >
-        Direct
-      </div>
-
-      <a
-        href={`mailto:${site.email}`}
-        data-line
-        style="grid-column:1 / span 4;display:block;padding:20px 0;border-top:1px solid rgba(13,13,13,.14)"
+    <div
+      data-r="g12"
+      style="display:grid;grid-template-columns:repeat(12,1fr);gap:56px 28px;align-items:stretch"
+    >
+      <figure
+        data-ctplate
+        style="grid-column:1 / span 7;margin:0;height:100%;min-height:460px;overflow:hidden;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)"
         data-rv
       >
-        <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Email</div>
-        <div style="margin-top:9px;font-size:14px">{site.email}</div>
-        <span
-          data-linerule
-          style="display:block;height:1px;background:#e2231a;margin-top:14px;transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.16,1,.3,1)"
-        ></span>
-      </a>
-
-      <div
-        data-line
-        style="grid-column:6 / span 4;padding:20px 0;border-top:1px solid rgba(13,13,13,.14)"
-        data-rv
-      >
-        <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Address</div>
-        <address
-          style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72;font-style:normal"
-          set:html={site.addressLines.join('<br>')}
+        <Image
+          src={img('img/p/blueridge-entrance.jpg')}
+          alt="Transindia Blue Ridge — the curved glass facade and lit entrance at dusk"
+          widths={[640, 1024, 1600, 2000]}
+          sizes="(max-width: 980px) 100vw, 55vw"
+          style="display:block;width:100%;height:100%;object-fit:cover;object-position:50% 55%"
         />
-      </div>
-    </div>
-  </section>
+      </figure>
 
-  <section style="padding:64px var(--gut) 0">
-    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:56px 28px;align-items:start">
-      <form id="ct-form" novalidate style="grid-column:1 / span 7">
+      <div style="grid-column:9 / span 4">
+        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45;padding-bottom:26px">
+          Direct
+        </div>
+
+        <a
+          href={`mailto:${site.email}`}
+          data-line
+          style="display:block;padding:20px 0;border-top:1px solid rgba(13,13,13,.14)"
+          data-rv
+        >
+          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Email</div>
+          <div style="margin-top:9px;font-size:14px">{site.email}</div>
+          <span
+            data-linerule
+            style="display:block;height:1px;background:#e2231a;margin-top:14px;transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.16,1,.3,1)"
+          ></span>
+        </a>
+
+        <div
+          data-line
+          style="padding:20px 0;border-top:1px solid rgba(13,13,13,.14);border-bottom:1px solid rgba(13,13,13,.14)"
+          data-rv
+        >
+          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Address</div>
+          <address
+            style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72;font-style:normal"
+            set:html={site.addressLines.join('<br>')}
+          />
+        </div>
+
+      <form id="ct-form" novalidate style="margin-top:34px">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-bottom:26px">
           <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45;white-space:nowrap">
             Enquiry form
@@ -109,7 +126,7 @@ const schema = [
           </div>
         </div>
 
-        <div data-r="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:34px 28px">
+        <div data-r="g2" style="display:grid;grid-template-columns:1fr;gap:34px">
           <label data-field style="display:block" data-rv>
             <span style="display:block;font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.45"
               >Your name</span
@@ -160,32 +177,6 @@ const schema = [
           </label>
         </div>
 
-        {/* The export used a div + span here. A fieldset/legend brings its own box
-            model and would shift the layout, so the grouping is expressed with ARIA
-            instead — these are toggle buttons, not radio inputs. */}
-        <div style="padding-top:38px" data-rv role="group" aria-labelledby="ct-kind-label">
-          <span
-            id="ct-kind-label"
-            style="display:block;font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.45;padding-bottom:14px"
-            >Type of work</span
-          >
-          <div id="ct-kinds" style="display:flex;flex-wrap:wrap;gap:8px">
-            {
-              enquiryKinds.map((label) => (
-                <button
-                  type="button"
-                  data-kind={label}
-                  aria-pressed="false"
-                  style="background:transparent;border:1px solid rgba(13,13,13,.2);color:rgba(13,13,13,.6);padding:9px 15px;cursor:pointer;font-family:inherit;font-size:9px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;transition:background-color .4s ease,border-color .4s ease,color .4s ease"
-                >
-                  {label}
-                </button>
-              ))
-            }
-          </div>
-          <input type="hidden" name="kind" id="ct-kind" value="" />
-          <span class="ct-err" id="ct-kind-err" hidden></span>
-        </div>
 
         <label data-field style="display:block;padding-top:38px" data-rv>
           <span style="display:block;font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.45"
@@ -231,25 +222,7 @@ const schema = [
           </div>
         </div>
       </form>
-
-      {/*
-        The blank the form left beside it, filled with the Blue Ridge render the practice
-        marked for it and then supplied: the dusk entrance view, not the daytime variant
-        already in the gallery. Shown whole in a band of its own ratio, as every plate is.
-      */}
-      <figure
-        data-mask
-        style="grid-column:9 / span 4;margin:0;width:100%;aspect-ratio:1448 / 1086;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)"
-        data-rv
-      >
-        <Image
-          src={img('img/p/blueridge-entrance.jpg')}
-          alt="Transindia Blue Ridge — the curved glass facade and lit entrance at dusk"
-          widths={[480, 768, 1200, 1600]}
-          sizes="(max-width: 980px) 100vw, 30vw"
-          style="display:block;width:100%;height:100%;object-fit:contain"
-        />
-      </figure>
+      </div>
     </div>
   </section>
 
@@ -374,6 +347,15 @@ const schema = [
   }
 
   @media (max-width: 980px) {
+    /* No column beside it to match, so the render goes back to its own shape, uncropped. */
+    [data-ctplate] {
+      height: auto !important;
+      min-height: 0 !important;
+      aspect-ratio: 1448 / 1086;
+    }
+    [data-ctplate] img {
+      object-fit: contain !important;
+    }
     section[style*='186px'] {
       padding-top: 150px !important;
     }
@@ -395,11 +377,9 @@ const schema = [
   const status = document.getElementById('ct-status');
   const submit = document.getElementById('ct-submit') as HTMLButtonElement | null;
   const submitLabel = document.getElementById('ct-submit-label');
-  const kindInput = document.getElementById('ct-kind') as HTMLInputElement | null;
-  const kindBar = document.getElementById('ct-kinds');
   const rendered = document.getElementById('ct-rendered') as HTMLInputElement | null;
 
-  if (form && status && submit && kindInput && kindBar && rendered) {
+  if (form && status && submit && rendered) {
     rendered.value = String(Date.now());
 
     const setStatus = (message: string, ok: boolean) => {
@@ -416,25 +396,6 @@ const schema = [
       input?.setAttribute('aria-invalid', message ? 'true' : 'false');
     };
 
-    // The chip row is the export's design; it writes through to a hidden input so the
-    // value posts like any other field.
-    kindBar.addEventListener('click', (event) => {
-      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-kind]');
-      if (!button?.dataset.kind) return;
-
-      const next = kindInput.value === button.dataset.kind ? '' : button.dataset.kind;
-      kindInput.value = next;
-
-      for (const chip of kindBar.querySelectorAll<HTMLButtonElement>('[data-kind]')) {
-        const on = chip.dataset.kind === next;
-        chip.setAttribute('aria-pressed', String(on));
-        chip.style.background = on ? '#0d0d0d' : 'transparent';
-        chip.style.borderColor = on ? '#0d0d0d' : 'rgba(13,13,13,.2)';
-        chip.style.color = on ? '#ffffff' : 'rgba(13,13,13,.6)';
-      }
-      if (next) fieldError('ct-kind', null);
-    });
-
     const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const validate = () => {
@@ -443,7 +404,6 @@ const schema = [
         email: (document.getElementById('ct-email') as HTMLInputElement).value.trim(),
         phone: (document.getElementById('ct-phone') as HTMLInputElement).value.trim(),
         brief: (document.getElementById('ct-brief') as HTMLTextAreaElement).value.trim(),
-        kind: kindInput.value,
       };
 
       const errors: Record<string, string> = {};
@@ -452,9 +412,8 @@ const schema = [
       else if (!EMAIL.test(values.email)) errors['ct-email'] = 'That email address does not look right.';
       if (!values.phone) errors['ct-phone'] = 'Please add a phone number.';
       if (!values.brief) errors['ct-brief'] = 'Please describe the project briefly.';
-      if (!values.kind) errors['ct-kind'] = 'Please pick a type of work.';
 
-      for (const id of ['ct-name', 'ct-email', 'ct-phone', 'ct-brief', 'ct-kind']) {
+      for (const id of ['ct-name', 'ct-email', 'ct-phone', 'ct-brief']) {
         fieldError(id, errors[id] ?? null);
       }
 
@@ -467,12 +426,8 @@ const schema = [
       const { errors } = validate();
       const firstError = Object.keys(errors)[0];
       if (firstError) {
-        setStatus('Please complete every field and pick a type of work.', false);
-        const target =
-          firstError === 'ct-kind'
-            ? kindBar.querySelector<HTMLButtonElement>('[data-kind]')
-            : (document.getElementById(firstError) as HTMLElement | null);
-        target?.focus();
+        setStatus('Please complete every field.', false);
+        (document.getElementById(firstError) as HTMLElement | null)?.focus();
         return;
       }
 
@@ -495,13 +450,6 @@ const schema = [
 
         if (response.ok && payload.ok) {
           form.reset();
-          kindInput.value = '';
-          for (const chip of kindBar.querySelectorAll<HTMLButtonElement>('[data-kind]')) {
-            chip.setAttribute('aria-pressed', 'false');
-            chip.style.background = 'transparent';
-            chip.style.borderColor = 'rgba(13,13,13,.2)';
-            chip.style.color = 'rgba(13,13,13,.6)';
-          }
           setStatus('Thank you — your enquiry is with us. We reply within two working days.', true);
           if (submitLabel) submitLabel.textContent = 'Sent';
           return;
