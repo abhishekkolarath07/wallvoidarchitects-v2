@@ -421,10 +421,18 @@ export const projects: Project[] = [
       "Crown — sky cafe, garden lounge and wellness terraces",
       "Vehicular — one-way ramps and a separate school-bus drop-off"
     ],
-    hero: "img/p/asiad-1.jpg",
+    /*
+     * The clean night render the practice supplied on 19 November. It replaces the
+     * annotated sheet render here: a hero is the page's banner, and the marks on that
+     * one — 135M, sea-breeze arrows, 80% open landscape — belong on a presentation
+     * sheet rather than across the top of the page. The annotated render stays in the
+     * register card and the gallery, where it reads as what it is.
+     */
+    hero: "img/p/asiad-hero.jpg",
     wide: "img/p/asiad-2.jpg",
     wideCaption: "Form evolution — from temple proportions to twin towers",
     images: [
+      { src: "img/p/asiad-1.jpg", label: "Twin towers — height, sea breeze and open landscape" },
       { src: "img/p/asiad-3.jpg", label: "Temple verticality, reimagined for Chennai" },
       { src: "img/p/asiad-4.jpg", label: "Typical floor layout — Tower A and Tower B" },
       { src: "img/p/asiad-5.jpg", label: "Arrival, movement and the planted perimeter" },
