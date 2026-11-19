@@ -124,7 +124,7 @@ import { sectors } from '../data/sectors';
               */}
               <span data-seccap style="display:flex;justify-content:space-between;gap:16px;padding-top:11px;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;white-space:nowrap">
                 <span>{s.caption}</span>
-                <span>{s.count}</span>
+                {s.count && <span>{s.count}</span>}
               </span>
             </span>
           </a>

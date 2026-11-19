@@ -23,8 +23,12 @@ export interface SectorEntry {
   image: string | null;
   /** Caption shown under the plate. Empty when there is no image to caption. */
   caption: string;
-  /** Right-hand label under the plate — a count, or a verbatim label from the export. */
-  count: string;
+  /**
+   * Right-hand label under the plate — a count, or a verbatim label from the export.
+   * Optional: the practice took it off the two sectors that read "On request", and a
+   * sector without one simply leaves its caption alone on the line.
+   */
+  count?: string;
   /** Where the card links. Sectors with no projects invite an enquiry, as in the export. */
   href: string;
   /** URL segment for this sector's own gallery page, where it has one. */
@@ -159,12 +163,18 @@ export const sectors: SectorEntry[] = [
         label: 'Gami Jaydeep Estella — sales office',
       },
     ],
-    // Was the shrine pavilion, which is no longer on the page: a card should open onto
-    // the work it shows. This is the first church, as the page now runs.
-    image: 'img/p/religious-2.jpg',
-    caption: 'Church — approach from the forecourt',
-    // Verbatim from the export.
-    count: 'On request',
+    /*
+     * [CONTENT] The temple render the practice supplied on 19 November, replacing the
+     * church that stood in while it was awaited. It is the Anjali Mudra design the
+     * page's first plate draws: the same folded form, here rendered in its garden
+     * rather than as a concept sheet. Named as the sheet names it; the caption
+     * otherwise describes the frame.
+     *
+     * "On request" is removed from this card at the same request, so the caption has
+     * the line to itself.
+     */
+    image: 'img/p/misc-temple.jpg',
+    caption: 'Anjali Mudra — temple and water court',
     href: '/sectors/miscellaneous',
   },
   {
@@ -263,10 +273,9 @@ export const sectors: SectorEntry[] = [
      */
     image: 'img/p/int-office-reception-2.jpg',
     caption: 'Office reception and lounge',
-    // Was the project count. The card opens a gallery of 35 plates now, so "1 project"
-    // beside it would describe the register rather than what the card leads to. The same
-    // label the other gallery card carries.
-    count: 'On request',
+    // Was the project count, then "On request"; removed at the practice's request, as on
+    // Miscellaneous. The card opens a gallery, not a register entry, so a count beside
+    // it would have described the wrong thing anyway.
     href: '/sectors/interiors',
   },
 ];
