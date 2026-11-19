@@ -445,7 +445,13 @@ export const projects: Project[] = [
     client: "Residential · Anna Nagar West, Chennai",
     cardImage: "img/p/asiad-1.jpg",
     cardNote: "Two towers from one base, with eighty per cent of the ground given back as landscape.",
-    homeImage: "img/p/asiad-2.jpg",
+    /*
+     * The practice's drawn elevation of the twin towers, supplied 19 November. Every
+     * other project shows a reg- drawing beside the home page's register and Asiad was
+     * the one exception, carrying the form-evolution strip instead; this is the drawing
+     * the field is for. The strip keeps its place as Plate 01 on the project page.
+     */
+    homeImage: "img/p/reg-asiad-colony.jpg",
     homeNote: "From the Ground, Two Towers — gopuram proportions carried into a pair of Chennai towers.",
   },
   {
