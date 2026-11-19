@@ -69,11 +69,17 @@ const schema = [
   <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
   <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">{plates.length} plates</span>
 
-  <section style="padding:112px var(--gut) 0">
+  <section style="padding:186px var(--gut) 0">
     {/*
       The eyebrow is the h1, as it is on /projects, /sectors and About us: those pages
       lost their display headings at the practice's request, and a new page that
       reintroduced one would stand apart from the rest of the site.
+    */}
+    {/*
+      The eyebrow sits against the left margin with "All sectors" against the right, as
+      it always has. It was briefly centred on a 1fr auto 1fr row, at the practice's
+      request, and put back on 19 November. The room it gained in the same round stays:
+      see the section's padding above, and the rule below.
     */}
     <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
       <h1
@@ -89,7 +95,7 @@ const schema = [
         >All sectors ↗</a
       >
     </div>
-    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:46px"></div>
   </section>
 
   <section style="padding:56px var(--gut) 0">

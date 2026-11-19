@@ -19,16 +19,20 @@ import { sectors } from '../data/sectors';
   {/* Derived, so the count can no longer drift from the list below it. [BUG FIX] */}
   <span slot="header-meta" style="letter-spacing:.1em;opacity:.9">{String(sectors.length).padStart(2, '0')}</span>
 
-  <section style="padding:112px var(--gut) 0">
+  {/*
+    Given room to match About us: 112px put the eyebrow 1px under a header that is 111px
+    tall. It was briefly centred too, and put back against the left margin on
+    19 November; the two-column split it sat in had nothing in its second column, so the
+    grid went with the centring and has not come back.
+  */}
+  <section style="padding:186px var(--gut) 0">
     {/* See the note on /projects: display heading and standfirst removed, eyebrow promoted to h1. */}
-    <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
-      <h1
-        style="margin:0;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:seUp 1s .1s cubic-bezier(.16,1,.3,1) both"
-      >
-        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Sectors
-      </h1>
-    </div>
-    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+    <h1
+      style="margin:0;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:seUp 1s .1s cubic-bezier(.16,1,.3,1) both"
+    >
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>Sectors
+    </h1>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:46px"></div>
   </section>
 
   <section style="padding:0 var(--gut)">

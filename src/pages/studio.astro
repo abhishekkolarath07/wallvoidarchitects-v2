@@ -40,22 +40,35 @@ const schema = [
     default, which is the city plus an Enquire pill, and About us has never carried that
     button. The red rule goes with the line it was separating.
   */}
-  <span slot="header-meta" style="opacity:.6">{site.city}</span>
+  {/*
+    The header meta is empty here at the practice's request: first the full locality
+    line went, now the city with it. The slot is passed empty rather than left out,
+    because an unfilled slot falls back to the header's default — the city plus an
+    Enquire pill — which is the opposite of what was asked for.
+  */}
+  <span slot="header-meta" />
 
-  <section style="padding:112px var(--gut) 0">
+  {/*
+    112px put the eyebrow 1px under a header that is 111px tall, which is what "too
+    stuck up on the above section" describes. 186px is what the contact page has always
+    used, and it leaves the eyebrow clear of the header by about 75px.
+  */}
+  <section style="padding:186px var(--gut) 0">
     {/* See the note on /projects: display heading and standfirst removed, eyebrow promoted to h1. */}
     {/*
-      [DESIGN CHANGE — requested] The eyebrow is centred rather than set against the left
-      margin, and the rule below it is closer to the banner (comments sheet, 19 November
-      2026). The two-column split it sat in had nothing in its second column, so the
-      eyebrow is centred directly and the grid goes.
+      The eyebrow stays against the left margin. It was briefly centred, at the
+      practice's request, and put back on 19 November. What it did keep from that round
+      is the room: see the section's padding above, and the rule below.
+
+      The two-column split it used to sit in had nothing in its second column, so the
+      grid went with the centring and has not come back.
     */}
     <h1
-      style="margin:0;display:flex;align-items:center;justify-content:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:stUp 1s .1s cubic-bezier(.16,1,.3,1) both"
+      style="margin:0;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:stUp 1s .1s cubic-bezier(.16,1,.3,1) both"
     >
       <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>About us
     </h1>
-    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:46px"></div>
   </section>
 
   <section style="padding:22px var(--gut) 0">
