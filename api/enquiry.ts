@@ -19,7 +19,6 @@ interface EnquiryPayload {
   name?: unknown;
   email?: unknown;
   phone?: unknown;
-  place?: unknown;
   brief?: unknown;
   kind?: unknown;
   website?: unknown;
@@ -36,11 +35,15 @@ const KINDS = new Set([
   'Interiors',
 ]);
 
+/*
+ * The contact form no longer asks for a project location (comments sheet, 19 November
+ * 2026), so `place` is gone from the payload, the required set, the email and the
+ * subject line. A submission that still carries one is simply ignored.
+ */
 const LIMITS: Record<string, number> = {
   name: 120,
   email: 200,
   phone: 40,
-  place: 160,
   brief: 4000,
 };
 
@@ -193,7 +196,7 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   // Markup in a plain-text field is a bot, not a person. Silent, like the honeypot.
-  for (const field of ['name', 'place', 'brief', 'kind'] as const) {
+  for (const field of ['name', 'brief', 'kind'] as const) {
     if (MARKUP_PATTERN.test(asText(payload[field]))) return json(200, { ok: true });
   }
 
@@ -201,7 +204,6 @@ export default async function handler(request: Request): Promise<Response> {
     name: asText(payload.name),
     email: asText(payload.email),
     phone: asText(payload.phone),
-    place: asText(payload.place),
     brief: asText(payload.brief),
     kind: asText(payload.kind),
   };
@@ -211,7 +213,6 @@ export default async function handler(request: Request): Promise<Response> {
   if (!values.email) fields.email = 'Please add an email address.';
   else if (!EMAIL.test(values.email)) fields.email = 'That email address does not look right.';
   if (!values.phone) fields.phone = 'Please add a phone number.';
-  if (!values.place) fields.place = 'Please add the project location.';
   if (!values.brief) fields.brief = 'Please describe the project briefly.';
   if (!values.kind) fields.kind = 'Please pick a type of work.';
   else if (!KINDS.has(values.kind)) fields.kind = 'Please pick one of the listed types of work.';
@@ -225,9 +226,6 @@ export default async function handler(request: Request): Promise<Response> {
     fields.brief = 'Please keep links out of the description — at most one, or send them by email.';
   }
   if (values.name && countUrls(values.name) > 0) fields.name = 'Please enter a name, without a link.';
-  if (values.place && countUrls(values.place) > 0) {
-    fields.place = 'Please enter the project location, without a link.';
-  }
   if (values.phone && countDigits(values.phone) < 7) {
     fields.phone = 'Please enter a phone number we can reach you on.';
   }
@@ -258,7 +256,6 @@ export default async function handler(request: Request): Promise<Response> {
     ['Name', values.name],
     ['Email', values.email],
     ['Phone', values.phone],
-    ['Location', values.place],
     ['Type of work', values.kind],
   ];
 
@@ -295,7 +292,7 @@ export default async function handler(request: Request): Promise<Response> {
         to: [to],
         // Never put visitor input in `from` — only in reply_to, header-sanitised.
         reply_to: headerSafe(values.email),
-        subject: headerSafe(`Enquiry — ${values.kind}, ${values.place}`),
+        subject: headerSafe(`Enquiry — ${values.kind}`),
         text,
         html,
       }),

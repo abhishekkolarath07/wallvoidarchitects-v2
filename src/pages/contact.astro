@@ -55,7 +55,49 @@ const schema = [
     <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
   </section>
 
+  {/*
+    [DESIGN CHANGE — requested] The contact details come first and the enquiry form sits
+    below them (comments sheet, 19 November 2026). Hours, the practice line, "Open in
+    maps" and the handwritten note are removed by the same sheet; the map link still
+    stands in the footer on every page.
+  */}
   <section style="padding:56px var(--gut) 0">
+    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:26px 28px;align-items:start">
+      <div
+        style="grid-column:1 / span 12;font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45"
+      >
+        Direct
+      </div>
+
+      <a
+        href={`mailto:${site.email}`}
+        data-line
+        style="grid-column:1 / span 4;display:block;padding:20px 0;border-top:1px solid rgba(13,13,13,.14)"
+        data-rv
+      >
+        <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Email</div>
+        <div style="margin-top:9px;font-size:14px">{site.email}</div>
+        <span
+          data-linerule
+          style="display:block;height:1px;background:#e2231a;margin-top:14px;transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.16,1,.3,1)"
+        ></span>
+      </a>
+
+      <div
+        data-line
+        style="grid-column:6 / span 4;padding:20px 0;border-top:1px solid rgba(13,13,13,.14)"
+        data-rv
+      >
+        <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Address</div>
+        <address
+          style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72;font-style:normal"
+          set:html={site.addressLines.join('<br>')}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px var(--gut) 0">
     <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:56px 28px;align-items:start">
       <form id="ct-form" novalidate style="grid-column:1 / span 7">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-bottom:26px">
@@ -115,21 +157,6 @@ const schema = [
               aria-describedby="ct-phone-err"
             />
             <span class="ct-err" id="ct-phone-err" hidden></span>
-          </label>
-          <label data-field style="display:block" data-rv>
-            <span style="display:block;font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.45"
-              >Project location</span
-            >
-            <input
-              id="ct-place"
-              type="text"
-              name="place"
-              placeholder="City or locality"
-              required
-              maxlength="160"
-              aria-describedby="ct-place-err"
-            />
-            <span class="ct-err" id="ct-place-err" hidden></span>
           </label>
         </div>
 
@@ -205,66 +232,24 @@ const schema = [
         </div>
       </form>
 
-      <div style="grid-column:9 / span 4">
-        <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;opacity:.45;padding-bottom:26px">
-          Direct
-        </div>
-
-        <a
-          href={`mailto:${site.email}`}
-          data-line
-          style="display:block;padding:20px 0;border-top:1px solid rgba(13,13,13,.14)"
-          data-rv
-        >
-          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Email</div>
-          <div style="margin-top:9px;font-size:14px">{site.email}</div>
-          <span
-            data-linerule
-            style="display:block;height:1px;background:#e2231a;margin-top:14px;transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.16,1,.3,1)"
-          ></span>
-        </a>
-
-        <div data-line style="padding:20px 0;border-top:1px solid rgba(13,13,13,.14)" data-rv>
-          {/* "Studio" -> "Address" at the practice's request. */}
-          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Address</div>
-          <address
-            style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72;font-style:normal"
-            set:html={site.addressLines.join('<br>')}
-          />
-          <a
-            href={site.mapUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;opacity:.6"
-          >
-            Open in maps <span style="color:#e2231a">↗</span>
-          </a>
-        </div>
-
-        <div style="padding:20px 0;border-top:1px solid rgba(13,13,13,.14)" data-rv>
-          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Hours</div>
-          <div style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72">
-            {site.hours[0]}<br />{site.hours[1]}
-          </div>
-        </div>
-
-        <div
-          style="padding:20px 0;border-top:1px solid rgba(13,13,13,.14);border-bottom:1px solid rgba(13,13,13,.14)"
-          data-rv
-        >
-          <div style="font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.42">Practice</div>
-          <div style="margin-top:9px;font-size:12px;line-height:1.9;opacity:.72">
-            Ar. Pravin Kudkar<br />B.Arch, KRVIA Mumbai<br />Registered with COA, India
-          </div>
-        </div>
-
-        <div
-          style="margin-top:22px;font-family:Caveat,cursive;font-size:17px;line-height:1.5;color:rgba(13,13,13,.6)"
-          data-rv
-        >
-          bring the plot drawing if you have one — it saves a week
-        </div>
-      </div>
+      {/*
+        The blank the form left beside it, filled with the Blue Ridge render the practice
+        marked for it and then supplied: the dusk entrance view, not the daytime variant
+        already in the gallery. Shown whole in a band of its own ratio, as every plate is.
+      */}
+      <figure
+        data-mask
+        style="grid-column:9 / span 4;margin:0;width:100%;aspect-ratio:1448 / 1086;background:#f7f7f7;border:1px solid rgba(13,13,13,.1)"
+        data-rv
+      >
+        <Image
+          src={img('img/p/blueridge-entrance.jpg')}
+          alt="Transindia Blue Ridge — the curved glass facade and lit entrance at dusk"
+          widths={[480, 768, 1200, 1600]}
+          sizes="(max-width: 980px) 100vw, 30vw"
+          style="display:block;width:100%;height:100%;object-fit:contain"
+        />
+      </figure>
     </div>
   </section>
 
@@ -457,7 +442,6 @@ const schema = [
         name: (document.getElementById('ct-name') as HTMLInputElement).value.trim(),
         email: (document.getElementById('ct-email') as HTMLInputElement).value.trim(),
         phone: (document.getElementById('ct-phone') as HTMLInputElement).value.trim(),
-        place: (document.getElementById('ct-place') as HTMLInputElement).value.trim(),
         brief: (document.getElementById('ct-brief') as HTMLTextAreaElement).value.trim(),
         kind: kindInput.value,
       };
@@ -467,11 +451,10 @@ const schema = [
       if (!values.email) errors['ct-email'] = 'Please add an email address.';
       else if (!EMAIL.test(values.email)) errors['ct-email'] = 'That email address does not look right.';
       if (!values.phone) errors['ct-phone'] = 'Please add a phone number.';
-      if (!values.place) errors['ct-place'] = 'Please add the project location.';
       if (!values.brief) errors['ct-brief'] = 'Please describe the project briefly.';
       if (!values.kind) errors['ct-kind'] = 'Please pick a type of work.';
 
-      for (const id of ['ct-name', 'ct-email', 'ct-phone', 'ct-place', 'ct-brief', 'ct-kind']) {
+      for (const id of ['ct-name', 'ct-email', 'ct-phone', 'ct-brief', 'ct-kind']) {
         fieldError(id, errors[id] ?? null);
       }
 
