@@ -29,8 +29,18 @@ const schema = [
   spineId="st-spine"
   schema={schema}
 >
-  <span slot="header-meta">{site.localityLine}</span>
-  <span slot="header-meta" style="display:block;width:26px;height:1px;background:#e2231a"></span>
+  {/*
+    The full locality line — "Byculla (E) / Cotton Green (W), Mumbai" — used to sit here.
+    At 347px it is nearly three times the width of any other page's header meta ("Micro
+    to macro", "Sheet index"), so it is the first thing to wrap into the navigation as the
+    window narrows or the page is zoomed, and on About us it says nothing the footer and
+    the contact page do not already say. Removed at the practice's request.
+
+    The city alone stays, in place of nothing: an empty slot falls back to the header's
+    default, which is the city plus an Enquire pill, and About us has never carried that
+    button. The red rule goes with the line it was separating.
+  */}
+  <span slot="header-meta" style="opacity:.6">{site.city}</span>
 
   <section style="padding:112px var(--gut) 0">
     {/* See the note on /projects: display heading and standfirst removed, eyebrow promoted to h1. */}
