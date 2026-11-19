@@ -44,17 +44,21 @@ const schema = [
 
   <section style="padding:112px var(--gut) 0">
     {/* See the note on /projects: display heading and standfirst removed, eyebrow promoted to h1. */}
-    <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
-      <h1
-        style="margin:0;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:stUp 1s .1s cubic-bezier(.16,1,.3,1) both"
-      >
-        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>About us
-      </h1>
-    </div>
+    {/*
+      [DESIGN CHANGE — requested] The eyebrow is centred rather than set against the left
+      margin, and the rule below it is closer to the banner (comments sheet, 19 November
+      2026). The two-column split it sat in had nothing in its second column, so the
+      eyebrow is centred directly and the grid goes.
+    */}
+    <h1
+      style="margin:0;display:flex;align-items:center;justify-content:center;gap:10px;font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;animation:stUp 1s .1s cubic-bezier(.16,1,.3,1) both"
+    >
+      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>About us
+    </h1>
     <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
   </section>
 
-  <section style="padding:56px var(--gut) 0">
+  <section style="padding:22px var(--gut) 0">
     {/*
       The Gami Jaydeep Estella walkthrough takes this banner at the practice's request,
       replacing the Transindia Grandeur render, which came off the site with it.

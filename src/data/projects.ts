@@ -328,8 +328,10 @@ export const projects: Project[] = [
     sector: "Commercial",
     type: "Commercial office development",
     developer: "Transindia Group",
-    plot: "To be confirmed",
-    bua: "To be confirmed",
+    // [CONTENT] Both were "To be confirmed"; the practice wrote the figures on the
+    // 19 November comments sheet. Spelled as the rest of the register spells areas.
+    plot: "102,612 sq.ft.",
+    bua: "300,000 sq.ft.",
     status: "Design stage",
     conceptName: "The Sail and the River",
     tagline: "A form shaped by wind and water, drawn from the sail of a ship on the Mithi River.",
