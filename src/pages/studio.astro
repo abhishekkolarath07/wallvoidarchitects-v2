@@ -40,9 +40,20 @@ const schema = [
     default, which is the city plus an Enquire pill, and About us has never carried that
     button. The red rule goes with the line it was separating.
   */}
-  <span slot="header-meta" style="opacity:.6">{site.city}</span>
+  {/*
+    The header meta is empty here at the practice's request: first the full locality
+    line went, now the city with it. The slot is passed empty rather than left out,
+    because an unfilled slot falls back to the header's default — the city plus an
+    Enquire pill — which is the opposite of what was asked for.
+  */}
+  <span slot="header-meta" />
 
-  <section style="padding:112px var(--gut) 0">
+  {/*
+    112px put the eyebrow 1px under a header that is 111px tall, which is what "too
+    stuck up on the above section" describes. 186px is what the contact page has always
+    used, and it leaves the eyebrow clear of the header by about 75px.
+  */}
+  <section style="padding:186px var(--gut) 0">
     {/* See the note on /projects: display heading and standfirst removed, eyebrow promoted to h1. */}
     {/*
       [DESIGN CHANGE — requested] The eyebrow is centred rather than set against the left
@@ -55,7 +66,7 @@ const schema = [
     >
       <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>About us
     </h1>
-    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:34px"></div>
+    <div data-draw style="height:1px;background:rgba(13,13,13,.28);margin-top:46px"></div>
   </section>
 
   <section style="padding:22px var(--gut) 0">

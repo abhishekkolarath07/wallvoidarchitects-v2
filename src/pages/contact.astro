@@ -25,11 +25,11 @@ const schema = [
   spineId="ct-spine"
   schema={schema}
 >
-  <span
-    slot="header-meta"
-    class="ct-dot"
-    style="width:5px;height:5px;border-radius:50%;background:#e2231a"></span>
-  <span slot="header-meta">{site.localityLine}</span>
+  {/*
+    Empty at the practice's request, as on About us. Passed empty rather than left out:
+    an unfilled slot falls back to the city plus an Enquire pill.
+  */}
+  <span slot="header-meta" />
 
   <section style="padding:186px var(--gut) 0">
     <div data-r="split" style="display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end">
