@@ -437,6 +437,15 @@ export const projects: Project[] = [
     wide: "img/p/asiad-2.jpg",
     wideCaption: "Form evolution — from temple proportions to twin towers",
     images: [
+      /*
+       * The four views supplied 19 November, ahead of the analysis plates: the building
+       * as it would be seen, then the thinking behind it. All four are portrait at
+       * 1500x2000, which the gallery's own bands take without cropping.
+       */
+      { src: "img/p/asiad-night.jpg", label: "The towers at night, from the entrance gateway" },
+      { src: "img/p/asiad-sunset.jpg", label: "Front elevation at sunset, the void between the towers" },
+      { src: "img/p/asiad-aerial-day.jpg", label: "Aerial — the void, the deck and the park beyond" },
+      { src: "img/p/asiad-aerial-night.jpg", label: "The same view at night" },
       { src: "img/p/asiad-1.jpg", label: "Twin towers — height, sea breeze and open landscape" },
       { src: "img/p/asiad-3.jpg", label: "Temple verticality, reimagined for Chennai" },
       { src: "img/p/asiad-4.jpg", label: "Typical floor layout — Tower A and Tower B" },
