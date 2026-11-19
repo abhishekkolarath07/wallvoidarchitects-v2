@@ -137,9 +137,45 @@ const schema = [
     plates hold the page's two margins and only their inner edges vary. The label is
     centred against the plate's height.
   */}
+  {/*
+    [DESIGN CHANGE — requested] A sector can ask for its plates two across instead of a
+    row each. Interiors does: 35 plates in rows made a 27,000px page, which is a long
+    way to scroll past work that reads perfectly well side by side.
+
+    Each plate still shows whole, in a band of its own ratio — the rule everywhere else
+    on the site — so the mixed set stays uncropped. No alternation here: with two plates
+    to a row there is no empty half to swap about.
+  */}
   <section style="padding:72px var(--gut) 0">
     {
-      rows.map(({ lead, pair }, i) => {
+      sector.plateLayout === 'grid' ? (
+        <div data-pgrid style="display:grid;grid-template-columns:1fr 1fr;gap:72px 28px">
+          {plates.map((pl) => (
+            <figure style="margin:0">
+              <div
+                data-mask
+                style={`width:100%;aspect-ratio:${pl.asset.width} / ${pl.asset.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}
+              >
+                <Image
+                  src={pl.asset}
+                  alt={`${sector.name} — ${pl.label}`}
+                  widths={[480, 768, 1200, 1600]}
+                  sizes="(max-width: 980px) 100vw, 45vw"
+                  style="display:block;width:100%;height:100%;object-fit:contain"
+                />
+              </div>
+              <figcaption
+                data-platecap
+                style="margin-top:14px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;text-wrap:pretty;line-height:1.9"
+              >
+                <span style="display:block;width:26px;height:1px;background:#e2231a;margin-bottom:14px" />
+                {pl.label}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      ) : (
+        rows.map(({ lead, pair }, i) => {
         const ratio = lead.asset.width / lead.asset.height;
         const rightward = pair.length === 0 && i % 2 === 1;
         const cap =
@@ -219,7 +255,8 @@ const schema = [
             )}
           </figure>
         );
-      })
+        })
+      )
     }
   </section>
 
@@ -271,6 +308,11 @@ const schema = [
   }
 
   @media (max-width: 980px) {
+    /* Two across needs width; stacked, each plate takes the card. */
+    [data-pgrid] {
+      grid-template-columns: 1fr !important;
+      gap: 56px !important;
+    }
     /*
       [RESPONSIVE FIX] The shared rule for this grid sets `margin-top: 0 !important` on
       every child when it collapses to one column, which would close the gap between the
