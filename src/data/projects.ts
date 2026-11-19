@@ -373,8 +373,72 @@ export const projects: Project[] = [
     homeNote: "The Sail and the River — a commercial form drawn from wind, water and the Mithi edge.",
   },
   {
-    slug: "kanyakumari",
+    /*
+     * [CONTENT] Added 19 November 2026 from the practice's own three A3 presentation
+     * sheets ("Asiad Colony — Three A3 Landscape Sheets"). Everything below is read off
+     * those sheets; nothing is inferred.
+     *
+     * No developer, plot area or built-up area appears on them, so all three stay at
+     * UNCONFIRMED rather than being guessed at. The status reads Design stage because
+     * the sheets describe a proposal throughout — "the proposed twin towers", "design
+     * intent", "a vision" — and show no approval or construction.
+     *
+     * The imagery is the practice's own render and drawings. The sheets also carry
+     * panels headed LOOKALIKES and photographs of neighbouring buildings, which are
+     * reference material for other people's work: none of it is used here, and none of
+     * it should be. The one render is annotated by the practice (135M, 80% open
+     * landscape, sea-breeze flow); those marks are theirs, so they stay.
+     */
+    slug: "asiad-colony",
     no: "07",
+    name: "Asiad Colony",
+    location: "Anna Nagar West, Chennai",
+    sector: "Residential",
+    type: "Residential twin-tower development",
+    developer: UNCONFIRMED,
+    plot: UNCONFIRMED,
+    bua: UNCONFIRMED,
+    status: "Design stage",
+    conceptName: "From the Ground, Two Towers",
+    tagline: "Gopuram proportions carried into a pair of towers, with the ground given back as landscape.",
+    overview:
+      "Asiad Colony is an established residential neighbourhood in Anna Nagar West Extension, Chennai, a mix of independent houses and apartment blocks with schools, hospitals and local dining along its main roads. The proposal reads that low-rise fabric and answers it vertically: two towers rising to 135 metres from a shared sculpted base, which frees about eighty per cent of the site for open landscape and gives the neighbourhood a drop-off, gardens and shared amenities at ground level rather than a plinth of parking.",
+    concept:
+      "The form takes its proportions from the gopurams of Tamil Nadu — the layered vertical rhythm, not the ornament. A single mass rises from the base and separates into a balanced pair, read as twin peaks with a gateway between them, and the open-to-sky void that separates the towers carries light and air down into the plan. Curved balcony edges and vertical frames band the facade as the towers rise, and a glazed crown holds the sky garden: cafe, lounge and wellness decks on the terraces.",
+    margin: "two peaks, one base",
+    features: [
+      "Twin towers to 135 metres over a shared base",
+      "About 80 per cent of the site kept as open landscape",
+      "Open-to-sky void between the towers for light and air",
+      "Sky garden crown — cafe, garden lounge and wellness decks",
+      "Recessed glazing and fins set for Chennai's sun",
+      "Shaded balcony tiers to each residence"
+    ],
+    planning: [
+      "Ground — pedestrian-first arrival, drop-off and landscape",
+      "Podium — parking screened behind a planted perimeter ribbon",
+      "Typical floors — two residential cores, Tower A and Tower B",
+      "Crown — sky cafe, garden lounge and wellness terraces",
+      "Vehicular — one-way ramps and a separate school-bus drop-off"
+    ],
+    hero: "img/p/asiad-1.jpg",
+    wide: "img/p/asiad-2.jpg",
+    wideCaption: "Form evolution — from temple proportions to twin towers",
+    images: [
+      { src: "img/p/asiad-3.jpg", label: "Temple verticality, reimagined for Chennai" },
+      { src: "img/p/asiad-4.jpg", label: "Typical floor layout — Tower A and Tower B" },
+      { src: "img/p/asiad-5.jpg", label: "Arrival, movement and the planted perimeter" },
+      { src: "img/p/asiad-6.jpg", label: "Site location — Chennai to Anna Nagar West" }
+    ],
+    client: "Residential · Anna Nagar West, Chennai",
+    cardImage: "img/p/asiad-1.jpg",
+    cardNote: "Two towers from one base, with eighty per cent of the ground given back as landscape.",
+    homeImage: "img/p/asiad-2.jpg",
+    homeNote: "From the Ground, Two Towers — gopuram proportions carried into a pair of Chennai towers.",
+  },
+  {
+    slug: "kanyakumari",
+    no: "08",
     name: "Highway Hotel & Entertainment",
     location: "Near Kanyakumari, Tamil Nadu",
     sector: "Commercial",
@@ -423,7 +487,7 @@ export const projects: Project[] = [
   },
   {
     slug: "sukhada",
-    no: "08",
+    no: "09",
     name: "Sukhada CHS",
     location: "Mulund East, Mumbai",
     sector: "Residential",
@@ -491,7 +555,7 @@ export const projects: Project[] = [
   },
   {
     slug: "borivali",
-    no: "09",
+    no: "10",
     name: "RaviRaj Royal",
     location: "Borivali, Mumbai",
     sector: "Interiors",
@@ -537,7 +601,7 @@ export const projects: Project[] = [
   },
   {
     slug: "prince-residency",
-    no: "10",
+    no: "11",
     name: "Prince Residency I & II",
     location: "Sion — Wadala, Mumbai",
     sector: "Residential",
@@ -579,7 +643,7 @@ export const projects: Project[] = [
   },
   {
     slug: "gondia",
-    no: "11",
+    no: "12",
     name: "Private Bungalow",
     location: "Gondia, Maharashtra",
     sector: "Residential",
@@ -625,7 +689,7 @@ export const projects: Project[] = [
   },
   {
     slug: "dwarkamai",
-    no: "12",
+    no: "13",
     name: "Dwarkamai",
     location: "Nagpur (outskirts), Maharashtra",
     sector: "Residential",
