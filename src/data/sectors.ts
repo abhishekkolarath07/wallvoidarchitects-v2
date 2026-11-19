@@ -49,6 +49,12 @@ export interface SectorEntry {
     pairNext?: number;
   }[];
   /**
+   * How the sector's own page lays its plates out. 'rows' (the default) gives each
+   * plate a row of its own, alternating left and right. 'grid' puts them two across,
+   * which is what a long set wants: 35 plates in rows is a 27,000px page.
+   */
+  plateLayout?: 'rows' | 'grid';
+  /**
    * Replaces the closing paragraph on the sector's own page. The default asks for plot
    * details, which is the right question for a building and the wrong one for a fit-out.
    */
@@ -223,6 +229,8 @@ export const sectors: SectorEntry[] = [
      * need re-exporting smaller before they can be added.
      */
     slug: 'interiors',
+    // [DESIGN CHANGE — requested] Two across. In rows this page ran to 27,000px.
+    plateLayout: 'grid',
     plates: [
       { src: 'img/p/int-grandeur-lobby.jpg', label: 'Transindia Grandeur — sales lobby and reception' },
       { src: 'img/p/int-prince-lobby.jpg', label: 'Prince Tower — lift lobby' },
