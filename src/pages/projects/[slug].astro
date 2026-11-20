@@ -49,9 +49,15 @@ const hasWide = Boolean(p.wide && p.wide !== p.hero);
 const hasGallery = p.images.length > 0;
 const plateCount = String(p.images.length + (hasWide ? 1 : 0)).padStart(2, '0');
 
+/*
+ * The rhythm first, then the plate's own overrides on top: a plate that declares a span
+ * or a ratio — a presentation sheet, say — keeps them, and everything else falls into
+ * the wide/narrow pattern as before. The spread order matters: it used to be the other
+ * way round, so the rhythm won and a plate could not override anything.
+ */
 const gallery = p.images.map((g, i) => {
   const l = galleryLayout[i % galleryLayout.length];
-  return { ...g, plate: `Plate ${String(i + 2).padStart(2, '0')}`, ...l };
+  return { ...l, ...g, plate: `Plate ${String(i + 2).padStart(2, '0')}` };
 });
 
 const heroImage = img(p.hero);
@@ -253,12 +259,19 @@ const metaDescription = (
         >
           {gallery.map((g) => (
             <figure data-plate style={`grid-column:${g.span};margin:${g.offset} 0 0`}>
-              <div data-mask style={`height:${g.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`}>
+              <div
+                data-mask
+                style={
+                  g.ratio
+                    ? `aspect-ratio:${g.ratio};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`
+                    : `height:${g.height};background:#f7f7f7;border:1px solid rgba(13,13,13,.1)`
+                }
+              >
                 <Image
                   src={img(g.src)}
                   alt={`${p.name} — ${g.label}`}
-                  widths={[480, 768, 1200, 1800]}
-                  sizes="(max-width: 720px) 100vw, (max-width: 980px) 90vw, 58vw"
+                  widths={g.ratio ? [900, 1400, 1900, 2400] : [480, 768, 1200, 1800]}
+                  sizes={g.ratio ? '(max-width: 980px) 100vw, 92vw' : '(max-width: 720px) 100vw, (max-width: 980px) 90vw, 58vw'}
                   style="width:100%;height:100%;object-fit:contain;filter:saturate(.84) contrast(1.03)"
                 />
               </div>
