@@ -591,7 +591,9 @@ export const projects: Project[] = [
      * [CONTENT] Was RaviRaj Royal, Borivali — an interiors refurbishment with its own
      * overview, concept and lobby photographs. The practice renamed it and replaced its
      * imagery wholesale on 20 November 2026, so what is left is a different thing: six
-     * residential buildings shown together, with no single job to describe.
+     * residential buildings shown together, with no single job to describe. The slug is
+     * "miscellaneous-residential" and stays that way: it carries neither word that
+     * changed, so renaming again costs no URL.
      *
      * Hence galleryOnly. A project-information grid here would be a column of "To be
      * confirmed" — these six have no shared plot, area, developer or status — and an
@@ -614,7 +616,7 @@ export const projects: Project[] = [
      */
     slug: "miscellaneous-residential",
     no: "10",
-    name: "Miscellaneous Residential Projects",
+    name: "Miscellaneous Residential Buildings",
     location: "Mumbai",
     sector: "Residential",
     type: "Residential buildings",

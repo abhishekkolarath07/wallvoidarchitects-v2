@@ -274,7 +274,7 @@ export const sectors: SectorEntry[] = [
       'Tell us the shell you have and what it has to do, and we will tell you what can be changed inside it.',
     /*
      * There is no register link here any more. The one Interiors project was RaviRaj
-     * Royal, which the practice renamed to Miscellaneous Residential Projects and refiled
+     * Royal, which the practice renamed to Miscellaneous Residential Buildings and refiled
      * under Residential on 20 November 2026, so the filtered register for Interiors is
      * now empty and the link led nowhere.
      */
