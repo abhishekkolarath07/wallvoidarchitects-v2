@@ -154,75 +154,88 @@ const metaDescription = (
   </section>
 
   {/* 96px and 110px below, before the comments sheet of 19 November asked for both to close up. */}
-  <section style="padding:64px var(--gut) 0">
-    <div
-      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
-      data-rv
-    >
-      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>01 / Project
-      Information
-    </div>
-    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
-    <div data-r="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px 28px;padding-top:8px">
-      {
-        info.map((row) => (
-          <div style="padding:22px 0;border-bottom:1px solid rgba(13,13,13,.1)" data-rv>
-            <div style="font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.42;white-space:nowrap">
-              {row.label}
-            </div>
-            <div style={`margin-top:11px;font-size:14px;font-weight:300;line-height:1.4;color:${row.color}`}>
-              {row.value}
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <section style="padding:72px var(--gut) 0">
-    <div
-      style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
-      data-rv
-    >
-      <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>02 / Overview
-    </div>
-    <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
-    <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
-      <p
-        style="grid-column:1 / span 7;margin:0;font-size:clamp(17px,1.9vw,23px);line-height:1.55;font-weight:300;letter-spacing:-.01em;text-align:justify"
+  {/*
+    A gallery-only project skips both of these. Its record is a set of buildings rather
+    than one job, so the information grid would be a column of "To be confirmed" and the
+    overview would have nothing to describe. The wide plate sits inside 02 and goes with
+    it, which costs nothing: such a project points `wide` at its own hero, so there is no
+    separate wide plate to lose.
+  */}
+  {
+    !p.galleryOnly && (
+      <>
+    <section style="padding:64px var(--gut) 0">
+      <div
+        style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
         data-rv
       >
-        {p.overview}
-      </p>
-      <div style="grid-column:9 / span 4;align-self:end;padding-bottom:4px" data-rv>
-        <div style="font-family:Caveat,cursive;font-size:18px;line-height:1.5;color:rgba(13,13,13,.6)">
-          {p.margin}
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>01 / Project
+        Information
+      </div>
+      <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+      <div data-r="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px 28px;padding-top:8px">
+        {
+          info.map((row) => (
+            <div style="padding:22px 0;border-bottom:1px solid rgba(13,13,13,.1)" data-rv>
+              <div style="font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;opacity:.42;white-space:nowrap">
+                {row.label}
+              </div>
+              <div style={`margin-top:11px;font-size:14px;font-weight:300;line-height:1.4;color:${row.color}`}>
+                {row.value}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section style="padding:72px var(--gut) 0">
+      <div
+        style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5;padding-bottom:14px"
+        data-rv
+      >
+        <span style="width:4px;height:4px;border-radius:50%;background:#e2231a"></span>02 / Overview
+      </div>
+      <div data-draw style="height:1px;background:rgba(13,13,13,.26)"></div>
+      <div data-r="g12" style="display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-top:56px">
+        <p
+          style="grid-column:1 / span 7;margin:0;font-size:clamp(17px,1.9vw,23px);line-height:1.55;font-weight:300;letter-spacing:-.01em;text-align:justify"
+          data-rv
+        >
+          {p.overview}
+        </p>
+        <div style="grid-column:9 / span 4;align-self:end;padding-bottom:4px" data-rv>
+          <div style="font-family:Caveat,cursive;font-size:18px;line-height:1.5;color:rgba(13,13,13,.6)">
+            {p.margin}
+          </div>
         </div>
       </div>
-    </div>
-    {
-      hasWide && (
-        <figure data-plate style="margin:64px 0 0;position:relative">
-          <div data-mask style="height:76vh;min-height:500px;background:#f7f7f7">
-            <Image
-              src={img(p.wide)}
-              alt={p.wideCaption ? `${p.name} — ${p.wideCaption}` : p.name}
-              widths={[768, 1280, 1920, 2560]}
-              sizes="100vw"
-              style="width:100%;height:100%;object-fit:contain;filter:saturate(.84) contrast(1.03)"
-            />
-          </div>
-          <figcaption
-            style="display:flex;justify-content:space-between;gap:24px;padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45"
-            data-rv
-          >
-            <span>{p.wideCaption}</span>
-            <span style="white-space:nowrap">Plate 01</span>
-          </figcaption>
-        </figure>
-      )
-    }
-  </section>
+      {
+        hasWide && (
+          <figure data-plate style="margin:64px 0 0;position:relative">
+            <div data-mask style="height:76vh;min-height:500px;background:#f7f7f7">
+              <Image
+                src={img(p.wide)}
+                alt={p.wideCaption ? `${p.name} — ${p.wideCaption}` : p.name}
+                widths={[768, 1280, 1920, 2560]}
+                sizes="100vw"
+                style="width:100%;height:100%;object-fit:contain;filter:saturate(.84) contrast(1.03)"
+              />
+            </div>
+            <figcaption
+              style="display:flex;justify-content:space-between;gap:24px;padding-top:13px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.45"
+              data-rv
+            >
+              <span>{p.wideCaption}</span>
+              <span style="white-space:nowrap">Plate 01</span>
+            </figcaption>
+          </figure>
+        )
+      }
+    </section>
+      </>
+    )
+  }
 
   {/*
     [DESIGN CHANGE — requested] "03 / Building Features" and "04 / Design Concept" are
@@ -239,7 +252,7 @@ const metaDescription = (
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:32px;padding-bottom:14px" data-rv>
           <div style="display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;opacity:.5">
             <span style="width:4px;height:4px;border-radius:50%;background:#e2231a" />
-            03 / Drawing Set
+            {p.galleryOnly ? '01 / Gallery' : '03 / Drawing Set'}
           </div>
           <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;opacity:.5">
             {plateCount} Plates
