@@ -54,6 +54,12 @@ export interface Project {
   /** Card note on /projects. */
   cardNote: string;
   /**
+   * Present the page as a gallery: no project-information grid, no overview, just the
+   * plates. For a record that is a set of buildings rather than one job, those sections
+   * would be a column of "To be confirmed" and a paragraph that could only generalise.
+   */
+  galleryOnly?: boolean;
+  /**
    * Hero wipe overrides. The wipe reads render on one side, drawing on the other,
    * so the two must be the same view of the building — each sketch is paired with
    * the render it was drawn from, which is not always the register image.
@@ -620,50 +626,69 @@ export const projects: Project[] = [
     homeNote: "Elevated Environmental Shield — the parking base turned into a landscaped buffer.",
   },
   {
-    slug: "borivali",
+    /*
+     * [CONTENT] Was RaviRaj Royal, Borivali — an interiors refurbishment with its own
+     * overview, concept and lobby photographs. The practice renamed it and replaced its
+     * imagery wholesale on 20 November 2026, so what is left is a different thing: six
+     * residential buildings shown together, with no single job to describe. The slug is
+     * "miscellaneous-residential" and stays that way: it carries neither word that
+     * changed, so renaming again costs no URL.
+     *
+     * Hence galleryOnly. A project-information grid here would be a column of "To be
+     * confirmed" — these six have no shared plot, area, developer or status — and an
+     * overview could only generalise. The page is the plates.
+     *
+     * The slug changes with the name, so /projects/borivali is gone. The old lobby
+     * photographs and the Borivali register drawing go to
+     * _source-material/superseded-plates; nothing links to them now, and anything left
+     * in src/assets is emitted into the build whether a page uses it or not.
+     *
+     * The sector moves from Interiors to Residential, because that is what these six
+     * are. Interiors now has no project in the register, which is why the Interiors
+     * sector no longer carries a link to the filtered register — see sectors.ts.
+     *
+     * These are the same six withheld from the Miscellaneous sector page on 9 November.
+     * They are published now because the practice sent them back for this page. The
+     * labels are the practice's own filenames, including "Kannamvar", which the Mumbai
+     * locality usually spells "Kannamwar"; it is their spelling and theirs to confirm.
+     * No developer, client, status or area is asserted for any of them.
+     */
+    slug: "miscellaneous-residential",
     no: "10",
-    name: "RaviRaj Royal",
-    location: "Borivali, Mumbai",
-    sector: "Interiors",
-    type: "Residential building refurbishment",
-    // Neither of the practice's documents for this project names a client or a
-    // developer; both give only "Design Firm: Wall Voids Architects". The record
-    // previously said "Private", which was an assumption, not a source.
+    name: "Miscellaneous Residential Buildings",
+    location: "Mumbai",
+    sector: "Residential",
+    type: "Residential buildings",
     developer: UNCONFIRMED,
-    plot: "To be confirmed",
-    bua: "To be confirmed",
-    status: "Completed",
+    plot: UNCONFIRMED,
+    bua: UNCONFIRMED,
+    status: UNCONFIRMED,
     conceptName: "",
-    tagline: "An existing building re-fronted — new gateway, green wall, podium fins and marble lobbies.",
-    overview: "An existing residential development was refurbished to create a stronger contemporary identity and an improved arrival experience. The intervention focused on the entrance, podium façade, commercial frontage, common lobby and lift lobby. New architectural finishes, lighting, landscaping and signage were introduced while retaining the original building structure.",
-    concept: "The design concept focuses on transforming an existing building through selective architectural and interior interventions rather than major structural changes. A coordinated palette of grey marble, dark accents, warm metallic details, greenery and lighting creates continuity from the street entrance to the lift lobby. The result is a modern, refined and welcoming residential environment.",
-    margin: "nothing structural moved — everything read differently",
-    features: [
-      "Residential towers with podium parking and commercial units",
-      "Redesigned entrance gateway and vehicular access",
-      "Vertical green wall with integrated project signage",
-      "Contemporary podium screening with vertical fins",
-      "Enhanced commercial frontage and pedestrian approach",
-      "Premium common lobby and waiting areas",
-      "Separate wing identification and apartment directories",
-      "Refurbished lift lobbies with designer lift portals",
-      "Marble, glass, timber and metallic finishes",
-      "Geometric false ceilings with cove and decorative lighting",
-      "Indoor landscaping, mirrors and sculptural elements"
-    ],
+    tagline: "",
+    overview: "",
+    concept: "",
+    margin: "",
+    features: [],
     planning: [],
-    hero: "img/p/borivali-1.jpg",
-    wide: "img/p/borivali-2.jpg",
-    wideCaption: "Main lobby",
+    galleryOnly: true,
+    hero: "img/p/misc-kannamvar-1.jpg",
+    // Same as the hero, so the page carries no separate wide plate: the gallery is the
+    // whole of it.
+    wide: "img/p/misc-kannamvar-1.jpg",
+    wideCaption: "",
     images: [
-      { src: "img/p/borivali-3.jpg", label: "Common lobby" },
-      { src: "img/p/borivali-4.jpg", label: "Lift lobby" }
+      { src: "img/p/misc-kannamvar-1.jpg", label: "Kannamvar Nagar — the tower from the street" },
+      { src: "img/p/misc-kannamvar-2.jpg", label: "Kannamvar Nagar — at dusk" },
+      { src: "img/p/misc-evara-1.jpg", label: "Gami Jaydeep Evara, Tilak Nagar — street approach at dusk" },
+      { src: "img/p/misc-evara-2.jpg", label: "Gami Jaydeep Evara, Tilak Nagar — from the garden" },
+      { src: "img/p/misc-ranibagh.jpg", label: "Building at Ranibagh" },
+      { src: "img/p/misc-whitehouse-khar.jpg", label: "White House, Khar" }
     ],
-    client: "Lobby & Podium · Borivali",
-    cardImage: "img/p/borivali-1.jpg",
-    cardNote: "An existing building re-fronted: green wall, fins, marble lobbies.",
-    homeImage: "img/p/reg-borivali.jpg",
-    homeNote: "Re-fronted without touching the structure — green wall, podium fins, marble lobbies.",
+    client: "Residential · Mumbai",
+    cardImage: "img/p/misc-kannamvar-1.jpg",
+    cardNote: "Six residential buildings across Mumbai.",
+    homeImage: "img/p/misc-evara-1.jpg",
+    homeNote: "Six residential buildings across Mumbai, shown together.",
   },
   {
     slug: "prince-residency",
@@ -809,7 +834,13 @@ export const projects: Project[] = [
 export const projectsBySlug = new Map(projects.map((p) => [p.slug, p]));
 
 /** Sectors that actually have projects, in the order the export lists them. */
-export const projectSectors: Sector[] = ['Residential', 'Commercial', 'Mixed Use', 'Interiors'];
+/*
+ * The sectors the register can be filtered by. 'Interiors' came off on 20 November 2026:
+ * its one project, RaviRaj Royal, was renamed and refiled under Residential, and a
+ * filter with nothing behind it is a chip that leads to an empty register. The Interiors
+ * sector itself is unaffected — its page is a gallery of plates, not of register entries.
+ */
+export const projectSectors: Sector[] = ['Residential', 'Commercial', 'Mixed Use'];
 
 export const countBySector = (sector: Sector): number =>
   projects.filter((p) => p.sector === sector).length;

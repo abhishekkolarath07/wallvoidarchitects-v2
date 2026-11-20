@@ -198,10 +198,12 @@ export const sectors: SectorEntry[] = [
     name: 'Interiors',
     // [CONTENT] Added at the practice's request (comments sheet, item 11 — the one-line
     // description was outstanding and the practice asked that one be written). Nothing
-    // here is invented: it describes RaviRaj Royal, Borivali — the one project filed
-    // under the Interiors sector, whose own record lists the common lobby, lift lobbies,
-    // false ceilings and a marble/glass/timber/metal palette — and Interior Design is
-    // one of the practice's six services. No new project, client or capability is
+    // here is invented: it described RaviRaj Royal, Borivali, which was then the one
+    // project filed under this sector — common lobby, lift lobbies, false ceilings, a
+    // marble/glass/timber/metal palette — and Interior Design is one of the practice's
+    // six services. That project has since been renamed and refiled under Residential,
+    // but the note still describes the work on this sector's own page, which is what it
+    // is for. No new project, client or capability is
     // claimed. (This note used to cite the old service line "Interior design for lobbies
     // and common areas", which the practice has since replaced with "Interior Design".)
     /*
@@ -270,9 +272,12 @@ export const sectors: SectorEntry[] = [
     ],
     enquiry:
       'Tell us the shell you have and what it has to do, and we will tell you what can be changed inside it.',
-    // The one Interiors project filed in the register. The card now opens the gallery,
-    // so without this link the project page would be unreachable from its own sector.
-    register: { href: filtered('Interiors'), label: 'Interiors in the project register' },
+    /*
+     * There is no register link here any more. The one Interiors project was RaviRaj
+     * Royal, which the practice renamed to Miscellaneous Residential Buildings and refiled
+     * under Residential on 20 November 2026, so the filtered register for Interiors is
+     * now empty and the link led nowhere.
+     */
     /*
      * [CONTENT] The practice asked for the RaviRaj Royal lobby on this card to be
      * replaced (comments sheet, 17 November 2026) and pasted this render beside it.
