@@ -404,6 +404,12 @@ export const projects: Project[] = [
      * where everything is emitted into the build whether a page uses it or not. It is
      * in the git history and on sheet 03 if it is ever wanted back.
      *
+     * The annotated version of the twin-tower render — the one marked 135M, sea-breeze
+     * flow and 80% open landscape — is off this project entirely at the practice's
+     * request: first off the banner, then off the register card, now off the drawing set
+     * too. It is in _source-material/superseded-plates and on sheet 02 of the practice's
+     * PDF.
+     *
      * The imagery is the practice's own render and drawings. The sheets also carry
      * panels headed LOOKALIKES and photographs of neighbouring buildings, which are
      * reference material for other people's work: none of it is used here, and none of
@@ -462,13 +468,14 @@ export const projects: Project[] = [
       { src: "img/p/asiad-sunset.jpg", label: "Front elevation at sunset, the void between the towers" },
       { src: "img/p/asiad-aerial-day.jpg", label: "Aerial — the void, the deck and the park beyond" },
       { src: "img/p/asiad-aerial-night.jpg", label: "The same view at night" },
-      { src: "img/p/asiad-1.jpg", label: "Twin towers — height, sea breeze and open landscape" },
       { src: "img/p/asiad-3.jpg", label: "Temple verticality, reimagined for Chennai" },
       { src: "img/p/asiad-4.jpg", label: "Typical floor layout — Tower A and Tower B" },
       { src: "img/p/asiad-6.jpg", label: "Site location — Chennai to Anna Nagar West" }
     ],
     client: "Residential · Anna Nagar West, Chennai",
-    cardImage: "img/p/asiad-1.jpg",
+    // The banner render, so the card and the page it opens show the same building in the
+    // same light.
+    cardImage: "img/p/asiad-hero.jpg",
     cardNote: "Two towers from one base, with eighty per cent of the ground given back as landscape.",
     /*
      * The practice's drawn elevation of the twin towers, supplied 19 November. Every
