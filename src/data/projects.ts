@@ -13,6 +13,16 @@ export type Sector = 'Residential' | 'Commercial' | 'Mixed Use' | 'Interiors';
 export interface GalleryImage {
   src: string;
   label: string;
+  /**
+   * Overrides for a plate that will not sit in the gallery's usual rhythm. A
+   * presentation sheet needs the full twelve columns and its own proportions — put it
+   * in a four-column band at a fixed height and its drawings are unreadable.
+   *
+   * `span` is a grid-column value; `ratio` an aspect-ratio, used in place of the
+   * rhythm's fixed height so the sheet shows whole at whatever width the page has.
+   */
+  span?: string;
+  ratio?: string;
 }
 
 export interface Project {
@@ -558,26 +568,55 @@ export const projects: Project[] = [
     wide: "img/p/sukhada-2.jpg",
     wideCaption: "Façade option 2 — alternative crown and podium treatment",
     images: [
-      // Boards and conceptual views lifted from the practice's own concept
-      // presentation for the society (comments sheet, items 18 and 19). Board
-      // captions are the deck's own headings, verbatim. The floor plans and unit
-      // plans in that deck are deliberately not published here.
-      //
-      // Boards and views are interleaved so the portrait views land in the
-      // gallery's narrow columns and the landscape boards in the wide ones.
-      { src: "img/p/sukhada-board-site.jpg", label: "Design parameters and site connectivity" },
+      /*
+       * [CONTENT] The practice's three A3 presentation sheets, published whole and in
+       * their own order (19 November 2026). The page is meant to read as the sheets
+       * read, so they are not cut into separate plates: a sheet's composition is the
+       * thing being shown, and re-cutting it would lose exactly what was asked for.
+       *
+       * Each takes the full twelve columns at its own 1.414 — A3 landscape — rather
+       * than the gallery's wide/narrow rhythm, because a dense floor-plan sheet in a
+       * four-column band is unreadable. They are served up to 2400px for the same
+       * reason, above the 1800 the gallery normally asks for.
+       *
+       * These supersede the nine analysis boards from the earlier concept deck, which
+       * covered the same ground less well. Those boards move to
+       * _source-material/superseded-plates rather than being deleted: they are the
+       * practice's own work, and everything left in src/assets is emitted into the
+       * build whether a page uses it or not. The deck's floor plans, deliberately
+       * unpublished before, are on sheet 03 and are published now because the practice
+       * sent them for the site.
+       *
+       * Sheet 01 carries a photograph captioned "Grand Drop Off Lobby Look-Alike" —
+       * reference imagery of someone else's building. It stays inside the sheet as the
+       * practice composed it and labelled it; it is not lifted out and shown as this
+       * project's work anywhere.
+       *
+       * The five conceptual views follow, as the project's only rendered views; the
+       * sheets carry none.
+       */
+      {
+        src: "img/p/sukhada-sheet-1.jpg",
+        label: "Sheet 01 — site, climate and building organisation",
+        span: "1 / span 12",
+        ratio: "1.4143",
+      },
+      {
+        src: "img/p/sukhada-sheet-2.jpg",
+        label: "Sheet 02 — section, landscape and amenities",
+        span: "1 / span 12",
+        ratio: "1.4143",
+      },
+      {
+        src: "img/p/sukhada-sheet-3.jpg",
+        label: "Sheet 03 — ground, services and typical floor plans",
+        span: "1 / span 12",
+        ratio: "1.4143",
+      },
       { src: "img/p/sukhada-view-1.jpg", label: "Conceptual view 1" },
       { src: "img/p/sukhada-view-2.jpg", label: "Conceptual view 2" },
-      { src: "img/p/sukhada-board-climate.jpg", label: "Climate analysis" },
-      { src: "img/p/sukhada-board-shadow.jpg", label: "Shadow analysis" },
-      { src: "img/p/sukhada-board-units.jpg", label: "Units — isometric view" },
-      { src: "img/p/sukhada-board-section.jpg", label: "Schematic section" },
       { src: "img/p/sukhada-view-3.jpg", label: "Conceptual view 3" },
       { src: "img/p/sukhada-view-4.jpg", label: "Conceptual view 4" },
-      { src: "img/p/sukhada-board-shield.jpg", label: "Elevated environmental shield" },
-      { src: "img/p/sukhada-board-periphery.jpg", label: "Activated periphery" },
-      { src: "img/p/sukhada-board-landscape.jpg", label: "Podium landscape and terrace garden" },
-      { src: "img/p/sukhada-board-sustainability.jpg", label: "Sustainability — the crown terrace" },
       { src: "img/p/sukhada-view-5.jpg", label: "Conceptual view 5" }
     ],
     client: "Rehabilitation · Mulund East",
